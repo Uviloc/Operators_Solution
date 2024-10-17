@@ -10,9 +10,12 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using Rug.Osc;
-using XPression;
 using System.Linq.Expressions;
 using System.Diagnostics.CodeAnalysis;
+
+#if HAS_XPRESSION
+using XPression;
+#endif
 
 
 
@@ -25,8 +28,9 @@ namespace OperatorsSolution
             InitializeComponent();
         }
 
-
+#if HAS_XPRESSION
         private xpEngine XPression = new();
+#endif
         public void Btn_TriggerScene_Click(object? sender, EventArgs e)
         {
             if (sender is OperatorButton button)
@@ -44,7 +48,7 @@ namespace OperatorsSolution
                     MessageBox.Show("Warning: Scene on button: " + button.Text + " must be set!");
                     return;
                 }
-
+#if HAS_XPRESSION
                 if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
                 {
                     XPConnections.PlaySceneState(SceneGraphic, scene, clip, track, channel, layer);
@@ -53,6 +57,7 @@ namespace OperatorsSolution
                 {
                     MessageBox.Show("Warning: Scene on button: " + button.Text + " could not be found!");
                 }
+#endif
             }
         }
     }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿#if HAS_XPRESSION
+using System;
 using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
 using XPression;
+
 
 namespace OperatorsSolution
 {
@@ -55,7 +57,7 @@ namespace OperatorsSolution
         }
     }
 }
-
+#endif
 
 /*
  StateTrack > is this really smart??
