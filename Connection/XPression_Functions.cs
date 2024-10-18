@@ -55,9 +55,3 @@ namespace OperatorsSolution
         }
     }
 }
-
-
-/*
- StateTrack > is this really smart??
-
- */

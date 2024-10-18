@@ -13,6 +13,8 @@ using Rug.Osc;
 using XPression;
 using System.Linq.Expressions;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
+using Operators_Solution;
 
 
 
@@ -27,32 +29,59 @@ namespace OperatorsSolution
 
 
         private xpEngine XPression = new();
-        public void Btn_TriggerScene_Click(object? sender, EventArgs e)
+        private int index = 0;
+        public void Trigger_Clips(object? sender, EventArgs e)
         {
-            if (sender is OperatorButton button)
+            if (sender is OperatorButton button && button.ClipPath != null)
             {
-                string? scene = button.Scene;
-                string? clip = button.Clip;
-                string? track = button.Track;
-                int channel = button.Channel = 0;
-                int layer = button.Layer = 0;
-
-
-                if (string.IsNullOrWhiteSpace(scene) ||
-                    string.IsNullOrWhiteSpace(clip))
+                // Warning if there are no assigned scenes:
+                if (button.ClipPath.Count == 0)
                 {
-                    MessageBox.Show("Warning: Scene on button: " + button.Text + " must be set!");
+                    CommonFunctions.ControlWarning(button, "Please add ClipPaths to the button: " + button.Text);
                     return;
                 }
 
-                if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
-                {
-                    XPConnections.PlaySceneState(SceneGraphic, scene, clip, track, channel, layer);
+                // Play the clip that this item is pointing to:
+                TriggerClip(button, index);
+
+                if (index < button.ClipPath.Count + 1) {
+                    index++;
+                } else {
+                    index = 0;
                 }
-                else
-                {
-                    MessageBox.Show("Warning: Scene on button: " + button.Text + " could not be found!");
-                }
+            }
+        }
+
+
+
+        private void TriggerClip(OperatorButton operatorButton, int clipIndex)
+        {
+            List<ClipPath>? clipPath = operatorButton.ClipPath;
+            if (clipPath == null || clipPath.Count == 0)
+            {
+                return;
+            }
+            string? scene = clipPath[clipIndex].Scene;
+            string? clip = clipPath[clipIndex].Clip;
+            string? track = clipPath[clipIndex].Track;
+            int channel = clipPath[clipIndex].Channel;
+            int layer = clipPath[clipIndex].Layer;
+
+
+            if (string.IsNullOrWhiteSpace(scene) ||
+                string.IsNullOrWhiteSpace(clip))
+            {
+                CommonFunctions.ControlWarning(operatorButton, "Warning: Scene on button: " + operatorButton.Text + " must be set!");
+                return;
+            }
+
+            if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
+            {
+                XPConnections.PlaySceneState(SceneGraphic, scene, clip, track, channel, layer);
+            }
+            else
+            {
+                CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
             }
         }
     }

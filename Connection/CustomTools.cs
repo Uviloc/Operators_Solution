@@ -8,9 +8,65 @@ using System.Threading.Tasks;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using System.Reflection;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using Operators_Solution;
 
 namespace OperatorsSolution
 {
+    public class ClipPath()
+    {
+        // Scene
+        [
+            Category(".Operation > Search"),
+            Description("Which scene this button will trigger.")
+        ]
+        public string? Scene { get; set; }
+
+        // Scene Director
+        [
+            Category(".Operation > Search"),
+            Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
+            DefaultValue("Same as [Scene]")
+        ]
+        public string? SceneDirector { get; set; } = "Same as [Scene]";
+
+        // Clip
+        [
+            Category(".Operation > Search"),
+            Description("Which clip in this scene will trigger.")
+        ]
+        public string? Clip { get; set; }
+
+        // Track
+        [
+            Category(".Operation > Search"),
+            Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
+            DefaultValue("StateTrack")
+        ]
+        public string? Track { get; set; } = "StateTrack";
+
+
+
+
+        // Channel
+        [
+            Category(".Operation > Output"),
+            Description("On what channel the clip will be displayed."),
+            DefaultValue(0)
+        ]
+        public int Channel { get; set; } = 0;
+
+        // Layer
+        [
+            Category(".Operation > Output"),
+            Description("On what layer the clip will be displayed."),
+            DefaultValue(0)
+        ]
+        public int Layer { get; set; } = 0;
+    }
+
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Button))] // Optional addition: add icon with > [ToolboxBitmap(typeof(Button), "Button.bmp")]
     public class OperatorButton : Button
@@ -23,60 +79,13 @@ namespace OperatorsSolution
         private string textDefault = "Show [Scene]";
 
 
-
-        // Scene
+        // ClipPath
         [
             Category(".Operation > Search"),
-            //PropertyOrder(1),
-            Description("Which scene this button will trigger.")
+            Description("Add clips to be played here.")
         ]
-        public string? Scene { get; set; }
-
-        // Scene Director
-        [
-            Category(".Operation > Search"),
-            //PropertyOrder(2),
-            Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
-            DefaultValue("Same as [Scene]")
-        ]
-        public string? SceneDirector { get; set; }
-
-        // Clip
-        [
-            Category(".Operation > Search"),
-            //PropertyOrder(3),
-            Description("Which clip in this scene will trigger.")
-        ]
-        public string? Clip { get; set; }
-
-        // Track
-        [
-            Category(".Operation > Search"),
-            //PropertyOrder(3),
-            Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
-            DefaultValue("StateTrack")
-        ]
-        public string? Track { get; set; }
-
-
-
-        // Channel
-        [
-            Category(".Operation > Output"),
-            //PropertyOrder(1),
-            Description("On what channel the clip will be displayed."),
-            DefaultValue(0)
-        ]
-        public int Channel { get; set; }
-
-        // Layer
-        [
-            Category(".Operation > Output"),
-            //PropertyOrder(2),
-            Description("On what layer the clip will be displayed."),
-            DefaultValue(0)
-        ]
-        public int Layer { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<ClipPath>? ClipPath { get; set; } = [];
 
 
 
@@ -197,17 +206,31 @@ namespace OperatorsSolution
             Cursor = cursorDefault;
             Font = fontDefault;
             Text = "Show [Scene]";
-            SceneDirector = "Same as [Scene]";
-            Track = "StateTrack";
-            this.Click += testFunction;
+            //SceneDirector = "Same as [Scene]";
+            //Track = "StateTrack";
+            //this.Click += BlankFunction;
         }
 
-        public void testFunction(object? sender, EventArgs e)
+        public void BlankFunction(EventArgs e, object? sender = null)
         {
-            OpSol_Form opSol_Form = new OpSol_Form();
-            this.Click -= testFunction;
-            this.Click += opSol_Form.Btn_TriggerScene_Click;
-            opSol_Form.Btn_TriggerScene_Click(sender, e);
+            //this.Click -= BlankFunction;
+            if (sender is OperatorButton button)
+            {
+                CommonFunctions.ControlWarning(button, "Please attach a function for the button: " + button.Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
+            }
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            //// Check if any additional handlers are attached to the Click event
+            //if (Click != null && Click.GetInvocationList().Length == 1)
+            //{
+            //    // Only execute this if there are no other handlers
+            //    BlankFunction(e);
+            //}
+
+            //// Call the base method to ensure the click event propagates properly
+            //base.OnClick(e);
         }
     }
 
