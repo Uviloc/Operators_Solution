@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
+  <ItemGroup>
+    <Compile Remove="OldCode.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OldCode.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Emitter" Version="1.0.41" />
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+    <PackageReference Include="ExcelDataReader" Version="3.7.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
+    <PackageReference Include="Rug.Osc" Version="1.2.5" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="Stub.System.Data.SQLite.Core.NetFramework" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
+  </ItemGroup>
+
+  <!--<ItemGroup Condition="'$(DefineConstants)'=='HAS_XPRESSION'">
+    <Reference Include="xpression.net">
+      <HintPath>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\10.5.0.5508__9632b4b433765424\xpression.net.dll</HintPath>
+    </Reference>
+    <Reference Include="xpToolsLib.net">
+      <HintPath>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\10.5.0.5508__28a9dbdb95a1c855\xptoolslib.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>-->
+	<!--<ItemGroup>
+		<Reference Include="xpression.net">
+			<HintPath>...\xpression.net.dll</HintPath>
+		</Reference>
+		<Reference Include="xpToolsLib.net">
+			<HintPath>...\xptoolslib.net.dll</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+	<ItemGroup Condition="'$(DefineConstants)' == 'HAS_XPRESSION'">
+		<Reference Include="xpression.net" />
+		<Reference Include="xpToolsLib.net" />
+	</ItemGroup>
+
+</Project>

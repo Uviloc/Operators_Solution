@@ -1,56 +1,99 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+		<XpressionNetPath1>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\10.5.0.5508__9632b4b433765424\xpression.net.dll</XpressionNetPath1>
+		<!--<XpToolsLibPath1>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\10.5.0.5508__28a9dbdb95a1c855\xptoolslib.net.dll</XpToolsLibPath>-->
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="OldCode.cs" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>4</VersionMinor>
-      <VersionMajor>2</VersionMajor>
-      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
-    </COMReference>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="!AssemblyLoader.cs" />
+		<Compile Remove="OldCode.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="OldCode.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="!AssemblyLoader.cs" />
+		<None Include="OldCode.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="Emitter" Version="1.0.41" />
-    <PackageReference Include="EntityFramework" Version="6.5.1" />
-    <PackageReference Include="ExcelDataReader" Version="3.7.0" />
-    <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
-    <PackageReference Include="Rug.Osc" Version="1.2.5" />
-    <PackageReference Include="SQLite" Version="3.13.0" />
-    <PackageReference Include="Stub.System.Data.SQLite.Core.NetFramework" Version="1.0.119" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
-    <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.1.35" />
+		<PackageReference Include="Emitter" Version="1.0.41" />
+		<PackageReference Include="EntityFramework" Version="6.5.1" />
+		<PackageReference Include="ExcelDataReader" Version="3.7.0" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
+		<PackageReference Include="Rug.Osc" Version="1.2.5" />
+		<PackageReference Include="SQLite" Version="3.13.0" />
+		<PackageReference Include="Stub.System.Data.SQLite.Core.NetFramework" Version="1.0.119" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+		<PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
+		<PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(DefineConstants)'=='HAS_XPRESSION'">
-    <Reference Include="xpression.net">
-      <HintPath>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\10.5.0.5508__9632b4b433765424\xpression.net.dll</HintPath>
-    </Reference>
-    <Reference Include="xpToolsLib.net">
-      <HintPath>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\10.5.0.5508__28a9dbdb95a1c855\xptoolslib.net.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+
+
+
+
+	<!--Dynamicly checks for if the dll files of XPression exist and will load them if they do, and set the constant so that the code associated will be used-->
+	<!-- Use Wildcards to Include DLL Files -->
+	<ItemGroup>
+		<XpressionNetFiles Include="..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\*\xpression1.net.dll" />
+		<XpToolsLibFiles Include="..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\*\xptoolslib1.net.dll" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<XpressionNetFileCount>@(XpressionNetFiles->Count())</XpressionNetFileCount>
+		<XpToolsLibFileCount>@(XpressionNetFiles->'%(Name)')</XpToolsLibFileCount>
+	</PropertyGroup>
+
+	<!-- Set Properties Based on Included Files -->
+	<PropertyGroup>
+		<XpressionNetPath>@(XpressionNetFiles)</XpressionNetPath>
+		<XpToolsLibPath>@(XpToolsLibFiles)</XpToolsLibPath>
+
+		<!--<DefineConstants Condition="'$(XpressionNetFileCount)' != '0' And $(XpToolsLibFileCount)' != '0'">$(DefineConstants);HAS_XPRESSION</DefineConstants>-->
+		<DefineConstants Condition="'$(XpToolsLibFileCount)' != ''">$(DefineConstants);HAS_XPRESSION</DefineConstants>
+	</PropertyGroup>
+
+	<!--<PropertyGroup>
+		<DefineConstants Condition="'$(XpressionNetPath)' != ''">$(DefineConstants);HAS_XPRESSION</DefineConstants>
+	</PropertyGroup>-->
+
+
+	<ItemGroup Condition="Exists($(XpressionNetPath))">
+		<Reference Include="xpression.net">
+			<HintPath>$(XpressionNetPath)</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists($(XpToolsLibPath))">
+		<Reference Include="xpToolsLib.net">
+			<HintPath>$(XpToolsLibPath)</HintPath>
+		</Reference>
+	</ItemGroup>
+
+
+	<Target Name="Test" AfterTargets="ResolveReferences" Condition="$(MyVariable) != 'true'">
+		<!--<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XpressionNetFiles)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpressionNetPath)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XpToolsLibFiles)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpToolsLibPath)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpressionNetFiles)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpToolsLibFiles)|!!!!!" Importance="High" />-->
+
+
+		<Message Text="Count of XpressionNetFiles: $(XpressionNetFileCount)" Importance="high" />
+		<Message Text="Count of XpressionNetFiles: $(XpToolsLibFileCount)" Importance="high" />
+
+	</Target>
 
 </Project>

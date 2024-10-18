@@ -30,8 +30,13 @@ namespace OperatorsSolution
             InitializeComponent();
         }
 
+        #region >__________________________________________________________________________ XPression: __________________________________________________________________________
+
 #if HAS_XPRESSION
         private xpEngine XPression = new();
+#endif
+        
+        #region >----------------- Trigger clips: ---------------------
         private int index = 0;
         public void Trigger_Clips(object? sender, EventArgs e)
         {
@@ -54,9 +59,10 @@ namespace OperatorsSolution
                 }
             }
         }
+        #endregion
 
-
-
+        
+        #region >----------------- Trigger clip: ---------------------
         private void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
             List<ClipPath>? clipPath = operatorButton.ClipPath;
@@ -77,7 +83,7 @@ namespace OperatorsSolution
                 CommonFunctions.ControlWarning(operatorButton, "Warning: Scene on button: " + operatorButton.Text + " must be set!");
                 return;
             }
-
+#if HAS_XPRESSION
             if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
             {
                 XPConnections.PlaySceneState(SceneGraphic, scene, clip, track, channel, layer);
@@ -86,6 +92,9 @@ namespace OperatorsSolution
             {
                 CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
             }
+#endif
+        #endregion
         }
+        #endregion
     }
 }

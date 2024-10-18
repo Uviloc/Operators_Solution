@@ -11,6 +11,7 @@ namespace OperatorsSolution
 {
     internal class XPConnections
     {
+        #region > XPression play scene
         /// <summary>
         /// Plays out the scene in XPression when this project is open in XPression.
         /// </summary>
@@ -42,7 +43,9 @@ namespace OperatorsSolution
             Scene_Director.PlayRange(State_Clip.Position, State_Clip.Duration + State_Clip.Position, true);
             return true;
         }
+        #endregion
 
+        #region > XPression get material
         /// <summary>
         /// Gives the material of the specified object in a scene, given that this project is open in XPression.
         /// </summary>
@@ -55,11 +58,7 @@ namespace OperatorsSolution
 
             return sceneObject;
         }
+        #endregion
     }
 }
 #endif
-
-/*
- StateTrack > is this really smart??
-
- */

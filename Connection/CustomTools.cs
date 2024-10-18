@@ -18,52 +18,40 @@ namespace OperatorsSolution
     public class ClipPath()
     {
         // Scene
-        [
-            Category(".Operation > Search"),
-            Description("Which scene this button will trigger.")
-        ]
+        [Category(".Operation > Search"),
+        Description("Which scene this button will trigger.")]
         public string? Scene { get; set; }
 
         // Scene Director
-        [
-            Category(".Operation > Search"),
-            Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
-            DefaultValue("Same as [Scene]")
-        ]
+        [Category(".Operation > Search"),
+        Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
+        DefaultValue("Same as [Scene]")]
         public string? SceneDirector { get; set; } = "Same as [Scene]";
 
         // Clip
-        [
-            Category(".Operation > Search"),
-            Description("Which clip in this scene will trigger.")
-        ]
+        [Category(".Operation > Search"),
+        Description("Which clip in this scene will trigger.")]
         public string? Clip { get; set; }
 
         // Track
-        [
-            Category(".Operation > Search"),
-            Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
-            DefaultValue("StateTrack")
-        ]
+        [Category(".Operation > Search"),
+        Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
+        DefaultValue("StateTrack")]
         public string? Track { get; set; } = "StateTrack";
 
 
 
 
         // Channel
-        [
-            Category(".Operation > Output"),
-            Description("On what channel the clip will be displayed."),
-            DefaultValue(0)
-        ]
+        [Category(".Operation > Output"),
+        Description("On what channel the clip will be displayed."),
+        DefaultValue(0)]
         public int Channel { get; set; } = 0;
 
         // Layer
-        [
-            Category(".Operation > Output"),
-            Description("On what layer the clip will be displayed."),
-            DefaultValue(0)
-        ]
+        [Category(".Operation > Output"),
+        Description("On what layer the clip will be displayed."),
+        DefaultValue(0)]
         public int Layer { get; set; } = 0;
     }
 
@@ -71,24 +59,22 @@ namespace OperatorsSolution
     [ToolboxBitmap(typeof(Button))] // Optional addition: add icon with > [ToolboxBitmap(typeof(Button), "Button.bmp")]
     public class OperatorButton : Button
     {
-        private Color backColorDefault = Color.FromArgb(110, 110, 110);
-        private Color foreColorDefault = Color.White;
-        private Font fontDefault = new Font("Arial", 11f);
-        private FlatStyle flatStyleDefault = FlatStyle.Popup;
-        private Cursor cursorDefault = Cursors.Hand;
-        private string textDefault = "Show [Scene]";
+        private readonly Color backColorDefault = Color.FromArgb(110, 110, 110);
+        private readonly Color foreColorDefault = Color.White;
+        private readonly Font fontDefault = new("Arial", 11f);
+        private readonly FlatStyle flatStyleDefault = FlatStyle.Popup;
+        private readonly Cursor cursorDefault = Cursors.Hand;
+        private readonly string textDefault = "Show [Scene]";
 
 
         // ClipPath
-        [
-            Category(".Operation > Search"),
-            Description("Add clips to be played here.")
-        ]
+        [Category(".Operation > Search"),
+        Description("Add clips to be played here.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<ClipPath>? ClipPath { get; set; } = [];
 
 
-
+        #region
         // Recategorize some properties: 
         //________________________________________________________________________________________________
 
@@ -182,6 +168,7 @@ namespace OperatorsSolution
                 }
             }
         }
+        #endregion
 
         // Set defaults:
         //__________________________________________________________________________________________________
