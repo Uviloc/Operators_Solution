@@ -10,11 +10,14 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using Rug.Osc;
-using XPression;
 using System.Linq.Expressions;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 using Operators_Solution;
+
+#if HAS_XPRESSION
+using XPression;
+#endif
 
 
 
@@ -27,7 +30,7 @@ namespace OperatorsSolution
             InitializeComponent();
         }
 
-
+#if HAS_XPRESSION
         private xpEngine XPression = new();
         private int index = 0;
         public void Trigger_Clips(object? sender, EventArgs e)

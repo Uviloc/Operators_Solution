@@ -93,12 +93,10 @@ namespace OperatorsSolution
         //________________________________________________________________________________________________
 
         // BackColor
-        [
-            Category(".Operation > Visuals"),
-            Description("The background color of the control."),
-            DisplayName("Background Color"),
-            DefaultValue(typeof(Color), "110, 110, 110")
-        ]
+        [Category(".Operation > Visuals"),
+        Description("The background color of the control."),
+        DisplayName("Background Color"),
+        DefaultValue(typeof(Color), "110, 110, 110")]
         public new Color BackColor
         {
             get => base.BackColor;
@@ -107,12 +105,10 @@ namespace OperatorsSolution
 
 
         // ForeColor
-        [
-            Category(".Operation > Visuals"),
-            Description("The foreground color of this component, which is used to display text."),
-            DisplayName("Font Color"),
-            DefaultValue(typeof(Color), "White")
-        ]
+        [Category(".Operation > Visuals"),
+        Description("The foreground color of this component, which is used to display text."),
+        DisplayName("Font Color"),
+        DefaultValue(typeof(Color), "White")]
         [Editor(typeof(ColorEditor), typeof(UITypeEditor))]
         public new Color ForeColor
         {
@@ -122,12 +118,10 @@ namespace OperatorsSolution
 
 
         // Font
-        [
-            Category(".Operation > Visuals"),
-            Description("The font used to display text with the control."),
-            DisplayName("Font"),
-            DefaultValue(typeof(Font), "Arial, 11pt")
-        ]
+        [Category(".Operation > Visuals"),
+        Description("The font used to display text with the control."),
+        DisplayName("Font"),
+        DefaultValue(typeof(Font), "Arial, 11pt")]
         public new Font Font
         {
             get => base.Font;
@@ -136,12 +130,10 @@ namespace OperatorsSolution
 
 
         // FlatStyle
-        [
-            Category(".Operation > Visuals"),
-            Description("Determins the appearence of the control when a user moves the mouse over the control and clicks."),
-            DisplayName("FlatStyle"),
-            DefaultValue(typeof(FlatStyle), "Popup")
-        ]
+        [Category(".Operation > Visuals"),
+        Description("Determins the appearence of the control when a user moves the mouse over the control and clicks."),
+        DisplayName("FlatStyle"),
+        DefaultValue(typeof(FlatStyle), "Popup")]
         public new FlatStyle FlatStyle
         {
             get => base.FlatStyle;
@@ -150,12 +142,10 @@ namespace OperatorsSolution
 
 
         // Cursor
-        [
-            Category(".Operation > Visuals"),
-            Description("The cursor that appears when the pointer moves over the control."),
-            DisplayName("Cursor"),
-            DefaultValue(typeof(Cursor), "Default")
-        ]
+        [Category(".Operation > Visuals"),
+        Description("The cursor that appears when the pointer moves over the control."),
+        DisplayName("Cursor"),
+        DefaultValue(typeof(Cursor), "Default")]
         public new Cursor Cursor
         {
             get => base.Cursor;
@@ -174,11 +164,9 @@ namespace OperatorsSolution
 
 
         // Text
-        [
-            Category(".Operation > Visuals"),
-            Description("The text associated with the control."),
-            DefaultValue(typeof(string), "Show [Scene]"),
-        ]
+        [Category(".Operation > Visuals"),
+        Description("The text associated with the control."),
+        DefaultValue(typeof(string), "Show [Scene]")]
         public new string Text
         {
             get => base.Text;

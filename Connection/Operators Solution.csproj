@@ -8,6 +8,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
   <ItemGroup>
     <Compile Remove="OldCode.cs" />
   </ItemGroup>
@@ -40,7 +44,7 @@
     <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(DefineConstants)'=='HAS_XPRESSION'">
     <Reference Include="xpression.net">
       <HintPath>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\10.5.0.5508__9632b4b433765424\xpression.net.dll</HintPath>
     </Reference>
