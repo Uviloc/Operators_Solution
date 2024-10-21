@@ -38,12 +38,12 @@
 		<PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
 	</ItemGroup>
 
-  <!--..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\*\xpression.net.dll-->
-  <!--..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\*\xptoolslib.net.dll-->
+	<!--..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\*\xpression.net.dll-->
+	<!--..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net\*\xptoolslib.net.dll-->
 
-  <!--Dynamicly checks for if the dll files of XPression exist and will load them if they do, and set the constant so that the code associated will be used-->
+	<!--Dynamicly checks for if the dll files of XPression exist and will load them if they do, and set the constant so that the code associated will be used-->
 	<!-- Use Wildcards to Include DLL Files -->
-  <!--
+	<!--
   <Choose>
     <When Condition="Exists('..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\15.0.0.0__71e9bce111e9429c\OFFICE.DLL')">
       <ItemGroup>
@@ -62,19 +62,115 @@
   </Choose>
 -->
 
-  <ItemGroup>
-    <OfficeFile Include="..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\*\OFFICE.DLL" />
-  </ItemGroup>
-  <PropertyGroup>
-    <OfficePath>@(OfficeFile)</OfficePath>
-  </PropertyGroup>
-  <ItemGroup Condition="Exists($(OfficePath))">
-    <Reference Include="Office">
-      <HintPath>$(OfficePath)</HintPath>
-    </Reference>
-  </ItemGroup>
+	
+	
+	<!--WORKING-->
+	<!--<PropertyGroup>
+		<XPressionString>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionString>
+	</PropertyGroup>
 
-  <!--
+	<ItemGroup>
+		<XPressionFile Include="..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net\*\xpression.net.dll" />
+		<XPressionFolder Include="..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<XPressionPath>@(XPressionFile)</XPressionPath>
+		<XPressionFolderPath>@(XPressionFolder)</XPressionFolderPath>
+		<DefineConstants Condition="Exists('$(XPressionString)')">$(DefineConstants);HAS_XPRESSION</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="Exists($(XPressionPath))">
+		<Reference Include="xpression.net">
+			<HintPath>$(XPressionPath)</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+
+	<!--WORKING-->
+	<!--<PropertyGroup>
+		<XPressionFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionFolder>
+	</PropertyGroup>
+	
+	<ItemGroup Condition="Exists('$(XPressionFolder)')">
+		<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="Exists('$(XPressionFolder)')">
+		<XPressionPath>@(XPressionFile)</XPressionPath>
+		<DefineConstants>$(DefineConstants);HAS_XPRESSION</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="Exists($(XPressionPath))">
+		<Reference Include="xpression.net">
+			<HintPath>$(XPressionPath)</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+
+
+
+
+
+
+
+	<PropertyGroup>
+		<XPressionFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionFolder>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="Exists('$(XPressionFolder)')">
+			<ItemGroup>
+				<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
+			</ItemGroup>
+			
+			<PropertyGroup>
+				<XPressionPath>@(XPressionFile)</XPressionPath>
+				<DefineConstants>$(DefineConstants);HAS_XPRESSION</DefineConstants>
+			</PropertyGroup>
+
+			<ItemGroup>
+				<Reference Include="xpression.net">
+					<HintPath>$(XPressionPath)</HintPath>
+				</Reference>
+			</ItemGroup>
+		</When>
+	</Choose>
+
+
+	
+
+
+	<!--<Target Name="Test2" AfterTargets="ResolveReferences" Condition="$(MyVariable) != 'true'">
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XPressionFolder)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XPressionFolderPath)|!!!!!" Importance="High" />
+	</Target>-->
+	
+	
+	
+	
+	
+	
+	
+	<!--<ItemGroup Condition="Exists($(XpToolsLibPath))">
+		<Reference Include="xpToolsLib.net">
+			<HintPath>$(XpToolsLibPath)</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+	<!--<ItemGroup>
+		<OfficeFile Include="..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\*\OFFICE.DLL" />
+	</ItemGroup>
+	<PropertyGroup>
+		<OfficePath>@(OfficeFile)</OfficePath>
+	</PropertyGroup>
+	<ItemGroup Condition="Exists($(OfficePath))">
+		<Reference Include="Office">
+			<HintPath>$(OfficePath)</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+	<!--
   <Choose>
     <When Condition="">
       <PropertyGroup>
@@ -83,7 +179,7 @@
     </When>
   </Choose>
   -->
-  <!--
+	<!--
 	<ItemGroup Condition="Exists('..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\15.0.0.0__71e9bce111e9429c\OFFICE1.DLL')">
 		<OfficeFile Include="..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\15.0.0.0__71e9bce111e9429c\OFFICE1.DLL" />
 	</ItemGroup>
@@ -92,34 +188,32 @@
 
 
 
+	<!--<ItemGroup>
+		<MyAssemblies Include="..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\15.0.0.0__71e9bce111e9429c\OFFICE.DLL" />
+	</ItemGroup>
+	<Target Name="RetrieveIdentities">
+		<GetAssemblyIdentity AssemblyFiles="@(MyAssemblies)">
+			<Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities" />
+		</GetAssemblyIdentity>
+	</Target>-->
 
 
-  <ItemGroup>
-    <MyAssemblies Include="..\..\..\..\..\..\Windows\assembly\GAC_MSIL\office\15.0.0.0__71e9bce111e9429c\OFFICE.DLL" />
-  </ItemGroup>
-  <Target Name="RetrieveIdentities">
-    <GetAssemblyIdentity AssemblyFiles="@(MyAssemblies)">
-      <Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities" />
-    </GetAssemblyIdentity>
-  </Target>
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
-  <!--<PropertyGroup>
+
+
+
+
+
+
+
+	<!--<PropertyGroup>
     <OfficePath>@(OfficeFile)</OfficePath>
 
   </PropertyGroup>-->
-  
-  
-  <!--Condition="'$(OfficeFile)' != ''"-->
-  <!--<Choose>
+
+
+	<!--Condition="'$(OfficeFile)' != ''"-->
+	<!--<Choose>
     <When Condition="'$(OfficePath)' == ''">
       <PropertyGroup>
         <DefineConstants>$(DefineConstants);HAS_XPRESSION</DefineConstants>
@@ -127,10 +221,10 @@
     </When>
   </Choose>-->
 
-  
-  
 
-  <!--<PropertyGroup>
+
+
+	<!--<PropertyGroup>
 		<XpressionNetFileCount>@(XpressionNetFiles-&gt;Count())</XpressionNetFileCount>
 		<XpToolsLibFileCount>@(XpressionNetFiles->'%(Name)')</XpToolsLibFileCount>
 	</PropertyGroup>-->
@@ -144,19 +238,19 @@
 		<DefineConstants Condition="'$(XpToolsLibFileCount)' != ''">$(DefineConstants);HAS_XPRESSION</DefineConstants>
 	</PropertyGroup>-->
 
-  <!--<PropertyGroup>
+	<!--<PropertyGroup>
 		<DefineConstants Condition="'$(XpressionNetPath)' != ''">$(DefineConstants);HAS_XPRESSION</DefineConstants>
 	</PropertyGroup>-->
 
 
-  <!--<ItemGroup Condition="Exists($(OfficePath))">
+	<!--<ItemGroup Condition="Exists($(OfficePath))">
     <Reference Include="Office">
       <HintPath>$(OfficePath)</HintPath>
     </Reference>
   </ItemGroup>-->
-  
-  
-  <!--
+
+
+	<!--
 	<ItemGroup Condition="Exists($(XpressionNetPath))">
 		<Reference Include="xpression.net">
 			<HintPath>$(XpressionNetPath)</HintPath>
@@ -170,28 +264,27 @@
 	</ItemGroup>
 	-->
 
+	
 	<Target Name="Test" AfterTargets="ResolveReferences" Condition="$(MyVariable) != 'true'">
-		<!--<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XpressionNetFiles)|!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpressionNetPath)|!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XpToolsLibFiles)|!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpToolsLibPath)|!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpressionNetFiles)|!!!!!" Importance="High" />
-		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpToolsLibFiles)|!!!!!" Importance="High" />-->
+		<!--<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XPressionFile)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XPressionPath)|!!!!!" Importance="High" />-->
+		<!--<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|@(XpToolsLibFiles)|!!!!!" Importance="High" />
+		<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|$(XpToolsLibPath)|!!!!!" Importance="High" />-->
+		<!--<Message Text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" Importance="High" />-->
 
 		<!--
 		<Message Text="Count of XpressionNetFiles: $(XpressionNetFileCount)" Importance="high" />
 		<Message Text="Count of XpressionNetFiles: $(XpToolsLibFileCount)" Importance="high" />
 		-->
 
-    <!--<Message Text="OfficeFile: @(OfficeFile)" Importance="high" />
+		<!--<Message Text="OfficeFile: @(OfficeFile)" Importance="high" />
     <Message Text="OfficePath: $(OfficePath)" Importance="high" />
     <Message Text="OfficePath: $(Office)" Importance="high" />-->
 
 
-    <Message Text="_________________________Assembly Identity: %(MyAssemblyIdentities.Identity)"  Importance="high" />
-    
+		<!--<Message Text="_________________________Assembly Identity: %(MyAssemblyIdentities.Identity)"  Importance="high" />-->
 
-  </Target>
+
+	</Target>
 
 </Project>
