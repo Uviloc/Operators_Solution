@@ -4,25 +4,28 @@
     {
         private void InitializeComponent()
         {
-            ClipPath clipPath1 = new ClipPath();
-            ClipPath clipPath2 = new ClipPath();
+            button1 = new Button();
             operatorButton1 = new OperatorButton();
             SuspendLayout();
             // 
+            // button1
+            // 
+            button1.Location = new Point(946, 763);
+            button1.Name = "button1";
+            button1.Size = new Size(123, 37);
+            button1.TabIndex = 1;
+            button1.Text = "Settings?";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += btnOpenSettings_Click;
+            // 
             // operatorButton1
             // 
-            clipPath1.Clip = "inDuoTitle";
-            clipPath1.Scene = "FightGraphic";
-            clipPath2.Clip = "toFightGraphic";
-            clipPath2.Scene = "FightGraphic";
-            operatorButton1.ClipPath.Add(clipPath1);
-            operatorButton1.ClipPath.Add(clipPath2);
-            operatorButton1.Location = new Point(361, 275);
+            operatorButton1.Location = new Point(42, 46);
             operatorButton1.Name = "operatorButton1";
-            operatorButton1.Size = new Size(112, 34);
-            operatorButton1.TabIndex = 0;
+            operatorButton1.Size = new Size(277, 164);
+            operatorButton1.TabIndex = 2;
             operatorButton1.UseVisualStyleBackColor = false;
-            operatorButton1.Click += Trigger_Clips;
+            operatorButton1.Click += DisplayPreview;
             // 
             // OpSol_Form
             // 
@@ -30,6 +33,7 @@
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(1097, 829);
             Controls.Add(operatorButton1);
+            Controls.Add(button1);
             ForeColor = SystemColors.ControlText;
             Name = "OpSol_Form";
             ShowIcon = false;
@@ -38,7 +42,7 @@
             ResumeLayout(false);
         }
 
-        private OperatorButton operatorButton2;
         private OperatorButton operatorButton1;
+        private Button button1;
     }
 }

@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
-using System.Reflection;
 using System.ComponentModel.Design;
-using System.Diagnostics;
+using System.Drawing.Design;
 using Operators_Solution;
+using OperatorsSolution;
 
 namespace OperatorsSolution
 {
@@ -41,7 +35,6 @@ namespace OperatorsSolution
 
 
 
-
         // Channel
         [Category(".Operation > Output"),
         Description("On what channel the clip will be displayed."),
@@ -53,10 +46,35 @@ namespace OperatorsSolution
         Description("On what layer the clip will be displayed."),
         DefaultValue(0)]
         public int Layer { get; set; } = 0;
+
+
+
+        //// ButtonText
+        //[Category(".Operation > Button"),
+        //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
+        //DefaultValue("Show + Same as next [Clip]")]
+        //public string? ButtonText { get; set; } = "Show + Same as next [Clip]";
     }
 
+
+    // Done to dynamicly set the Scene to the previous Scene in the list
+    public class ClipPathCollection : Collection<ClipPath>
+    {
+        protected override void InsertItem(int index, ClipPath item)
+        {
+            // If there are already items in the collection, set the new item's Scene to the last item's Scene
+            if (this.Count > 0 && item.Scene == null)
+            {
+                item.Scene = this.Last().Scene;
+            }
+
+            base.InsertItem(index, item);
+        }
+    }
+
+
     [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(Button))] // Optional addition: add icon with > [ToolboxBitmap(typeof(Button), "Button.bmp")]
+    [ToolboxBitmap(typeof(Button))]
     public class OperatorButton : Button
     {
         private readonly Color backColorDefault = Color.FromArgb(110, 110, 110);
@@ -71,12 +89,41 @@ namespace OperatorsSolution
         [Category(".Operation > Search"),
         Description("Add clips to be played here.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<ClipPath>? ClipPath { get; set; } = [];
+        public ClipPathCollection ClipPaths { get; set; } = [];
+
+        #region >----------------- Recategorize some events: ---------------------
+
+        [Category(".Operation > Events")]
+        [Description("Occurs when the component is clicked.")]
+        public new event EventHandler? Click;
+        protected override void OnClick(EventArgs e)
+        {
+            // Call the base class method
+            base.OnClick(e);
+
+            // Check if there are any subscribers to the Click event
+            if (Click == null || Click.GetInvocationList().Length == 0)
+            {
+                CommonFunctions.ControlWarning(this, "Please attach a function for the button: " + this.Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
+            }
+            else
+            {
+                // If there are subscribers, invoke the Click event
+                Click?.Invoke(this, e);
+            }
+        }
+
+        [Category(".Operation > Events")]
+        [Description("Occurs when the mouse remains stationary inside of the control for an amount of time.")]
+        public event EventHandler? Hover;
+        protected override void OnMouseHover(EventArgs e)
+        {
+            base.OnMouseHover(e);
+        }
+        #endregion
 
 
-        #region
-        // Recategorize some properties: 
-        //________________________________________________________________________________________________
+        #region >----------------- Recategorize some properties: ---------------------
 
         // BackColor
         [Category(".Operation > Visuals"),
@@ -181,39 +228,9 @@ namespace OperatorsSolution
             Cursor = cursorDefault;
             Font = fontDefault;
             Text = "Show [Scene]";
-            //SceneDirector = "Same as [Scene]";
-            //Track = "StateTrack";
-            //this.Click += BlankFunction;
         }
-
-        public void BlankFunction(EventArgs e, object? sender = null)
-        {
-            //this.Click -= BlankFunction;
-            if (sender is OperatorButton button)
-            {
-                CommonFunctions.ControlWarning(button, "Please attach a function for the button: " + button.Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
-            }
-        }
-
-        protected override void OnClick(EventArgs e)
-        {
-            //// Check if any additional handlers are attached to the Click event
-            //if (Click != null && Click.GetInvocationList().Length == 1)
-            //{
-            //    // Only execute this if there are no other handlers
-            //    BlankFunction(e);
-            //}
-
-            //// Call the base method to ensure the click event propagates properly
-            //base.OnClick(e);
-        }
-    }
-
-
-
-
-    public class OperatorComboBox : ComboBox
-    {
-
     }
 }
+
+
+

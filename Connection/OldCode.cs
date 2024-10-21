@@ -1,4 +1,79 @@
-﻿//private void allButtonHandler_Click(object? sender, EventArgs e)
+﻿
+
+    < !--Call the IncludeDll target for XPression -->
+	<Target Name="IncludeXPression" DependsOnTargets="IncludeDLL">
+		<PropertyGroup>
+			<FolderPath>$(XPressionFolder)</FolderPath>
+			<ReferenceName>xpression.net</ReferenceName>
+		</PropertyGroup>
+	</Target>
+
+	<!-- Call the IncludeDll target for xpToolsLib -->
+	<Target Name="IncludeXpToolsLib" DependsOnTargets="IncludeDLL">
+		<PropertyGroup>
+			<FolderPath>$(XpToolsLibFolder)</FolderPath>
+			<ReferenceName>xpToolsLib.net</ReferenceName>
+		</PropertyGroup>
+	</Target>
+
+
+
+
+
+    <Target Name="IncludeDLL" Condition="Exists('$(FolderPath)') And '$(RefernceName)' != ''">
+		<!-- Use Wildcards to find DLL File -->
+		<ItemGroup>
+			<DllFile Include="$(FolderPath)\**\*.dll" />
+		</ItemGroup>
+
+		<!-- Set file path into property to use later and define constant HAS_ReferenceName -->
+		<PropertyGroup>
+			<DllPath>@(DllFile)</DllPath>
+			<DefineConstants>$(DefineConstants); HAS_$(ReferenceName)</DefineConstants>
+		</PropertyGroup>
+
+		<!-- Import assembly reference -->
+		<ItemGroup>
+			<Reference Include="$(ReferenceName)">
+				<HintPath>$(DllPath)</HintPath>
+			</Reference>
+		</ItemGroup>
+	</Target>
+
+
+
+
+
+    <!-- Include XPression if it is found -->
+	<Choose>
+		<When Condition="Exists('$(XPressionFolder)')">
+			<!-- Use Wildcards to find DLL File -->
+			<ItemGroup>
+				<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
+			</ItemGroup>
+
+			<!-- Set file path into property to use later and define constant HAS_XPRESSION -->
+			<PropertyGroup>
+				<XPressionPath>@(XPressionFile)</XPressionPath>
+				<DefineConstants>$(DefineConstants); HAS_XPRESSION </ DefineConstants >
+
+            </ PropertyGroup >
+
+
+            < !--Import assembly reference -->
+			<ItemGroup>
+				<Reference Include="xpression.net">
+					<HintPath>$(XPressionPath)</HintPath>
+				</Reference>
+			</ItemGroup>
+		</When>
+	</Choose>
+
+
+
+
+
+//private void allButtonHandler_Click(object? sender, EventArgs e)
 //{
 //    if (sender is OperatorButton button)
 //    {
