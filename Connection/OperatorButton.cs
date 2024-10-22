@@ -2,33 +2,38 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
-using Operators_Solution;
 using OperatorsSolution;
+
+#if HAS_XPRESSION
+using XPression;
+#endif
 
 namespace OperatorsSolution
 {
+    #region >----------------- Collection Classes: ---------------------
     public class ClipPath()
     {
         // Scene
-        [Category(".Operation > Search"),
+        [Category("Search"),
         Description("Which scene this button will trigger.")]
         public string? Scene { get; set; }
 
         // Scene Director
-        [Category(".Operation > Search"),
+        [Category("Search"),
         Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
         DefaultValue("Same as [Scene]")]
         public string? SceneDirector { get; set; } = "Same as [Scene]";
 
         // Clip
-        [Category(".Operation > Search"),
+        [Category("Search"),
         Description("Which clip in this scene will trigger.")]
         public string? Clip { get; set; }
 
         // Track
-        [Category(".Operation > Search"),
+        [Category("Search"),
         Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
         DefaultValue("StateTrack")]
         public string? Track { get; set; } = "StateTrack";
@@ -36,16 +41,26 @@ namespace OperatorsSolution
 
 
         // Channel
-        [Category(".Operation > Output"),
+        [Category("Output"),
         Description("On what channel the clip will be displayed."),
         DefaultValue(0)]
         public int Channel { get; set; } = 0;
 
         // Layer
-        [Category(".Operation > Output"),
+        [Category("Output"),
         Description("On what layer the clip will be displayed."),
         DefaultValue(0)]
         public int Layer { get; set; } = 0;
+
+
+
+
+
+        // Object Changes
+        [Category("Changes"),
+        Description("Texts in the scene that need to be changed.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<ObjectChange> ObjectChanges { get; set; } = [];
 
 
 
@@ -54,6 +69,16 @@ namespace OperatorsSolution
         //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
         //DefaultValue("Show + Same as next [Clip]")]
         //public string? ButtonText { get; set; } = "Show + Same as next [Clip]";
+    }
+
+    public class ObjectChange()
+    {
+        [Category("Object Change")]
+        public string? SceneObject { get; set; }
+
+        // SET LATER TO SOMETHING FROM DATA MANAGER
+        [Category("Object Change")]
+        public string? SetTo { get; set; }
     }
 
 
@@ -71,25 +96,20 @@ namespace OperatorsSolution
             base.InsertItem(index, item);
         }
     }
+    #endregion
 
 
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Button))]
     public class OperatorButton : Button
     {
-        private readonly Color backColorDefault = Color.FromArgb(110, 110, 110);
-        private readonly Color foreColorDefault = Color.White;
-        private readonly Font fontDefault = new("Arial", 11f);
-        private readonly FlatStyle flatStyleDefault = FlatStyle.Popup;
-        private readonly Cursor cursorDefault = Cursors.Hand;
-        private readonly string textDefault = "Show [Scene]";
-
-
+        #region >----------------- Add properties: ---------------------
         // ClipPath
         [Category(".Operation > Search"),
         Description("Add clips to be played here.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ClipPathCollection ClipPaths { get; set; } = [];
+        #endregion
 
         #region >----------------- Recategorize some events: ---------------------
 
@@ -119,9 +139,9 @@ namespace OperatorsSolution
         protected override void OnMouseHover(EventArgs e)
         {
             base.OnMouseHover(e);
+            Hover?.Invoke(this, e);
         }
         #endregion
-
 
         #region >----------------- Recategorize some properties: ---------------------
 
@@ -217,8 +237,13 @@ namespace OperatorsSolution
         }
         #endregion
 
-        // Set defaults:
-        //__________________________________________________________________________________________________
+        #region >----------------- Set defaults: ---------------------
+        private readonly Color backColorDefault = Color.FromArgb(110, 110, 110);
+        private readonly Color foreColorDefault = Color.White;
+        private readonly Font fontDefault = new("Arial", 11f);
+        private readonly FlatStyle flatStyleDefault = FlatStyle.Popup;
+        private readonly Cursor cursorDefault = Cursors.Hand;
+        private readonly string textDefault = "Show [Scene]";
 
         public OperatorButton()
         {
@@ -229,6 +254,7 @@ namespace OperatorsSolution
             Font = fontDefault;
             Text = "Show [Scene]";
         }
+        #endregion
     }
 }
 

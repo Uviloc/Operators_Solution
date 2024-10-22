@@ -1,4 +1,4 @@
-add in pre-build build event to check for XPression
+Get rid of having the program stop while scene is playing
 
 
 

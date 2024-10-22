@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Operators_Solution.Properties {
+namespace OperatorsSolution.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,12 +26,12 @@ namespace Operators_Solution.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string GraphicsProgram {
+        public GraphicsSoftware GraphicsSoftware {
             get {
-                return ((string)(this["GraphicsProgram"]));
+                return ((GraphicsSoftware)(this["GraphicsSoftware"]));
             }
             set {
-                this["GraphicsProgram"] = value;
+                this["GraphicsSoftware"] = value;
             }
         }
     }

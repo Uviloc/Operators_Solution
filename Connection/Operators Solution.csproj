@@ -16,12 +16,12 @@
 	<!-- Dont include certain files into loading: -->
 	<ItemGroup>
 		<Compile Remove="!AssemblyLoader.cs" />
-		<Compile Remove="OldCode.cs" />
+		<Compile Remove="!OldCode.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="!AssemblyLoader.cs" />
-		<None Include="OldCode.cs" />
+		<None Include="!OldCode.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,6 +52,10 @@
 	    <Generator>PublicSettingsSingleFileGenerator</Generator>
 	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Properties\DataSources\" />
 	</ItemGroup>
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,30 +9,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Operators_Solution
+namespace OperatorsSolution
 {
     public partial class Settings : Form
     {
         public Settings()
         {
             InitializeComponent();
+            InitializeGraphicsProgram();
         }
 
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            // Set the 'software' setting to the selected ComboBox item
-            if (comboBox1.SelectedItem != null)
+            // Set the 'graphicsSoftware' setting to the selected ComboBox item
+            if (GraphicsSoftwareOption.SelectedItem is not null and GraphicsSoftware selectedSoftware)
             {
-                Properties.Settings.Default.GraphicsProgram = comboBox1.SelectedItem.ToString();
-                Properties.Settings.Default.Save();  // Save the setting
+                Properties.Settings.Default.GraphicsSoftware = selectedSoftware;
+                Properties.Settings.Default.Save();
             }
-            this.Close();  // Close the settings form
+            this.Close();
         }
 
-        private void Settings_Load(object sender, EventArgs e)
+        private void InitializeGraphicsProgram()
         {
-            comboBox1.SelectedItem = Properties.Settings.Default.GraphicsProgram;
+            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));
+            GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;
         }
     }
 }

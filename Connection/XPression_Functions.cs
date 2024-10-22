@@ -1,14 +1,16 @@
 ﻿#if HAS_XPRESSION
+using XPression;
 using System;
 using System.Collections.Generic;
-using XPression;
+using System.Threading.Channels;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 
 namespace OperatorsSolution
 {
-    internal class XPConnections
+    internal class XP_Functions
     {
-        #region > XPression play scene
+        #region >----------------- XPression play scene: ---------------------
         /// <summary>
         /// Plays out the scene in XPression when this project is open in XPression.
         /// </summary>
@@ -42,18 +44,81 @@ namespace OperatorsSolution
         }
         #endregion
 
-        #region > XPression get material
+        #region >----------------- XPression get single object: ---------------------
         /// <summary>
         /// Gives the material of the specified object in a scene, given that this project is open in XPression.
         /// </summary>
         /// <param name="objectName">The name of the object (in XPression) to find the material of.</param>
         /// <param name="scene">The scene in which this material needs to be searched.</param>
         /// <returns>The IxpBaseObject as the material.</returns>
-        public static IxpBaseObject getMaterialFromScene(string objectName, xpScene scene)
-        {
-            scene.GetObjectByName(objectName, out xpBaseObject sceneObject);
+        //public static IxpBaseObject getMaterialFromScene(string objectName, xpScene scene)
+        //{
+        //    scene.GetObjectByName(objectName, out xpBaseObject sceneObject);
 
-            return sceneObject;
+        //    return sceneObject;
+        //}
+        #endregion
+
+        #region >----------------- XPression set objects in scene: ---------------------
+        /// <summary>
+        /// Changes all materials given in the objectList list in a scene from XPression.
+        /// </summary>
+        /// <param name="scene">The scene in which the materials or values need to be changed.</param>
+        /// <param name="objectList">The list of objects to change (in XPression) the material or value of.</param>
+        public static void SetAllSceneMaterials(xpScene scene, List<ObjectChange> objectList)
+        {
+            xpEngine xpEngine = new();
+            if (objectList.Count == 0 || xpEngine == null)
+            {
+                return;
+            }
+            
+            foreach (ObjectChange objectChange in objectList)
+            {
+                SetMaterial(objectChange, scene, xpEngine);
+            }
+        }
+        #endregion
+
+        #region >----------------- XPression set material or value of object: ---------------------
+        /// <summary>
+        /// Changes the material or value given in the objectChange in a scene from XPression.
+        /// </summary>
+        /// <param name="scene">The scene in which the materials or values need to be changed.</param>
+        /// <param name="objectList">The list of objects to change (in XPression) the material or value of.</param>
+        public static void SetMaterial(ObjectChange objectChange, xpScene scene, xpEngine xpEngine)
+        {
+            // Check if any values are null
+            if (objectChange.SceneObject == null)
+            {
+                return;
+            }
+
+            // Check what type of object it is
+            if (!scene.GetObjectByName(objectChange.SceneObject, out xpBaseObject baseObject))
+            {
+                // Exit in case no scene object has been found
+                return;
+            }
+            
+            switch (baseObject)
+            {
+                case xpTextObject:
+                    xpTextObject textObject = (xpTextObject)baseObject;
+                    textObject.Text = objectChange.SetTo;
+                    break;
+                case xpQuadObject:
+                    xpQuadObject quad = (xpQuadObject)baseObject;
+
+                    if (xpEngine.GetMaterialByName(objectChange.SetTo, out xpMaterial material))
+                    {
+                        quad.SetMaterial(0, material);
+                    }
+                    break;
+                default:
+                    MessageBox.Show("object type: " + baseObject.TypeName + " cannot be handled.");
+                    return;
+            }
         }
         #endregion
     }

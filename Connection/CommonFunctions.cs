@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Operators_Solution
+namespace OperatorsSolution
 {
     public class CommonFunctions
     {
@@ -15,5 +15,12 @@ namespace Operators_Solution
             MessageBox.Show(message);
             control.BackColor = originalColor;
         }
+    }
+
+    public enum GraphicsSoftware
+    {
+        XPression,
+        CasparCG,
+        vMix
     }
 }
