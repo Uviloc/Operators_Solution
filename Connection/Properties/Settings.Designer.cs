@@ -26,11 +26,14 @@ namespace OperatorsSolution.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public GraphicsSoftware GraphicsSoftware {
-            get {
+        public GraphicsSoftware GraphicsSoftware
+        {
+            get
+            {
                 return ((GraphicsSoftware)(this["GraphicsSoftware"]));
             }
-            set {
+            set
+            {
                 this["GraphicsSoftware"] = value;
             }
         }

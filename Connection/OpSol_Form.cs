@@ -54,11 +54,8 @@ namespace OperatorsSolution
         #endregion
 
 
-
-
-
         #region >----------------- Trigger clip: ---------------------
-        private void TriggerClip(OperatorButton operatorButton, int clipIndex)
+        private static void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
             // Set all needed variables to the assigned properties in the ClipPath
             ClipPathCollection clipPath = operatorButton.ClipPaths;
@@ -69,6 +66,7 @@ namespace OperatorsSolution
             string? scene = clipPath[clipIndex].Scene;
             string? clip = clipPath[clipIndex].Clip;
             string? track = clipPath[clipIndex].Track;
+            string? sceneDirector = clipPath[clipIndex].SceneDirector;
             int channel = clipPath[clipIndex].Channel;
             int layer = clipPath[clipIndex].Layer;
 
@@ -90,7 +88,7 @@ namespace OperatorsSolution
                     if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
                     {
                         XP_Functions.SetAllSceneMaterials(SceneGraphic, clipPath[clipIndex].ObjectChanges);
-                        XP_Functions.PlaySceneState(SceneGraphic, scene, clip, track, channel, layer);
+                        XP_Functions.PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
                     }
                     else
                     {

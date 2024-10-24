@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using OperatorsSolution;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,3 +39,37 @@ namespace OperatorsSolution
         }
     }
 }
+
+//namespace OperatorsSolution.Properties
+//{
+//    //[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+//    //[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+//    public sealed partial class Settings
+//    {
+//        //private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+
+//        //public static Settings Default
+//        //{
+//        //    get
+//        //    {
+//        //        return defaultInstance;
+//        //    }
+//        //}
+
+
+//        [global::System.Configuration.UserScopedSettingAttribute()]
+//        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+//        [global::System.Configuration.DefaultSettingValueAttribute("")]
+//        public GraphicsSoftware GraphicsSoftware
+//        {
+//            get
+//            {
+//                return ((GraphicsSoftware)(this["GraphicsSoftware"]));
+//            }
+//            set
+//            {
+//                this["GraphicsSoftware"] = value;
+//            }
+//        }
+//    }
+//}

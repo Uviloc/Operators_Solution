@@ -30,21 +30,14 @@ namespace OperatorsSolution
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            TreeNode treeNode4 = new TreeNode("Node2");
+            TreeNode treeNode5 = new TreeNode("Node1", new TreeNode[] { treeNode4 });
+            TreeNode treeNode6 = new TreeNode("Folder 1", new TreeNode[] { treeNode5 });
             GraphicsSoftwareOption = new ComboBox();
             button1 = new Button();
             textBox1 = new TextBox();
-            settingsBindingSource = new BindingSource(components);
-            settingsBindingSource1 = new BindingSource(components);
-            commonFunctionsBindingSource = new BindingSource(components);
-            commonFunctionsBindingSource1 = new BindingSource(components);
-            commonFunctionsBindingSource2 = new BindingSource(components);
             textBox2 = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)settingsBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)settingsBindingSource1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource2).BeginInit();
+            treeView1 = new TreeView();
             SuspendLayout();
             // 
             // GraphicsSoftwareOption
@@ -76,18 +69,6 @@ namespace OperatorsSolution
             textBox1.TabIndex = 3;
             textBox1.Text = "Graphics Program:";
             // 
-            // commonFunctionsBindingSource
-            // 
-            commonFunctionsBindingSource.DataSource = typeof(CommonFunctions);
-            // 
-            // commonFunctionsBindingSource1
-            // 
-            commonFunctionsBindingSource1.DataSource = typeof(CommonFunctions);
-            // 
-            // commonFunctionsBindingSource2
-            // 
-            commonFunctionsBindingSource2.DataSource = typeof(CommonFunctions);
-            // 
             // textBox2
             // 
             textBox2.Location = new Point(150, 213);
@@ -97,6 +78,20 @@ namespace OperatorsSolution
             textBox2.TabIndex = 4;
             textBox2.Text = "Other settings to include:\r\n? Visual style (Dark mode etc)\r\n? Keyboard shortcuts\r\nPreview on Hover";
             // 
+            // treeView1
+            // 
+            treeView1.Location = new Point(37, 452);
+            treeView1.Name = "treeView1";
+            treeNode4.Name = "Node2";
+            treeNode4.Text = "Node2";
+            treeNode5.Name = "Node1";
+            treeNode5.Text = "Node1";
+            treeNode6.Name = "Node0";
+            treeNode6.Text = "Folder 1";
+            treeView1.Nodes.AddRange(new TreeNode[] { treeNode6 });
+            treeView1.Size = new Size(174, 238);
+            treeView1.TabIndex = 5;
+            // 
             // Settings
             // 
             AllowDrop = true;
@@ -104,6 +99,7 @@ namespace OperatorsSolution
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(772, 713);
+            Controls.Add(treeView1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
@@ -113,11 +109,6 @@ namespace OperatorsSolution
             ShowIcon = false;
             Text = "Settings";
             TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)settingsBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)settingsBindingSource1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)commonFunctionsBindingSource2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,11 +118,7 @@ namespace OperatorsSolution
         private ComboBox GraphicsSoftwareOption;
         private Button button1;
         private TextBox textBox1;
-        private BindingSource settingsBindingSource;
-        private BindingSource settingsBindingSource1;
-        private BindingSource commonFunctionsBindingSource;
-        private BindingSource commonFunctionsBindingSource1;
-        private BindingSource commonFunctionsBindingSource2;
         private TextBox textBox2;
+        private TreeView treeView1;
     }
 }

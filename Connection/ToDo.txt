@@ -1,4 +1,5 @@
 Get rid of having the program stop while scene is playing
+Make program crashproof (when xpression crashes, an error appears)
 
 
 
