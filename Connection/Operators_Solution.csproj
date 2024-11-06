@@ -9,7 +9,7 @@
 
 		<!-- Definition of file path to xpression.net -->
 		<XPressionFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionFolder>
-		<XpToolsLibFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net</XpToolsLibFolder>
+		<XPToolsLibFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net</XPToolsLibFolder>
 	</PropertyGroup>
 
 
@@ -62,15 +62,17 @@
 
 	<!-- Include XPression if it is found -->
 	<Choose>
-		<When Condition="Exists('$(XPressionFolder)')">
+		<When Condition="Exists('$(XPressionFolder)') And Exists('$(XPToolsLibFolder)')">
 			<!-- Use Wildcards to find DLL File -->
 			<ItemGroup>
 				<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
+				<XPToolsLibFile Include="$(XPToolsLibFolder)\**\*.dll" />
 			</ItemGroup>
 
 			<!-- Set file path into property to use later and define constant HAS_XPRESSION -->
 			<PropertyGroup>
 				<XPressionPath>@(XPressionFile)</XPressionPath>
+				<XPToolsLibPath>@(XPToolsLibFile)</XPToolsLibPath>
 				<DefineConstants>$(DefineConstants); HAS_XPRESSION</DefineConstants>
 			</PropertyGroup>
 
@@ -78,6 +80,9 @@
 			<ItemGroup>
 				<Reference Include="xpression.net">
 					<HintPath>$(XPressionPath)</HintPath>
+				</Reference>
+				<Reference Include="xptoolslib.net">
+					<HintPath>$(XPToolsLibPath)</HintPath>
 				</Reference>
 			</ItemGroup>
 		</When>

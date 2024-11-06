@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
 using OperatorsSolution;
+using System.Windows.Forms.Design;
+
 
 #if HAS_XPRESSION
 using XPression;
@@ -109,6 +111,11 @@ namespace OperatorsSolution
         Description("Add clips to be played here.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ClipPathCollection ClipPaths { get; set; } = [];
+
+        // ScenePreview
+        [Category(".Operation > Search"),
+        Description("The scene from which the preview is taken.")]
+        public string? Scene { get; set; }
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------
@@ -140,6 +147,24 @@ namespace OperatorsSolution
         {
             base.OnMouseHover(e);
             Hover?.Invoke(this, e);
+        }
+
+        [Category(".Operation > Events")]
+        [Description("Occurs when the mouse enters the visible part of the control.")]
+        public event EventHandler? Enter;
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseHover(e);
+            Enter?.Invoke(this, e);
+        }
+
+        [Category(".Operation > Events")]
+        [Description("Occurs when the mouse leaves the visible part of the control.")]
+        public event EventHandler? Leave;
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseHover(e);
+            Leave?.Invoke(this, e);
         }
         #endregion
 

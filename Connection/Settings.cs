@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,9 +18,24 @@ namespace OperatorsSolution
         public Settings()
         {
             InitializeComponent();
-            InitializeGraphicsProgram();
+            InitializeSettings();
         }
 
+
+        private void InitializeSettings()
+        {
+            // ComboBox:
+            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));
+            GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;
+
+            string projectFile = Properties.Settings.Default.ProjectFile;
+            if (!string.IsNullOrWhiteSpace(projectFile))
+            {
+                string projectName = projectFile.Split('\\').Last();
+                ProjectFile.Text = projectName;
+            }
+            else ProjectFile.Text = "Select project file";
+        }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
@@ -32,10 +48,47 @@ namespace OperatorsSolution
             this.Close();
         }
 
-        private void InitializeGraphicsProgram()
+        private void ProjectSelection(object sender, EventArgs e)
         {
-            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));
-            GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;
+            if (sender is not TextBox) return;
+            TextBox textBox = (TextBox)sender;
+
+            OpenFileDialog openFileDialog = new();
+
+            switch (Properties.Settings.Default.GraphicsSoftware)
+            {
+                case GraphicsSoftware.XPression:
+                    openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";
+                    break;
+                case GraphicsSoftware.CasparCG:
+                    //openFileDialog.Filter = "CasparCG files (*.;*.)";
+                    break;
+                case GraphicsSoftware.vMix:
+                    //openFileDialog.Filter = "vMix files (*.;*.)";
+                    break;
+            }
+
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string file = openFileDialog.FileName;
+                try
+                {
+                    string projectName = file.Split('\\').Last();
+                    textBox.Text = projectName;
+                    Properties.Settings.Default.ProjectFile = file;
+                    Properties.Settings.Default.Save();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void RemoveProjectFileRef(object sender, EventArgs e)
+        {
+            ProjectFile.Text = "Select project file";
+            Properties.Settings.Default.ProjectFile = null;
         }
     }
 }

@@ -30,14 +30,17 @@ namespace OperatorsSolution
         /// </summary>
         private void InitializeComponent()
         {
-            TreeNode treeNode4 = new TreeNode("Node2");
-            TreeNode treeNode5 = new TreeNode("Node1", new TreeNode[] { treeNode4 });
-            TreeNode treeNode6 = new TreeNode("Folder 1", new TreeNode[] { treeNode5 });
+            TreeNode treeNode1 = new TreeNode("Node2");
+            TreeNode treeNode2 = new TreeNode("Node1", new TreeNode[] { treeNode1 });
+            TreeNode treeNode3 = new TreeNode("Folder 1", new TreeNode[] { treeNode2 });
             GraphicsSoftwareOption = new ComboBox();
             button1 = new Button();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             treeView1 = new TreeView();
+            textBox3 = new TextBox();
+            ProjectFile = new TextBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // GraphicsSoftwareOption
@@ -82,15 +85,42 @@ namespace OperatorsSolution
             // 
             treeView1.Location = new Point(37, 452);
             treeView1.Name = "treeView1";
-            treeNode4.Name = "Node2";
-            treeNode4.Text = "Node2";
-            treeNode5.Name = "Node1";
-            treeNode5.Text = "Node1";
-            treeNode6.Name = "Node0";
-            treeNode6.Text = "Folder 1";
-            treeView1.Nodes.AddRange(new TreeNode[] { treeNode6 });
+            treeNode1.Name = "Node2";
+            treeNode1.Text = "Node2";
+            treeNode2.Name = "Node1";
+            treeNode2.Text = "Node1";
+            treeNode3.Name = "Node0";
+            treeNode3.Text = "Folder 1";
+            treeView1.Nodes.AddRange(new TreeNode[] { treeNode3 });
             treeView1.Size = new Size(174, 238);
             treeView1.TabIndex = 5;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(19, 88);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(165, 31);
+            textBox3.TabIndex = 6;
+            textBox3.Text = "Project file:";
+            // 
+            // ProjectFile
+            // 
+            ProjectFile.Location = new Point(183, 88);
+            ProjectFile.Name = "ProjectFile";
+            ProjectFile.ReadOnly = true;
+            ProjectFile.Size = new Size(283, 31);
+            ProjectFile.TabIndex = 7;
+            ProjectFile.Click += ProjectSelection;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(461, 88);
+            button2.Name = "button2";
+            button2.Size = new Size(35, 31);
+            button2.TabIndex = 8;
+            button2.Text = "X";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += RemoveProjectFileRef;
             // 
             // Settings
             // 
@@ -99,6 +129,9 @@ namespace OperatorsSolution
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(772, 713);
+            Controls.Add(button2);
+            Controls.Add(ProjectFile);
+            Controls.Add(textBox3);
             Controls.Add(treeView1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -120,5 +153,8 @@ namespace OperatorsSolution
         private TextBox textBox1;
         private TextBox textBox2;
         private TreeView treeView1;
+        private TextBox textBox3;
+        private TextBox ProjectFile;
+        private Button button2;
     }
 }

@@ -38,12 +38,108 @@ namespace OperatorsSolution
                 !Scene_State_Track.GetClipByName(clip, out xpSceneDirectorClip State_Clip))
             { return false; }
 
+            //int defaultFrame = Scene_Director.DefaultFrameMarker;
+            //Scene_Director.PlayRange(defaultFrame, defaultFrame+1);
+            //scene.SetOnline(1, layer);
+
             Scene_Director.PlayRange(State_Clip.Position, State_Clip.Position);
             scene.SetOnline(channel, layer);
-            Scene_Director.PlayRange(State_Clip.Position, State_Clip.Duration + State_Clip.Position, true);
+            Scene_Director.PlayRange(State_Clip.Position, State_Clip.Duration + State_Clip.Position);
             return true;
         }
         #endregion
+
+        #region >----------------- XPression play preview scene: ---------------------
+        /// <summary>
+        /// Plays out the scene in XPression when this project is open in XPression.
+        /// </summary>
+        /// <param name = "scene">The xpScene in which the clip is located in.</param>
+        /// <param name = "sceneDirectorName">The name of the scene director.</param>
+        /// /// <param name = "clip">The name of the clip that needs to be played.</param>
+        /// <param name = "previewChannel">The channel on which the clip needs to play.</param>
+        /// <param name="layer">The layer on which the clip needs to play.</param>
+        /// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
+        public static bool PlayPreview(xpScene scene, string? sceneDirectorName, string clip, string? track, out xpImage? image, int previewChannel = 1, int layer = 1)
+        {
+            image = null;
+            // Set to be a default of the same name as its scene if it was not filled in
+            if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
+            {
+                sceneDirectorName = scene.Name;
+                //sceneDirectorName = scene.SceneDirector
+            }
+            if (string.IsNullOrWhiteSpace(track))
+            {
+                track = "StateTrack";
+            }
+
+            if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
+                !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track) ||
+                !Scene_State_Track.GetClipByName(clip, out xpSceneDirectorClip State_Clip))
+            {
+                return false;
+            }
+
+            ////int defaultFrame = Scene_Director.DefaultFrameMarker;
+            //int lastFrameOfClip = State_Clip.Position + State_Clip.Duration - 1;
+            //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip);
+            //scene.SetOnline(previewChannel, layer);
+            //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip + 1, true);
+            ////scene.GetPreviewSceneDirector(out xpSceneDirector previewSD);
+            ////previewSD.
+            //scene.GetRenderedFrame(lastFrameOfClip, scene.Width, scene.Height, out image);
+
+            scene.GetThumbnail(out image);
+            return true;
+        }
+        #endregion
+
+
+        #region >----------------- XPression play preview scene: ---------------------
+        /// <summary>
+        /// Plays out the scene in XPression when this project is open in XPression.
+        /// </summary>
+        /// <param name = "scene">The xpScene in which the clip is located in.</param>
+        /// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
+        public static bool GetThumbnail(xpScene scene, out xpImage? image)
+        {
+            scene.GetThumbnail(out image);
+            return true;
+        }
+        #endregion
+
+        //#region >----------------- XPression play preview scene: ---------------------
+        ///// <summary>
+        ///// Plays out the scene in XPression when this project is open in XPression.
+        ///// </summary>
+        ///// <param name = "scene">The xpScene in which the clip is located in.</param>
+        ///// <param name = "sceneDirectorName">The name of the scene director.</param>
+        ///// <param name = "previewChannel">The channel on which the clip needs to play.</param>
+        ///// <param name="layer">The layer on which the clip needs to play.</param>
+        ///// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
+        //public static bool StopPreview(xpScene scene)
+        //{
+        //    // Set to be a default of the same name as its scene if it was not filled in
+        //    //if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
+        //    //{
+        //    //    sceneDirectorName = scene.Name;
+        //    //    //sceneDirectorName = scene.SceneDirector
+        //    //}
+        //    //if (string.IsNullOrWhiteSpace(track))
+        //    //{
+        //    //    track = "StateTrack";
+        //    //}
+
+        //    //if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
+        //    //    !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track))
+        //    //{ return false; }
+
+        //    //int defaultFrame = Scene_Director.DefaultFrameMarker;
+        //    //Scene_Director.PlayRange(defaultFrame, defaultFrame + 1);
+        //    scene.SetPreview();
+        //    return true;
+        //}
+        //#endregion
 
         #region >----------------- XPression get single object: ---------------------
         /// <summary>

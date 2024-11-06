@@ -32,11 +32,15 @@
             button1 = new Button();
             operatorButton1 = new OperatorButton();
             operatorButton2 = new OperatorButton();
+            pictureBox1 = new PictureBox();
+            operatorButton3 = new OperatorButton();
+            button2 = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(946, 763);
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
             button1.Size = new Size(123, 37);
             button1.TabIndex = 1;
@@ -75,6 +79,7 @@
             operatorButton1.ClipPaths.Add(clipPath9);
             operatorButton1.Location = new Point(824, 12);
             operatorButton1.Name = "operatorButton1";
+            operatorButton1.Scene = null;
             operatorButton1.Size = new Size(261, 169);
             operatorButton1.TabIndex = 2;
             operatorButton1.UseVisualStyleBackColor = false;
@@ -110,38 +115,78 @@
             clipPath11.ObjectChanges.Add(objectChange7);
             clipPath11.ObjectChanges.Add(objectChange8);
             clipPath11.Scene = "FightGraphic";
-            clipPath12.Clip = "weightDivisionIn";
+            clipPath12.Clip = "toReduced";
             clipPath12.Scene = "FightGraphic";
-            clipPath13.Clip = "weightDivisionOut";
+            clipPath13.Clip = "weightDivisionIn1";
             clipPath13.Scene = "FightGraphic";
-            clipPath14.Clip = "toReduced";
+            clipPath14.Clip = "weightDivisionOut1";
             clipPath14.Scene = "FightGraphic";
-            clipPath15.Clip = "weightDivisionIn1";
+            clipPath15.Clip = "out";
             clipPath15.Scene = "FightGraphic";
-            clipPath16.Clip = "weightDivisionOut1";
-            clipPath16.Scene = "FightGraphic";
-            clipPath17.Clip = "out";
-            clipPath17.Scene = "FightGraphic";
             operatorButton2.ClipPaths.Add(clipPath10);
             operatorButton2.ClipPaths.Add(clipPath11);
             operatorButton2.ClipPaths.Add(clipPath12);
             operatorButton2.ClipPaths.Add(clipPath13);
             operatorButton2.ClipPaths.Add(clipPath14);
             operatorButton2.ClipPaths.Add(clipPath15);
-            operatorButton2.ClipPaths.Add(clipPath16);
-            operatorButton2.ClipPaths.Add(clipPath17);
-            operatorButton2.Location = new Point(12, 12);
+            operatorButton2.Location = new Point(12, 79);
             operatorButton2.Name = "operatorButton2";
+            operatorButton2.Scene = "FightGraphic";
             operatorButton2.Size = new Size(431, 244);
             operatorButton2.TabIndex = 3;
             operatorButton2.UseVisualStyleBackColor = false;
             operatorButton2.Click += Trigger_Clips;
+            operatorButton2.Enter += DisplayThumbnail;
+            operatorButton2.Leave += RemoveThumbnail;
+            operatorButton2.MouseEnter += DisplayThumbnail;
+            operatorButton2.MouseLeave += RemoveThumbnail;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(24, 502);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(506, 298);
+            pictureBox1.TabIndex = 4;
+            pictureBox1.TabStop = false;
+            // 
+            // operatorButton3
+            // 
+            clipPath16.Clip = "weightDivisionIn";
+            clipPath16.Scene = "FightGraphic";
+            clipPath17.Clip = "weightDivisionOut";
+            clipPath17.Scene = "FightGraphic";
+            operatorButton3.ClipPaths.Add(clipPath16);
+            operatorButton3.ClipPaths.Add(clipPath17);
+            operatorButton3.Location = new Point(460, 203);
+            operatorButton3.Name = "operatorButton3";
+            operatorButton3.Scene = "FightGraphic";
+            operatorButton3.Size = new Size(431, 244);
+            operatorButton3.TabIndex = 3;
+            operatorButton3.UseVisualStyleBackColor = false;
+            operatorButton3.Click += Trigger_Clips;
+            operatorButton3.Enter += DisplayThumbnail;
+            operatorButton3.Leave += RemoveThumbnail;
+            operatorButton3.MouseEnter += DisplayThumbnail;
+            operatorButton3.MouseLeave += RemoveThumbnail;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(878, 766);
+            button2.Name = "button2";
+            button2.Size = new Size(207, 34);
+            button2.TabIndex = 5;
+            button2.Text = "Open project";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += OpenProject;
             // 
             // OpSol_Form
             // 
             AllowDrop = true;
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(1097, 829);
+            Controls.Add(button2);
+            Controls.Add(pictureBox1);
+            Controls.Add(operatorButton3);
             Controls.Add(operatorButton2);
             Controls.Add(operatorButton1);
             Controls.Add(button1);
@@ -150,11 +195,15 @@
             ShowIcon = false;
             Text = "Operators Solution";
             TopMost = true;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
         private Button button1;
         private OperatorButton operatorButton1;
         private OperatorButton operatorButton2;
+        private PictureBox pictureBox1;
+        private OperatorButton operatorButton3;
+        private Button button2;
     }
 }
