@@ -1,4 +1,56 @@
-﻿#if HAS_XPRESSION
+﻿< !--Include XPression if it is found -->
+	<Choose>
+		<When Condition="Exists('$(XPressionFolder)') And Exists('$(XPToolsLibFolder)')">
+			<!-- Use Wildcards to find DLL File -->
+			<ItemGroup>
+				<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
+				<XPToolsLibFile Include="$(XPToolsLibFolder)\**\*.dll" />
+			</ItemGroup>
+
+			<!-- Set file path into property to use later and define constant HAS_XPRESSION -->
+			<PropertyGroup>
+				<XPressionPath>@(XPressionFile)</XPressionPath>
+				<XPToolsLibPath>@(XPToolsLibFile)</XPToolsLibPath>
+				<DefineConstants>$(DefineConstants); HAS_XPRESSION </ DefineConstants >
+
+            </ PropertyGroup >
+
+
+            < !--Import assembly reference -->
+			<ItemGroup>
+				<Reference Include="xpression.net">
+					<HintPath>$(XPressionPath)</HintPath>
+				</Reference>
+				<Reference Include="xptoolslib.net">
+					<HintPath>$(XPToolsLibPath)</HintPath>
+				</Reference>
+			</ItemGroup>
+		</When>
+	</Choose>
+
+	<!-- Ensure that the DLLs are copied to the output directory (e.g., bin\Release) -->
+	<Target Name="CopyXPressionDLLs" AfterTargets="Build">
+		<Copy SourceFiles="$(XPressionPath)" DestinationFolder="$(OutDir)" />
+		<Copy SourceFiles="$(XPToolsLibPath)" DestinationFolder="$(OutDir)" />
+	</Target>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if HAS_XPRESSION
 using System;
 using System.Collections.Generic;
 using System.Threading.Channels;

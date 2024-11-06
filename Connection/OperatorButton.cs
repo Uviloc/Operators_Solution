@@ -7,6 +7,8 @@ using System.ComponentModel.Design;
 using System.Drawing.Design;
 using OperatorsSolution;
 using System.Windows.Forms.Design;
+using System.Reflection;
+
 
 
 #if HAS_XPRESSION
@@ -151,7 +153,7 @@ namespace OperatorsSolution
 
         [Category(".Operation > Events")]
         [Description("Occurs when the mouse enters the visible part of the control.")]
-        public event EventHandler? Enter;
+        public new event EventHandler? Enter;
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseHover(e);
@@ -160,7 +162,7 @@ namespace OperatorsSolution
 
         [Category(".Operation > Events")]
         [Description("Occurs when the mouse leaves the visible part of the control.")]
-        public event EventHandler? Leave;
+        public new event EventHandler? Leave;
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseHover(e);
@@ -278,10 +280,35 @@ namespace OperatorsSolution
             Cursor = cursorDefault;
             Font = fontDefault;
             Text = "Show [Scene]";
+            Click += ButtonAttempt;
         }
         #endregion
+
+        private int index = 0;
+        public void ButtonAttempt(object? sender, EventArgs e)
+        {
+            if (sender is OperatorButton button && button.ClipPaths != null)
+            {
+                // Warn and exit if there are no assigned scenes:
+                if (button.ClipPaths.Count == 0)
+                {
+                    CommonFunctions.ControlWarning(button, "Please add ClipPaths to the button: " + button.Text);
+                    return;
+                }
+
+
+                // Play the clip that this item is pointing to:
+                OpSol_Form.TriggerClip(button, index);
+
+                if (index < button.ClipPaths.Count - 1)
+                {
+                    index++;
+                }
+                else
+                {
+                    index = 0;
+                }
+            }
+        }
     }
 }
-
-
-

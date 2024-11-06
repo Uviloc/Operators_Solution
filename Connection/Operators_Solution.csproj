@@ -7,21 +7,26 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 
+		<!-- Set the icon for the application -->
+		<ApplicationIcon>Resources\appicon.ico</ApplicationIcon>
+
 		<!-- Definition of file path to xpression.net -->
 		<XPressionFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionFolder>
 		<XPToolsLibFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net</XPToolsLibFolder>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<!--<XPressionFolder>C:\Program Files\XPressionStudioSCE\net</XPressionFolder>-->
 	</PropertyGroup>
 
 
 	<!-- Dont include certain files into loading: -->
 	<ItemGroup>
-		<Compile Remove="!AssemblyLoader.cs" />
 		<Compile Remove="!OldCode.cs" />
+		<Compile Remove="AssemblyLoader.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="!AssemblyLoader.cs" />
 		<None Include="!OldCode.cs" />
+		<None Include="AssemblyLoader.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -55,6 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Modules\" />
 	  <Folder Include="Properties\DataSources\" />
 	</ItemGroup>
 
@@ -65,8 +71,8 @@
 		<When Condition="Exists('$(XPressionFolder)') And Exists('$(XPToolsLibFolder)')">
 			<!-- Use Wildcards to find DLL File -->
 			<ItemGroup>
-				<XPressionFile Include="$(XPressionFolder)\**\*.dll" />
-				<XPToolsLibFile Include="$(XPToolsLibFolder)\**\*.dll" />
+				<XPressionFile Include="$(XPressionFolder)\**\xpression.net.dll" />
+				<XPToolsLibFile Include="$(XPToolsLibFolder)\**\xptoolslib.net.dll" />
 			</ItemGroup>
 
 			<!-- Set file path into property to use later and define constant HAS_XPRESSION -->
@@ -77,12 +83,15 @@
 			</PropertyGroup>
 
 			<!--Import assembly reference -->
+			<!--<ItemGroup Condition="'$(Configuration)' == 'Debug'">-->
 			<ItemGroup>
 				<Reference Include="xpression.net">
 					<HintPath>$(XPressionPath)</HintPath>
+					<!--<Private Condition="'$(Configuration)' != 'Debug'">False</Private>-->
 				</Reference>
 				<Reference Include="xptoolslib.net">
 					<HintPath>$(XPToolsLibPath)</HintPath>
+					<!--<Private Condition="'$(Configuration)' != 'Debug'">False</Private>-->
 				</Reference>
 			</ItemGroup>
 		</When>

@@ -1,6 +1,5 @@
 #if HAS_XPRESSION
 using XPression;
-
 #endif
 
 #if HAS_CASPARCG
@@ -16,20 +15,97 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using System.Reflection;
 
 namespace OperatorsSolution
 {
     public partial class OpSol_Form : Form
     {
+        public interface IModuleForm
+        {
+            Form GetForm();
+            string FormName { get; }
+        }
+
         public OpSol_Form()
         {
             InitializeComponent();
+
+            LoadModules();
+        }
+
+        private void LoadModules()
+        {
+            string moduleFolder = Path.Combine(Application.StartupPath, "Modules");
+            if (!Directory.Exists(moduleFolder))
+            {
+                Directory.CreateDirectory(moduleFolder);
+            }
+
+            // Loop through each DLL in the Modules folder
+            foreach (string dll in Directory.GetFiles(moduleFolder, "*.dll"))
+            {
+                try
+                {
+                    // Load the assembly
+                    Assembly assembly = Assembly.LoadFrom(dll);
+
+                    // Find all types in the assembly that implement IModuleForm
+                    foreach (Type type in assembly.GetTypes())
+                    {
+                        if (typeof(IModuleForm).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+                        {
+                            // Create an instance of the plugin form
+                            IModuleForm moduleForm = (IModuleForm)Activator.CreateInstance(type);
+
+                            // Add the plugin form to the TreeView
+                            AddToTreeView(moduleForm);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading plugin {dll}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void AddToTreeView(IModuleForm pluginForm)
+        {
+            TreeNode node = new TreeNode(pluginForm.FormName) // Use the form's name as the node text
+            {
+                Tag = pluginForm // Store the plugin form in the Tag property for easy access later
+            };
+            treeViewModules.Nodes.Add(node);
+        }
+
+        private void treeViewModules_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag is IModuleForm pluginForm)
+            {
+                // Get the form from the IModuleForm instance
+                Form form = pluginForm.GetForm();
+
+                // Set the form to be a child inside the InnerPannel
+                form.TopLevel = false;                // This makes the form not open as a separate window
+                form.FormBorderStyle = FormBorderStyle.None; // Remove the border for a seamless look
+                form.Dock = DockStyle.Fill;            // Make the form fill the InnerPannel
+
+                // Clear the InnerPannel to ensure no other controls are blocking the new form
+                InnerPannel.Controls.Clear();
+
+                // Add the form to the InnerPannel's Controls collection
+                InnerPannel.Controls.Add(form);
+
+                // Show the form inside the panel
+                form.Show();
+            }
         }
 
 
 
         #region >----------------- Open project: ---------------------
-        public static void OpenProject(object? sender, EventArgs e)
+        private void OpenProject(object? sender, EventArgs e)
         {
             string projectFilePath = Properties.Settings.Default.ProjectFile;
 
@@ -85,6 +161,7 @@ namespace OperatorsSolution
 
 
         #region >----------------- Trigger clips: ---------------------
+        // MOVED TO BUTTON CLASS: GET RID OF THIS
         private int index = 0;
         public void Trigger_Clips(object? sender, EventArgs e)
         {
@@ -114,8 +191,14 @@ namespace OperatorsSolution
         #endregion
 
 
+        public static void TestingFunction(string somethingProfound)
+        {
+            MessageBox.Show(somethingProfound);
+        }
+
+
         #region >----------------- Trigger clip: ---------------------
-        private static void TriggerClip(OperatorButton operatorButton, int clipIndex)
+        public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
             // Set all needed variables to the assigned properties in the ClipPath
             ClipPathCollection clipPath = operatorButton.ClipPaths;
@@ -277,7 +360,7 @@ namespace OperatorsSolution
 
 
 
-        private void DisplayThumbnail(object sender, EventArgs e)
+        public void DisplayThumbnail(object sender, EventArgs e)
         {
             if (!IsXPressionDonglePresent()) return;
             if (sender is OperatorButton button && button.Scene != null)
@@ -292,20 +375,20 @@ namespace OperatorsSolution
                     if (thumbnail != null)
                     {
                         Bitmap image = ConvertToBitmap(thumbnail);
-                        pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                        pictureBox1.Image = image;
+                        PreviewBox.SizeMode = PictureBoxSizeMode.Zoom;
+                        PreviewBox.Image = image;
                     }
                 }
                 else
                 {
-                    CommonFunctions.ControlWarning(button, "Warning: " + scene + " on button: " + button.Text + " could not be found!");
+                    CommonFunctions.ControlWarning(button, "Warning: There is no Scene on button: " + button.Text + "!");
                 }
             }
         }
 
-        private void RemoveThumbnail(object sender, EventArgs e)
+        public void RemoveThumbnail(object sender, EventArgs e)
         {
-            pictureBox1.Image = null;
+            PreviewBox.Image = null;
         }
 
         private static Bitmap ConvertToBitmap(xpImage thumbNailImage)
