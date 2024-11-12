@@ -5,25 +5,19 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
-using OperatorsSolution;
 using System.Windows.Forms.Design;
 using System.Reflection;
 
-
-
-#if HAS_XPRESSION
-using XPression;
-#endif
 
 namespace OperatorsSolution
 {
     #region >----------------- Collection Classes: ---------------------
     public class ClipPath()
     {
-        // Scene
-        [Category("Search"),
-        Description("Which scene this button will trigger.")]
-        public string? Scene { get; set; }
+        //// Scene
+        //[Category("Search"),
+        //Description("Which scene this button will trigger.")]
+        //public string? Scene { get; set; }
 
         // Scene Director
         [Category("Search"),
@@ -92,10 +86,19 @@ namespace OperatorsSolution
         protected override void InsertItem(int index, ClipPath item)
         {
             // If there are already items in the collection, set the new item's Scene to the last item's Scene
-            if (this.Count > 0 && item.Scene == null)
+            if (this.Count > 0)
             {
-                item.Scene = this.Last().Scene;
+                //item.Scene ??= this.Last().Scene;
+                if (item.Track == null || item.Track == "StateTrack")
+                {
+                    item.Track = this.Last().Track;
+                }
+                if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
+                {
+                    item.SceneDirector = this.Last().SceneDirector;
+                }
             }
+            
 
             base.InsertItem(index, item);
         }
@@ -118,6 +121,11 @@ namespace OperatorsSolution
         [Category(".Operation > Search"),
         Description("The scene from which the preview is taken.")]
         public string? Scene { get; set; }
+
+        // PreviewBox           TO BE MOVED TO PROJECT SETTINGS
+        [Category(".Operation > Search"),
+        Description("The PictureBox where the preview will be displayed.")]
+        public PictureBox? PreviewBox { get; set; }
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------
@@ -280,13 +288,19 @@ namespace OperatorsSolution
             Cursor = cursorDefault;
             Font = fontDefault;
             Text = "Show [Scene]";
-            Click += ButtonAttempt;
+            Click += PlayScenes;
+            Enter += DisplayPreview;
+            Leave += RemovePreview;
         }
         #endregion
 
+
+        
+        #region >----------------- Functions: ---------------------
         private int index = 0;
-        public void ButtonAttempt(object? sender, EventArgs e)
+        public void PlayScenes(object? sender, EventArgs e)
         {
+            // MOVE ELSEWHERE?????:
             if (sender is OperatorButton button && button.ClipPaths != null)
             {
                 // Warn and exit if there are no assigned scenes:
@@ -298,7 +312,7 @@ namespace OperatorsSolution
 
 
                 // Play the clip that this item is pointing to:
-                OpSol_Form.TriggerClip(button, index);
+                GraphicsConnector.TriggerClip(button, index);
 
                 if (index < button.ClipPaths.Count - 1)
                 {
@@ -310,5 +324,18 @@ namespace OperatorsSolution
                 }
             }
         }
+
+        public void DisplayPreview(object? sender, EventArgs e)
+        {
+            if (PreviewBox == null) return;
+            GraphicsConnector.DisplayPreview(sender, PreviewBox);
+        }
+
+        public void RemovePreview(object? sender, EventArgs e)
+        {
+            if (PreviewBox == null) return;
+            GraphicsConnector.RemovePreview(PreviewBox);
+        }
+        #endregion
     }
 }

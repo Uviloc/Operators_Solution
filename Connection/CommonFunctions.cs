@@ -15,6 +15,16 @@ namespace OperatorsSolution
             MessageBox.Show(message);
             control.BackColor = originalColor;
         }
+
+        //public static List<T> GetControlsByType<T>(Form form)
+        //{
+        //    List<T> controls = [];
+        //    foreach (Control control in form.Controls)
+        //    {
+        //        if (control is T matchingControl) controls.Add(matchingControl);
+        //    }
+        //    return controls;
+        //}
     }
 
     public enum GraphicsSoftware

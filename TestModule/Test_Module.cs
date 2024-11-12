@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static OperatorsSolution.ModuleLoader;
 using static OperatorsSolution.OpSol_Form;
 
 namespace TestModule
@@ -23,11 +24,6 @@ namespace TestModule
         public Form GetForm()
         {
             return this;
-        }
-
-        private void operatorButton2_Click(object sender, EventArgs e)
-        {
-            OpSol_Form.TestingFunction("WOW");
         }
     }
 }

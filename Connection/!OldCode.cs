@@ -39,7 +39,36 @@
 
 
 
+    //public ModuleLoader()
+    //{
+    //    LoadModules();
+    //}
 
+//public ModuleLoader()
+//{
+//    if (TryGetParentForm(out Form? form) && form != null)
+//    {
+//        form.Shown += LoadModules;
+//    }
+//}
+
+//// This method checks if the form is shown
+//private bool TryGetParentForm(out Form? form)
+//{
+//    form = null;
+
+//    // Check if the component is assigned to a container
+//    if (this.Site == null) return false;
+
+//    // Get the parent container of the component
+//    var container = this.Site.Container;
+
+//    // Check if the container is a Form
+//    if (container is not Form parentForm) return false;
+
+//    form = parentForm;
+//    return true;
+//}
 
 
 
