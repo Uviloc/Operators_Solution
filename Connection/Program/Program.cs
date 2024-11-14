@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace OperatorsSolution
+namespace OperatorsSolution.Program
 {
     internal static class Program
     {

@@ -13,20 +13,22 @@
 		<!-- Definition of file path to xpression.net -->
 		<XPressionFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpression.net</XPressionFolder>
 		<XPToolsLibFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net</XPToolsLibFolder>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationManifest>Program\app.manifest</ApplicationManifest>
+		<AppDesignerFolder>Program</AppDesignerFolder>
 		<!--<XPressionFolder>C:\Program Files\XPressionStudioSCE\net</XPressionFolder>-->
 	</PropertyGroup>
 
-
 	<!-- Dont include certain files into loading: -->
 	<ItemGroup>
-		<Compile Remove="!OldCode.cs" />
-		<Compile Remove="AssemblyLoader.cs" />
+		<Compile Remove="Uncompiled_Files\!AssemblyLoader.cs" />
+		<Compile Remove="Uncompiled_Files\!CollectionEditorTest.cs" />
+		<Compile Remove="Uncompiled_Files\!OldCode.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="!OldCode.cs" />
-		<None Include="AssemblyLoader.cs" />
+		<None Include="Uncompiled_Files\!AssemblyLoader.cs" />
+		<None Include="Uncompiled_Files\!CollectionEditorTest.cs" />
+		<None Include="Uncompiled_Files\!OldCode.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,7 +47,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Properties\Settings.Designer.cs">
+	  <Compile Update="Program\Settings.Designer.cs">
 	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Settings.settings</DependentUpon>
@@ -56,17 +58,16 @@
 	  <None Update="Modules\TestModule.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Properties\Settings.settings">
+	  <None Update="Program\Settings.settings">
 	    <Generator>PublicSettingsSingleFileGenerator</Generator>
 	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Properties\DataSources\" />
+	  <Folder Include="Program\DataSources\" />
 	</ItemGroup>
-
-
+	
 
 	<!-- Include XPression if it is found -->
 	<Choose>

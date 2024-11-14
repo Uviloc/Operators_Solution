@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
-using OperatorsSolution;
+using OperatorsSolution.Common;
+using OperatorsSolution.Program;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

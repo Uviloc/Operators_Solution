@@ -7,9 +7,10 @@ using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Reflection;
+using OperatorsSolution.Common;
 
 
-namespace OperatorsSolution
+namespace OperatorsSolution.Controls
 {
     #region >----------------- Collection Classes: ---------------------
     public class ClipPath()
@@ -61,7 +62,10 @@ namespace OperatorsSolution
         public List<ObjectChange> ObjectChanges { get; set; } = [];
 
 
-
+        public override string ToString()
+        {
+            return $"{Clip}";
+        }
         //// ButtonText
         //[Category(".Operation > Button"),
         //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
@@ -86,7 +90,7 @@ namespace OperatorsSolution
         protected override void InsertItem(int index, ClipPath item)
         {
             // If there are already items in the collection, set the new item's Scene to the last item's Scene
-            if (this.Count > 0)
+            if (Count > 0)
             {
                 //item.Scene ??= this.Last().Scene;
                 if (item.Track == null || item.Track == "StateTrack")
@@ -98,7 +102,7 @@ namespace OperatorsSolution
                     item.SceneDirector = this.Last().SceneDirector;
                 }
             }
-            
+
 
             base.InsertItem(index, item);
         }
@@ -141,7 +145,7 @@ namespace OperatorsSolution
             // Check if there are any subscribers to the Click event
             if (Click == null || Click.GetInvocationList().Length == 0)
             {
-                CommonFunctions.ControlWarning(this, "Please attach a function for the button: " + this.Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
+                CommonFunctions.ControlWarning(this, "Please attach a function for the button: " + Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
             }
             else
             {
@@ -295,8 +299,15 @@ namespace OperatorsSolution
         #endregion
 
 
-        
+
         #region >----------------- Functions: ---------------------
+
+        /*
+        Needs to play the scene in the graphics program
+        Needs to change the button text to the next clip
+        Needs 
+         */
+
         private int index = 0;
         public void PlayScenes(object? sender, EventArgs e)
         {

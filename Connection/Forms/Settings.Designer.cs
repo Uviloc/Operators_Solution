@@ -30,14 +30,10 @@ namespace OperatorsSolution
         /// </summary>
         private void InitializeComponent()
         {
-            TreeNode treeNode1 = new TreeNode("Node2");
-            TreeNode treeNode2 = new TreeNode("Node1", new TreeNode[] { treeNode1 });
-            TreeNode treeNode3 = new TreeNode("Folder 1", new TreeNode[] { treeNode2 });
             GraphicsSoftwareOption = new ComboBox();
             button1 = new Button();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
-            treeView1 = new TreeView();
             textBox3 = new TextBox();
             ProjectFile = new TextBox();
             button2 = new Button();
@@ -74,26 +70,12 @@ namespace OperatorsSolution
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(150, 213);
+            textBox2.Location = new Point(19, 502);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(359, 175);
+            textBox2.Size = new Size(498, 175);
             textBox2.TabIndex = 4;
-            textBox2.Text = "Other settings to include:\r\n? Visual style (Dark mode etc)\r\n? Keyboard shortcuts\r\nPreview on Hover";
-            // 
-            // treeView1
-            // 
-            treeView1.Location = new Point(37, 452);
-            treeView1.Name = "treeView1";
-            treeNode1.Name = "Node2";
-            treeNode1.Text = "Node2";
-            treeNode2.Name = "Node1";
-            treeNode2.Text = "Node1";
-            treeNode3.Name = "Node0";
-            treeNode3.Text = "Folder 1";
-            treeView1.Nodes.AddRange(new TreeNode[] { treeNode3 });
-            treeView1.Size = new Size(174, 238);
-            treeView1.TabIndex = 5;
+            textBox2.Text = "Other settings to include:\r\n? Visual style (Dark mode etc)\r\n? Keyboard shortcuts\r\nPreview on Hover\r\n? Display Keyboard shortcuts underneath buttons";
             // 
             // textBox3
             // 
@@ -132,7 +114,6 @@ namespace OperatorsSolution
             Controls.Add(button2);
             Controls.Add(ProjectFile);
             Controls.Add(textBox3);
-            Controls.Add(treeView1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
@@ -152,7 +133,6 @@ namespace OperatorsSolution
         private Button button1;
         private TextBox textBox1;
         private TextBox textBox2;
-        private TreeView treeView1;
         private TextBox textBox3;
         private TextBox ProjectFile;
         private Button button2;

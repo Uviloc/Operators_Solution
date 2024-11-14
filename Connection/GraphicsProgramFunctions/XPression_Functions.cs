@@ -4,10 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using OperatorsSolution.Common;
+using OperatorsSolution.Controls;
 
 
-namespace OperatorsSolution
+namespace OperatorsSolution.GraphicsProgramFunctions
 {
+    /// <summary>
+    /// All functions for the XPression Graphics Program.
+    /// </summary>
     internal class XP_Functions
     {
         #region >----------------- XPression play scene: ---------------------
@@ -62,7 +67,7 @@ namespace OperatorsSolution
             {
                 return;
             }
-            
+
             foreach (ObjectChange objectChange in objectList)
             {
                 SetMaterial(objectChange, scene, xpEngine);
@@ -90,7 +95,7 @@ namespace OperatorsSolution
                 // Exit in case no scene object has been found
                 return;
             }
-            
+
             switch (baseObject)
             {
                 case xpTextObject:
@@ -113,6 +118,11 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- XPression Display/Remove Preview: ---------------------
+        /// <summary>
+        /// Displays a preview of the buttons scene in the given preview box.
+        /// </summary>
+        /// <param name = "sender">The button with the scene information on it.</param>
+        /// <param name = "previewBox">The PictureBox control element where the preview should be displayed.</param>
         public static void DisplayPreview(object? sender, PictureBox previewBox)
         {
             if (sender is OperatorButton button && button.Scene != null)
@@ -122,7 +132,7 @@ namespace OperatorsSolution
                 xpEngine XPression = new();
                 if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
                 {
-                    XP_Functions.GetThumbnail(SceneGraphic, out xpImage? thumbnail);
+                    GetThumbnail(SceneGraphic, out xpImage? thumbnail);
 
                     if (thumbnail != null)
                     {
@@ -138,6 +148,10 @@ namespace OperatorsSolution
             }
         }
 
+        /// <summary>
+        /// Removes the preview in the given preview box.
+        /// </summary>
+        /// <param name = "previewBox">The PictureBox control element where the preview should be removed.</param>
         public static void RemovePreview(PictureBox previewBox)
         {
             previewBox.Image = null;
@@ -163,6 +177,11 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Trigger clip: ---------------------
+        /// <summary>
+        /// Plays out the clip at clipIndex given in the operatorButton in XPression.
+        /// </summary>
+        /// <param name = "operatorButton">The button control that has the clip path list.</param>
+        /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
             // Set all needed variables to the assigned properties in the ClipPath

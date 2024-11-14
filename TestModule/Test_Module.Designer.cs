@@ -1,4 +1,4 @@
-﻿using OperatorsSolution;
+﻿using OperatorsSolution.Controls;
 
 namespace TestModule
 {
@@ -52,7 +52,7 @@ namespace TestModule
             // 
             PreviewBox.Location = new Point(416, 566);
             PreviewBox.Name = "PreviewBox";
-            PreviewBox.Size = new Size(1071, 684);
+            PreviewBox.Size = new Size(653, 389);
             PreviewBox.TabIndex = 9;
             PreviewBox.TabStop = false;
             // 
@@ -108,7 +108,7 @@ namespace TestModule
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1951, 1373);
+            ClientSize = new Size(1528, 1121);
             Controls.Add(operatorButton2);
             Controls.Add(operatorButton1);
             Controls.Add(PreviewBox);

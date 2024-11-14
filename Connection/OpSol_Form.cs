@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using System.Reflection;
+using OperatorsSolution.Program;
 
 namespace OperatorsSolution
 {

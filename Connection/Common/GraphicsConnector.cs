@@ -1,4 +1,11 @@
-﻿#if HAS_XPRESSION
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+
+#if HAS_XPRESSION
 using XPression;
 #endif
 
@@ -10,41 +17,51 @@ using CasparCG;
 using vMix;
 #endif
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using OperatorsSolution.GraphicsProgramFunctions;
+using OperatorsSolution.Program;
+using OperatorsSolution.Controls;
 
-namespace OperatorsSolution
+namespace OperatorsSolution.Common
 {
-    // Class intended for distributing functions to the different Graphics Program functions
+    /// <summary>
+    /// Distribute the given function to the corresponding Graphics Program functions.
+    /// The Graphics Program is set in the project settings.
+    /// </summary>
     internal class GraphicsConnector
     {
-        // XPression Detection:
+        /// <summary>
+        /// Check to see if XPression is working (mostly used to check if XPression dongle with licence is present).
+        /// </summary>
+        /// /// <returns>true if succsesfull, false if the XPression is not functioning</returns>
         public static bool IsXPressionDonglePresent()
         {
             try
             {
+#if HAS_XPRESSION
                 xpEngine XPression = new();
                 return true;
+#endif
             }
             catch
             {
                 MessageBox.Show("XPression Dongle is not connected. Features are disabled.");
-                return false;
             }
+            return false;
         }
 
 
-        #region >----------------- DisplayPreview: ---------------------
+        #region >----------------- Display Preview: ---------------------
+        /// <summary>
+        /// Displays a preview of the buttons scene in the given preview box.
+        /// </summary>
+        /// <param name = "sender">The button with the scene information on it.</param>
+        /// <param name = "previewBox">The PictureBox control element where the preview should be displayed.</param>
         public static void DisplayPreview(object? sender, PictureBox previewBox)
         {
             switch (Properties.Settings.Default.GraphicsSoftware)
             {
-// XPRESSION:
+                // XPRESSION:
                 case GraphicsSoftware.XPression:
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
@@ -55,7 +72,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// CASPARCG:
+                // CASPARCG:
                 case GraphicsSoftware.CasparCG:
 #if HAS_CASPARCG   // If CasparCG reference exists, compile this code
                     CasparCG_Functions.DisplayPreview(sender, previewBox);
@@ -64,7 +81,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// VMIX:
+                // VMIX:
                 case GraphicsSoftware.vMix:
 #if HAS_VMIX        // If vMix reference exists, compile this code
                     VMIX_Functions.DisplayPreview(sender, previewBox);
@@ -77,11 +94,15 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Remove Preview: ---------------------
+        /// <summary>
+        /// Removes the preview in the given preview box.
+        /// </summary>
+        /// <param name = "previewBox">The PictureBox control element where the preview should be removed.</param>
         public static void RemovePreview(PictureBox previewBox)
         {
             switch (Properties.Settings.Default.GraphicsSoftware)
             {
-// XPRESSION:
+                // XPRESSION:
                 case GraphicsSoftware.XPression:
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
@@ -92,7 +113,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// CASPARCG:
+                // CASPARCG:
                 case GraphicsSoftware.CasparCG:
 #if HAS_CASPARCG   // If CasparCG reference exists, compile this code
                     CasparCG_Functions.RemovePreview(sender, previewBox);
@@ -101,7 +122,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// VMIX:
+                // VMIX:
                 case GraphicsSoftware.vMix:
 #if HAS_VMIX        // If vMix reference exists, compile this code
                     VMIX_Functions.RemovePreview(sender, previewBox);
@@ -114,11 +135,16 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Trigger clip: ---------------------
+        /// <summary>
+        /// Plays out the clip at clipIndex given in the operatorButton in XPression.
+        /// </summary>
+        /// <param name = "operatorButton">The button control that has the clip path list.</param>
+        /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
             switch (Properties.Settings.Default.GraphicsSoftware)
             {
-// XPRESSION:
+                // XPRESSION:
                 case GraphicsSoftware.XPression:
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
@@ -129,7 +155,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// CASPARCG:
+                // CASPARCG:
                 case GraphicsSoftware.CasparCG:
 #if HAS_CASPARCG   // If CasparCG reference exists, compile this code
                     CasparCG_Functions.RemovePreview(sender, previewBox);
@@ -138,7 +164,7 @@ namespace OperatorsSolution
 #endif
                     break;
 
-// VMIX:
+                // VMIX:
                 case GraphicsSoftware.vMix:
 #if HAS_VMIX        // If vMix reference exists, compile this code
                     VMIX_Functions.RemovePreview(sender, previewBox);
