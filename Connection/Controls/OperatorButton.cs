@@ -15,10 +15,10 @@ namespace OperatorsSolution.Controls
     #region >----------------- Collection Classes: ---------------------
     public class ClipPath()
     {
-        //// Scene
-        //[Category("Search"),
-        //Description("Which scene this button will trigger.")]
-        //public string? Scene { get; set; }
+        // Scene
+        [Category("Search"),
+        Description("Which scene this button will trigger.")]
+        public string? Scene { get; set; }
 
         // Scene Director
         [Category("Search"),
@@ -64,7 +64,13 @@ namespace OperatorsSolution.Controls
 
         public override string ToString()
         {
-            return $"{Clip}";
+            if(string.IsNullOrWhiteSpace(Clip))
+            {
+                return "No clip set!";
+            } else
+            {
+                return $"{Clip}";
+            }
         }
         //// ButtonText
         //[Category(".Operation > Button"),
@@ -92,17 +98,20 @@ namespace OperatorsSolution.Controls
             // If there are already items in the collection, set the new item's Scene to the last item's Scene
             if (Count > 0)
             {
-                //item.Scene ??= this.Last().Scene;
-                if (item.Track == null || item.Track == "StateTrack")
+                item.Scene ??= this.Last().Scene;
+
+
+                // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
+                if (item.Track == "StateTrack")
                 {
-                    item.Track = this.Last().Track;
+                    //item.Track = this.Last().Track ?? "StateTrack";
+                    //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
                 }
                 if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
                 {
-                    item.SceneDirector = this.Last().SceneDirector;
+                    //item.SceneDirector = this.Last().SceneDirector;
                 }
             }
-
 
             base.InsertItem(index, item);
         }
@@ -299,7 +308,7 @@ namespace OperatorsSolution.Controls
         #endregion
 
 
-
+        
         #region >----------------- Functions: ---------------------
 
         /*

@@ -10,13 +10,8 @@ using System.Windows.Forms;
 
 namespace OperatorsSolution.Controls
 {
-    public partial class Logic_Button : Button
+    public partial class Logic_Button : TableLayoutPanel
     {
-        
-        
-        public Button? button1;
-        public Button? button2;
-
         public string? LogicName { get; set; }
 
 
@@ -33,26 +28,9 @@ namespace OperatorsSolution.Controls
 
         private void SetupChildControls()
         {
-            this.Controls.Add(Hello);
-            this.Controls.Add(World);
-
-            //// Initialize button1
-            //button1 = new Button
-            //{
-            //    Text = "Button 1",
-            //    Location = new Point(10, 10)
-            //};
-
-            //// Initialize button2
-            //button2 = new Button
-            //{
-            //    Text = "Button 2",
-            //    Location = new Point(10, 50)
-            //};
-
-            //// Add buttons to the control's Controls collection
-            //Controls.Add(button1);
-            //Controls.Add(button2);
+            this.Controls.Add(Main);
+            this.Controls.Add(Left);
+            this.Controls.Add(Right);
         }
     }
 }

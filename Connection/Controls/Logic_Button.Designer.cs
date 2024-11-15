@@ -28,39 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Hello = new Button();
-            World = new Button();
+            Main = new OperatorButton();
+            Left = new OperatorButton();
+            Right = new OperatorButton();
             SuspendLayout();
             // 
-            // Hello
+            // Main
             // 
-            Hello.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Hello.AutoSize = true;
-            Hello.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            Hello.BackColor = SystemColors.ControlDarkDark;
-            Hello.Name = "Hello";
-            Hello.Size = new Size(100, 23);
-            Hello.TabIndex = 0;
-            Hello.Text = "Hello";
-            Hello.UseVisualStyleBackColor = false;
+            Main.Dock = DockStyle.Fill;
+            Main.Name = "Main";
+            Main.PreviewBox = null;
+            Main.Scene = null;
+            Main.Size = new Size(75, 23);
+            Main.TabIndex = 0;
+            Main.UseVisualStyleBackColor = false;
             // 
-            // World
+            // Left
             // 
-            World.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            World.AutoSize = true;
-            World.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            World.BackColor = SystemColors.ActiveCaption;
-            World.Name = "World";
-            World.Size = new Size(75, 50);
-            World.TabIndex = 0;
-            World.Text = "World";
-            World.UseVisualStyleBackColor = false;
+            Left.Dock = DockStyle.Left;
+            Left.Name = "Left";
+            Left.PreviewBox = null;
+            Left.Scene = null;
+            Left.Size = new Size(75, 23);
+            Left.TabIndex = 0;
+            Left.UseVisualStyleBackColor = false;
+            // 
+            // Right
+            // 
+            Right.Dock = DockStyle.Right;
+            Right.Name = "Right";
+            Right.PreviewBox = null;
+            Right.Scene = null;
+            Right.Size = new Size(75, 23);
+            Right.TabIndex = 0;
+            Right.UseVisualStyleBackColor = false;
+            // 
+            // Logic_Button
+            // 
+            ColumnCount = 1;
+            RowCount = 2;
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button Hello;
-        private Button World;
+        private OperatorButton Main;
+        private new OperatorButton Left;
+        private new OperatorButton Right;
     }
 }

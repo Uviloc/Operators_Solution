@@ -46,9 +46,9 @@ namespace OperatorsSolution
             // 
             // InnerPannel
             // 
-            InnerPannel.Location = new Point(583, 23);
+            InnerPannel.Location = new Point(651, 23);
             InnerPannel.Name = "InnerPannel";
-            InnerPannel.Size = new Size(1669, 1408);
+            InnerPannel.Size = new Size(1601, 1408);
             InnerPannel.TabIndex = 9;
             // 
             // moduleLoader1
@@ -67,7 +67,7 @@ namespace OperatorsSolution
             clipPath2.Clip = null;
             operatorButton1.ClipPaths.Add(clipPath1);
             operatorButton1.ClipPaths.Add(clipPath2);
-            operatorButton1.Location = new Point(213, 118);
+            operatorButton1.Location = new Point(27, 23);
             operatorButton1.Name = "operatorButton1";
             operatorButton1.PreviewBox = null;
             operatorButton1.Scene = null;
@@ -77,13 +77,17 @@ namespace OperatorsSolution
             // 
             // logic_Button1
             // 
-            logic_Button1.Location = new Point(44, 339);
+            logic_Button1.ColumnCount = 1;
+            logic_Button1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            logic_Button1.Location = new Point(84, 306);
             logic_Button1.LogicName = null;
             logic_Button1.Name = "logic_Button1";
-            logic_Button1.Size = new Size(249, 201);
+            logic_Button1.RowCount = 1;
+            logic_Button1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            logic_Button1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            logic_Button1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            logic_Button1.Size = new Size(461, 168);
             logic_Button1.TabIndex = 12;
-            logic_Button1.Text = "logic_Button1";
-            logic_Button1.UseVisualStyleBackColor = true;
             // 
             // OpSol_Form
             // 

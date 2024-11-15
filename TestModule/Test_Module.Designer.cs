@@ -42,6 +42,11 @@ namespace TestModule
             ClipPath clipPath10 = new ClipPath();
             ClipPath clipPath11 = new ClipPath();
             ClipPath clipPath12 = new ClipPath();
+            ClipPath clipPath13 = new ClipPath();
+            ClipPath clipPath14 = new ClipPath();
+            ClipPath clipPath15 = new ClipPath();
+            ClipPath clipPath16 = new ClipPath();
+            ClipPath clipPath17 = new ClipPath();
             PreviewBox = new PictureBox();
             operatorButton1 = new OperatorButton();
             operatorButton2 = new OperatorButton();
@@ -59,15 +64,25 @@ namespace TestModule
             // operatorButton1
             // 
             clipPath1.Clip = "inDuoTitle";
+            clipPath1.Scene = "";
             clipPath2.Clip = "toFightGraphic";
+            clipPath2.Scene = "";
             clipPath3.Clip = "weightDivisionIn";
+            clipPath3.Scene = "";
             clipPath4.Clip = "weightDivisionOut";
+            clipPath4.Scene = "";
             clipPath5.Clip = "toReduced";
+            clipPath5.Scene = "";
             clipPath6.Clip = "sponsorIn";
+            clipPath6.Scene = "";
             clipPath7.Clip = "sponsorOut";
+            clipPath7.Scene = "";
             clipPath8.Clip = "weightDivisionIn1";
+            clipPath8.Scene = "";
             clipPath9.Clip = "weightDivisionOut1";
+            clipPath9.Scene = "";
             clipPath10.Clip = "out";
+            clipPath10.Scene = "";
             operatorButton1.ClipPaths.Add(clipPath1);
             operatorButton1.ClipPaths.Add(clipPath2);
             operatorButton1.ClipPaths.Add(clipPath3);
@@ -89,13 +104,30 @@ namespace TestModule
             // operatorButton2
             // 
             clipPath11.Clip = "in";
+            clipPath11.Scene = "UpcomingEvents";
             clipPath11.SceneDirector = "SceneDirector1";
             clipPath11.Track = "Track1";
             clipPath12.Clip = "out";
+            clipPath12.Scene = "UpcomingEvents";
             clipPath12.SceneDirector = "SceneDirector1";
             clipPath12.Track = "Track1";
+            clipPath13.Clip = "in1";
+            clipPath13.Scene = "FighterEntryBlue";
+            clipPath14.Clip = "out1";
+            clipPath14.Scene = "FighterEntryBlue";
+            clipPath15.Clip = "in4";
+            clipPath15.Scene = "FighterEntryBlue";
+            clipPath16.Clip = "out4";
+            clipPath16.Scene = "FighterEntryBlue";
+            clipPath17.Clip = "outAll";
+            clipPath17.Scene = "FighterEntryBlue";
             operatorButton2.ClipPaths.Add(clipPath11);
             operatorButton2.ClipPaths.Add(clipPath12);
+            operatorButton2.ClipPaths.Add(clipPath13);
+            operatorButton2.ClipPaths.Add(clipPath14);
+            operatorButton2.ClipPaths.Add(clipPath15);
+            operatorButton2.ClipPaths.Add(clipPath16);
+            operatorButton2.ClipPaths.Add(clipPath17);
             operatorButton2.Location = new Point(806, 304);
             operatorButton2.Name = "operatorButton2";
             operatorButton2.PreviewBox = PreviewBox;

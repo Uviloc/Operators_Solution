@@ -182,7 +182,7 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         /// </summary>
         /// <param name = "operatorButton">The button control that has the clip path list.</param>
         /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
-        public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
+        public static void TriggerClip(OperatorButton operatorButton, int clipIndex)    // "PUBLIC STATIC XPSCENE", OR "OUT XPSCENE" then use this to call the same scene if it already exists
         {
             // Set all needed variables to the assigned properties in the ClipPath
             ClipPathCollection clipPath = operatorButton.ClipPaths;
@@ -191,7 +191,8 @@ namespace OperatorsSolution.GraphicsProgramFunctions
                 return;
             }
             //string? scene = clipPath[clipIndex].Scene;
-            string? scene = operatorButton.Scene;
+            //string? scene = operatorButton.Scene;
+            string? scene = clipPath[clipIndex].Scene;
             string? clip = clipPath[clipIndex].Clip;
             string? track = clipPath[clipIndex].Track;
             string? sceneDirector = clipPath[clipIndex].SceneDirector;
