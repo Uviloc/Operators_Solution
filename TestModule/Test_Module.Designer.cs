@@ -64,7 +64,7 @@ namespace TestModule
             // operatorButton1
             // 
             clipPath1.Clip = "inDuoTitle";
-            clipPath1.Scene = "";
+            clipPath1.Scene = "FightGraphic";
             clipPath2.Clip = "toFightGraphic";
             clipPath2.Scene = "";
             clipPath3.Clip = "weightDivisionIn";

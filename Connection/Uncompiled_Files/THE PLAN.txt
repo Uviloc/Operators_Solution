@@ -2,12 +2,8 @@
 
 ___________________________________________________________________Questions:________________________________________________________________________________________________
 Hylke:
-Is displaying the thumbnail of the scene good enough as a preview
 How can I get the live game up with preview
-Should the program still be in visual studio so editing is possible???? Like have a library dll file that enables these functions
-Am I allowed to just copy the dll of xpression into my project so they dont need to be loaded in with code
-Can I get the CasparCG project for Enfusion
-Scott wanted icon for twitter to be for x in Enfusion
+Send Ross mail about xpTools having high memory and breaking the live view
 
 Elsa:
 Pictures for presentation
@@ -15,12 +11,13 @@ Setup for test/remaining questions
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
 ------------ Week 7: -----------
-		>	Is displaying the thumbnail of the scene good enough as a preview
-		>	How can I get the live game up with preview
-		>	Should the program still be in visual studio so editing is possible???? Like have a library dll file that enables these functions
-		>	Am I allowed to just copy the dll of xpression into my project so they dont need to be loaded in with code
-		>	Can I get the CasparCG project for Enfusion
-		>	Scott wanted icon for twitter to be for x in Enfusion
+DONE	>	Is displaying the thumbnail of the scene good enough as a preview: already fixed before discussion
+WIP		>	How can I get the live game up with preview:
+DONE	>	Should the program still be in visual studio so editing is possible???? Like have a library dll file that enables these functions:
+				depends on what is easiest. doesnt matter if robust
+DONE	>	Am I allowed to just copy the dll of xpression into my project so they dont need to be loaded in with code: yes they are public
+DONE	>	Can I get the CasparCG project for Enfusion: on server under graphics folder
+DONE	>	Scott wanted icon for twitter to be for x in Enfusion: made in flash so no
 
 ------------ Week 4: -----------
 DONE	>	GitHub eventually put it in the main repository but fine for now
@@ -208,6 +205,7 @@ Problems with modular:
 _______________________________________________________________Realistic Controls:____________________________________________________________________________________________
 ------------ Functions: -----------
 Lock another control with normal checkbox but common function?
+Hide other buttons before showing same layer (only with different scene and same layer) > getOnline, the ones that are online can be on others are off
 
 
 ------------ Controls: -----------
@@ -233,9 +231,13 @@ Suspend player
 
 API
 Database >
-Have a function to hide certain players in a team when showing the team in the matchup
+	Have a function to hide certain players in a team when showing the team in the matchup
 
 
 ------------ Left from Enfusion/8TKO: -----------
 -Match list (next/previous player in list etc)
-efefef
+
+
+
+
+xpEngine.GetSceneCopyByName

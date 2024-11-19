@@ -1,4 +1,365 @@
-﻿< !--Include XPression if it is found -->
+﻿#region UNUSED:
+#region >----------------- XPression play preview scene: ---------------------
+/// <summary>
+/// Plays out the scene in XPression when this project is open in XPression.
+/// </summary>
+/// <param name = "scene">The xpScene in which the clip is located in.</param>
+/// <param name = "sceneDirectorName">The name of the scene director.</param>
+/// /// <param name = "clip">The name of the clip that needs to be played.</param>
+/// <param name = "previewChannel">The channel on which the clip needs to play.</param>
+/// <param name="layer">The layer on which the clip needs to play.</param>
+/// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
+public static bool PlayPreview(xpScene scene, string? sceneDirectorName, string clip, string? track, out xpImage? image, int previewChannel = 1, int layer = 1)
+{
+    image = null;
+    // Set to be a default of the same name as its scene if it was not filled in
+    if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
+    {
+        sceneDirectorName = scene.Name;
+        //sceneDirectorName = scene.SceneDirector
+    }
+    if (string.IsNullOrWhiteSpace(track))
+    {
+        track = "StateTrack";
+    }
+
+    if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
+        !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track) ||
+        !Scene_State_Track.GetClipByName(clip, out xpSceneDirectorClip State_Clip))
+    {
+        return false;
+    }
+
+    ////int defaultFrame = Scene_Director.DefaultFrameMarker;
+    //int lastFrameOfClip = State_Clip.Position + State_Clip.Duration - 1;
+    //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip);
+    //scene.SetOnline(previewChannel, layer);
+    //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip + 1, true);
+    ////scene.GetPreviewSceneDirector(out xpSceneDirector previewSD);
+    ////previewSD.
+    //scene.GetRenderedFrame(lastFrameOfClip, scene.Width, scene.Height, out image);
+
+    scene.GetThumbnail(out image);
+    return true;
+}
+#endregion
+
+#region >----------------- XPression get single object: ---------------------
+/// < summary >
+/// Gives the material of the specified object in a scene, given that this project is open in XPression.
+/// </summary>
+/// <param name="objectName">The name of the object (in XPression) to find the material of.</param>
+/// <param name="scene">The scene in which this material needs to be searched.</param>
+/// <returns>The IxpBaseObject as the material.</returns>
+public static IxpBaseObject getMaterialFromScene(string objectName, xpScene scene)
+{
+    scene.GetObjectByName(objectName, out xpBaseObject sceneObject);
+
+    return sceneObject;
+}
+#endregion
+
+#region >----------------- XPression play preview scene: ---------------------
+/// <summary>
+/// Plays out the scene in XPression when this project is open in XPression.
+/// </summary>
+/// <param name = "scene">The xpScene in which the clip is located in.</param>
+/// <param name = "sceneDirectorName">The name of the scene director.</param>
+/// <param name = "previewChannel">The channel on which the clip needs to play.</param>
+/// <param name="layer">The layer on which the clip needs to play.</param>
+/// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
+public static bool StopPreview(xpScene scene)
+{
+    // Set to be a default of the same name as its scene if it was not filled in
+    //if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
+    //{
+    //    sceneDirectorName = scene.Name;
+    //    //sceneDirectorName = scene.SceneDirector
+    //}
+    //if (string.IsNullOrWhiteSpace(track))
+    //{
+    //    track = "StateTrack";
+    //}
+
+    //if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
+    //    !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track))
+    //{ return false; }
+
+    //int defaultFrame = Scene_Director.DefaultFrameMarker;
+    //Scene_Director.PlayRange(defaultFrame, defaultFrame + 1);
+    scene.SetPreview();
+    return true;
+}
+#endregion
+#endregion
+
+
+
+
+private Bitmap? cachedBitmap;
+private xpImage? cachedImage;
+private byte[]? reusableBuffer;
+private DateTime lastUpdate = DateTime.MinValue;
+
+private Bitmap OptimizedGetBitmap(xpImage image)
+{
+    const int updateIntervalMs = 100;
+
+    // Throttle updates
+    if ((DateTime.Now - lastUpdate).TotalMilliseconds < updateIntervalMs && cachedImage == image)
+    {
+        return cachedBitmap;
+    }
+
+    lastUpdate = DateTime.Now;
+
+    // Dispose previous bitmap
+    DisposeBitmap(ref cachedBitmap);
+
+    // Retrieve raw data
+    var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+    if (adapter is Array byteArray)
+    {
+        reusableBuffer = GetReusableBuffer(byteArray.Length);
+        Buffer.BlockCopy(byteArray, 0, reusableBuffer, 0, byteArray.Length);
+
+        // Create a new bitmap
+        cachedBitmap = CreateBitmapFromRawBmpData(reusableBuffer);
+        cachedImage = image;
+    }
+    else
+    {
+        throw new InvalidOperationException("Failed to extract BMP data from Adapter.");
+    }
+
+    return cachedBitmap;
+}
+
+private byte[]? buffer;
+
+private byte[] GetReusableBuffer(int size)
+{
+    if (buffer == null || buffer.Length < size)
+    {
+        buffer = new byte[size];
+    }
+    return buffer;
+}
+
+private void DisposeBitmap(ref Bitmap? bmp)
+{
+    bmp?.Dispose();
+    bmp = null;
+}
+
+private Bitmap? GetBitmapFromXpImage(xpImage image)
+{
+    if (cachedImage == image)
+    {
+        return cachedBitmap;
+    }
+
+    // Dispose the previous bitmap
+    DisposeBitmap(ref cachedBitmap);
+
+    // Update cache
+    cachedImage = image;
+    cachedBitmap = ConvertToBitmapFromXpImage(image);
+
+    return cachedBitmap;
+}
+
+
+
+
+
+
+
+
+
+private static Bitmap ConvertToBitmapFromXpImage(xpImage image)
+{
+    // Extract the raw BMP data from the Adapter
+    var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+    if (adapter is Array byteArray)
+    {
+        byte[] rawData = new byte[byteArray.Length];
+        Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+        // Create a Bitmap from the raw BMP data
+        return CreateBitmapFromRawBmpData(rawData);
+    }
+
+    throw new InvalidOperationException("Failed to extract BMP data from Adapter.");
+}
+
+private static Bitmap CreateBitmapFromRawBmpData(byte[] rawData)
+{
+    using var ms = new MemoryStream(rawData);
+    return new Bitmap(ms);
+}
+
+
+
+
+
+
+
+
+private static void InspectAdapter(xpImage image)
+{
+    var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+    if (adapter != null)
+    {
+        byte[] rawData = ExtractRawDataFromAdapter(adapter);
+        System.Diagnostics.Debug.WriteLine($"Raw Data Length: {rawData.Length}");
+        System.Diagnostics.Debug.WriteLine($"First 16 Bytes: {string.Join(", ", rawData.Take(16))}");
+        //var adapterType = adapter.GetType();
+        //System.Diagnostics.Debug.WriteLine($"Adapter Type: {adapterType.FullName}");
+        //foreach (var property in adapterType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"Property: {property.Name}, Type: {property.PropertyType}");
+        //}
+        //foreach (var field in adapterType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"Field: {field.Name}, Type: {field.FieldType}");
+        //}
+    }
+    else
+    {
+        System.Diagnostics.Debug.WriteLine("Adapter is null.");
+    }
+}
+
+private static byte[] ExtractRawDataFromAdapter(object adapter)
+{
+    if (adapter is Array byteArray && byteArray.GetType().GetElementType() == typeof(byte))
+    {
+        byte[] rawData = new byte[byteArray.Length];
+        Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+        return rawData;
+    }
+    throw new InvalidOperationException("Adapter is not a valid byte array.");
+}
+
+
+
+
+
+
+
+
+
+
+
+        //private static void RenderRawDataToPictureBox(PictureBox pictureBox, xpImage image)
+        //{
+        //    var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+        //    if (adapter is Array byteArray)
+        //    {
+        //        byte[] rawData = new byte[byteArray.Length];
+        //        Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+//        using (var ms = new MemoryStream(rawData))
+//        {
+//            // Use the Graphics object of the PictureBox to render directly
+//            using (var bmp = new Bitmap(ms))
+//            {
+//                pictureBox.Image = bmp; // Assign directly to the PictureBox
+//            }
+//        }
+//    }
+//    else
+//    {
+//        throw new InvalidOperationException("Failed to extract image data.");
+//    }
+//}
+//private static void RenderRawPixelsDirectly(PictureBox pictureBox, xpImage image, int width, int height)
+//{
+//    var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+//    if (adapter is Array byteArray)
+//    {
+//        byte[] rawData = new byte[byteArray.Length];
+//        Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+//        pictureBox.Paint += (s, e) =>
+//        {
+//            using (var ms = new MemoryStream(rawData))
+//            {
+//                Bitmap bmp = new Bitmap(ms);
+
+//                // Draw directly to the control
+//                e.Graphics.DrawImage(bmp, new Rectangle(0, 0, width, height));
+//            }
+//        };
+//        pictureBox.Invalidate(); // Force redraw
+//    }
+//}
+
+
+
+
+
+//private static void RenderRawPixelsDirectly(PictureBox pictureBox, xpImage image, int width, int height)
+//{
+//    // Detach previous Paint event to avoid multiple handlers
+//    pictureBox.Paint -= PictureBox_Paint;
+
+//    void PictureBox_Paint(object s, PaintEventArgs e)
+//    {
+//        var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+//        if (adapter is Array byteArray)
+//        {
+//            byte[] rawData = new byte[byteArray.Length];
+//            Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+//            using (var ms = new MemoryStream(rawData))
+//            using (var bmp = new Bitmap(ms)) // Ensure bitmap is disposed
+//            {
+//                e.Graphics.DrawImage(bmp, new Rectangle(0, 0, width, height));
+//            }
+//        }
+//    }
+
+//    // Attach the updated Paint event
+//    pictureBox.Paint += PictureBox_Paint;
+//    pictureBox.Invalidate(); // Force redraw
+
+//private static void UpdatePictureBoxInBackground(PictureBox pictureBox, xpImage image)
+//{
+//    Task.Run(() =>
+//    {
+//        var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+//        if (adapter is Array byteArray)
+//        {
+//            byte[] rawData = new byte[byteArray.Length];
+//            Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+//            using (var ms = new MemoryStream(rawData))
+//            {
+//                Bitmap bmp = new Bitmap(ms);
+
+//                // Update PictureBox on the UI thread
+//                pictureBox.Invoke((System.Windows.Forms.MethodInvoker)(() =>
+//                {
+//                    pictureBox.Image?.Dispose(); // Dispose previous image
+//                    pictureBox.Image = bmp;
+//                }));
+//            }
+//        }
+//    });
+//}
+
+
+
+
+
+
+
+
+
+
+< !--Include XPression if it is found -->
 	<Choose>
 		<When Condition="Exists('$(XPressionFolder)') And Exists('$(XPToolsLibFolder)')">
 			<!-- Use Wildcards to find DLL File -->

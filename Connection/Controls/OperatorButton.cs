@@ -12,9 +12,66 @@ using OperatorsSolution.Common;
 
 namespace OperatorsSolution.Controls
 {
-    #region >----------------- Collection Classes: ---------------------
+    #region >----------------- ObjectChanges Collection Class: ---------------------
+    public class ObjectChange()
+    {
+        [Category("Object Change")]
+        public string? SceneObject { get; set; }
+
+        // SET LATER TO SOMETHING FROM DATA MANAGER
+        [Category("Object Change")]
+        public string? SetTo { get; set; }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrWhiteSpace(SceneObject))
+            {
+                return "No clip set!";
+            }
+            else
+            {
+                return $"{SceneObject}";
+            }
+        }
+    }
+
+    //public class ObjectChangeCollection : Collection<ObjectChange>
+    //{
+    //    protected override void InsertItem(int index, ClipPath item)
+    //    {
+    //        // If there are already items in the collection, set the new item's Scene to the last item's Scene
+    //        if (Count > 0)
+    //        {
+    //            item.Scene ??= this.Last().Scene;
+
+
+    //            // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
+    //            if (item.Track == "StateTrack")
+    //            {
+    //                //item.Track = this.Last().Track ?? "StateTrack";
+    //                //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
+    //            }
+    //            if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
+    //            {
+    //                //item.SceneDirector = this.Last().SceneDirector;
+    //            }
+    //        }
+
+    //        base.InsertItem(index, item);
+    //    }
+    //}
+    #endregion
+
+    #region >----------------- ClipPath Collection Class: ---------------------
     public class ClipPath()
     {
+        //// ButtonText
+        //[Category(".Operation > Button"),
+        //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
+        //DefaultValue("Show + Same as next [Clip]")]
+        //public string? ButtonText { get; set; } = "Show + Same as next [Clip]";
+
+
         // Scene
         [Category("Search"),
         Description("Which scene this button will trigger.")]
@@ -53,15 +110,14 @@ namespace OperatorsSolution.Controls
 
 
 
+        //// Object Changes
+        //[Category("Changes"),
+        //Description("Texts in the scene that need to be changed.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public List<ObjectChange> ObjectChanges { get; set; } = [];
 
 
-        // Object Changes
-        [Category("Changes"),
-        Description("Texts in the scene that need to be changed.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<ObjectChange> ObjectChanges { get; set; } = [];
-
-
+        // Override to string for nameplate
         public override string ToString()
         {
             if(string.IsNullOrWhiteSpace(Clip))
@@ -72,46 +128,32 @@ namespace OperatorsSolution.Controls
                 return $"{Clip}";
             }
         }
-        //// ButtonText
-        //[Category(".Operation > Button"),
-        //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
-        //DefaultValue("Show + Same as next [Clip]")]
-        //public string? ButtonText { get; set; } = "Show + Same as next [Clip]";
     }
 
-    public class ObjectChange()
-    {
-        [Category("Object Change")]
-        public string? SceneObject { get; set; }
-
-        // SET LATER TO SOMETHING FROM DATA MANAGER
-        [Category("Object Change")]
-        public string? SetTo { get; set; }
-    }
-
-
-    // Done to dynamicly set the Scene to the previous Scene in the list
+    
     public class ClipPathCollection : Collection<ClipPath>
     {
         protected override void InsertItem(int index, ClipPath item)
         {
             // If there are already items in the collection, set the new item's Scene to the last item's Scene
-            if (Count > 0)
-            {
-                item.Scene ??= this.Last().Scene;
+            if (Count > 0) item.Scene ??= this.Last().Scene;
+
+            //if (Count > 0)
+            //{
+            //    item.Scene ??= this.Last().Scene;
 
 
-                // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
-                if (item.Track == "StateTrack")
-                {
-                    //item.Track = this.Last().Track ?? "StateTrack";
-                    //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
-                }
-                if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
-                {
-                    //item.SceneDirector = this.Last().SceneDirector;
-                }
-            }
+            //    // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
+            //    if (item.Track == "StateTrack")
+            //    {
+            //        //item.Track = this.Last().Track ?? "StateTrack";
+            //        //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
+            //    }
+            //    if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
+            //    {
+            //        //item.SceneDirector = this.Last().SceneDirector;
+            //    }
+            //}
 
             base.InsertItem(index, item);
         }
@@ -125,20 +167,26 @@ namespace OperatorsSolution.Controls
     {
         #region >----------------- Add properties: ---------------------
         // ClipPath
-        [Category(".Operation > Search"),
-        Description("Add clips to be played here.")]
+        [Category(".Operation > Search")]
+        [Description("Add clips to be played here.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ClipPathCollection ClipPaths { get; set; } = [];
 
         // ScenePreview
-        [Category(".Operation > Search"),
-        Description("The scene from which the preview is taken.")]
+        [Category(".Operation > Search")]
+        [Description("The scene from which the preview is taken.")]
         public string? Scene { get; set; }
 
         // PreviewBox           TO BE MOVED TO PROJECT SETTINGS
-        [Category(".Operation > Search"),
-        Description("The PictureBox where the preview will be displayed.")]
+        [Category(".Operation > Search")]
+        [Description("The PictureBox where the preview will be displayed.")]
         public PictureBox? PreviewBox { get; set; }
+
+        // ObjectChanges
+        [Category(".Operation > Scene Changes")]
+        [Description("A list of changes that are made to the scene before displaying.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------
@@ -177,7 +225,7 @@ namespace OperatorsSolution.Controls
         public new event EventHandler? Enter;
         protected override void OnMouseEnter(EventArgs e)
         {
-            base.OnMouseHover(e);
+            base.OnMouseEnter(e);
             Enter?.Invoke(this, e);
         }
 
@@ -186,7 +234,7 @@ namespace OperatorsSolution.Controls
         public new event EventHandler? Leave;
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseHover(e);
+            base.OnMouseLeave(e);
             Leave?.Invoke(this, e);
         }
         #endregion
@@ -194,10 +242,10 @@ namespace OperatorsSolution.Controls
         #region >----------------- Recategorize some properties: ---------------------
 
         // BackColor
-        [Category(".Operation > Visuals"),
-        Description("The background color of the control."),
-        DisplayName("Background Color"),
-        DefaultValue(typeof(Color), "110, 110, 110")]
+        [Category(".Operation > Visuals")]
+        [Description("The background color of the control.")]
+        [DisplayName("Background Color")]
+        [DefaultValue(typeof(Color), "110, 110, 110")]
         public new Color BackColor
         {
             get => base.BackColor;
@@ -206,10 +254,10 @@ namespace OperatorsSolution.Controls
 
 
         // ForeColor
-        [Category(".Operation > Visuals"),
-        Description("The foreground color of this component, which is used to display text."),
-        DisplayName("Font Color"),
-        DefaultValue(typeof(Color), "White")]
+        [Category(".Operation > Visuals")]
+        [Description("The foreground color of this component, which is used to display text.")]
+        [DisplayName("Font Color")]
+        [DefaultValue(typeof(Color), "White")]
         [Editor(typeof(ColorEditor), typeof(UITypeEditor))]
         public new Color ForeColor
         {
@@ -219,10 +267,10 @@ namespace OperatorsSolution.Controls
 
 
         // Font
-        [Category(".Operation > Visuals"),
-        Description("The font used to display text with the control."),
-        DisplayName("Font"),
-        DefaultValue(typeof(Font), "Arial, 11pt")]
+        [Category(".Operation > Visuals")]
+        [Description("The font used to display text with the control.")]
+        [DisplayName("Font")]
+        [DefaultValue(typeof(Font), "Arial, 11pt")]
         public new Font Font
         {
             get => base.Font;
@@ -231,10 +279,10 @@ namespace OperatorsSolution.Controls
 
 
         // FlatStyle
-        [Category(".Operation > Visuals"),
-        Description("Determins the appearence of the control when a user moves the mouse over the control and clicks."),
-        DisplayName("FlatStyle"),
-        DefaultValue(typeof(FlatStyle), "Popup")]
+        [Category(".Operation > Visuals")]
+        [Description("Determins the appearence of the control when a user moves the mouse over the control and clicks.")]
+        [DisplayName("FlatStyle")]
+        [DefaultValue(typeof(FlatStyle), "Popup")]
         public new FlatStyle FlatStyle
         {
             get => base.FlatStyle;
@@ -243,10 +291,10 @@ namespace OperatorsSolution.Controls
 
 
         // Cursor
-        [Category(".Operation > Visuals"),
-        Description("The cursor that appears when the pointer moves over the control."),
-        DisplayName("Cursor"),
-        DefaultValue(typeof(Cursor), "Default")]
+        [Category(".Operation > Visuals")]
+        [Description("The cursor that appears when the pointer moves over the control.")]
+        [DisplayName("Cursor")]
+        [DefaultValue(typeof(Cursor), "Default")]
         public new Cursor Cursor
         {
             get => base.Cursor;
@@ -265,9 +313,9 @@ namespace OperatorsSolution.Controls
 
 
         // Text
-        [Category(".Operation > Visuals"),
-        Description("The text associated with the control."),
-        DefaultValue(typeof(string), "Show [Scene]")]
+        [Category(".Operation > Visuals")]
+        [Description("The text associated with the control.")]
+        [DefaultValue(typeof(string), "Show [Scene]")]
         public new string Text
         {
             get => base.Text;

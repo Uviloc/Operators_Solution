@@ -1,3 +1,6 @@
+[HIGHEST] Scenes stop in xpression if xpressionImage to bitmap is used too much
+
+
 [HIGH] When switching scenes in xpression, the program XPression window freezes and fails
 [HIGH] When having multiple buttons, the clip index is still set high for the new button press
 
@@ -5,3 +8,4 @@
 
 [LOW] If button is pressed while scene could not be found (due to missing reference/wrong graphics software settings) the clip index still advances.
 	Could be good for a missing clip, but not maybe still fix to some extend
+[LOW] ClipPath still changes previous items when they were statetrack and new one is set to statetrack

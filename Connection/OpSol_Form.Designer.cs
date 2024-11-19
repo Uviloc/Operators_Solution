@@ -14,7 +14,11 @@ namespace OperatorsSolution
             InnerPannel = new Panel();
             moduleLoader1 = new ModuleLoader();
             operatorButton1 = new OperatorButton();
+            pictureBox1 = new PictureBox();
             logic_Button1 = new Logic_Button();
+            textBox1 = new TextBox();
+            button3 = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -64,22 +68,36 @@ namespace OperatorsSolution
             // operatorButton1
             // 
             clipPath1.Clip = "in";
+            clipPath1.Scene = "UpcomingEvents";
+            clipPath1.SceneDirector = "SceneDirector1";
+            clipPath1.Track = "Track1";
             clipPath2.Clip = null;
+            clipPath2.Scene = "UpcomingEvents";
+            clipPath2.SceneDirector = "SceneDirector1";
+            clipPath2.Track = "Track1";
             operatorButton1.ClipPaths.Add(clipPath1);
             operatorButton1.ClipPaths.Add(clipPath2);
             operatorButton1.Location = new Point(27, 23);
             operatorButton1.Name = "operatorButton1";
-            operatorButton1.PreviewBox = null;
-            operatorButton1.Scene = null;
+            operatorButton1.PreviewBox = pictureBox1;
+            operatorButton1.Scene = "UpcomingEvents";
             operatorButton1.Size = new Size(332, 182);
             operatorButton1.TabIndex = 11;
             operatorButton1.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(385, 36);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(150, 75);
+            pictureBox1.TabIndex = 13;
+            pictureBox1.TabStop = false;
             // 
             // logic_Button1
             // 
             logic_Button1.ColumnCount = 1;
             logic_Button1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            logic_Button1.Location = new Point(84, 306);
+            logic_Button1.Location = new Point(198, 1357);
             logic_Button1.LogicName = null;
             logic_Button1.Name = "logic_Button1";
             logic_Button1.RowCount = 1;
@@ -89,11 +107,31 @@ namespace OperatorsSolution
             logic_Button1.Size = new Size(461, 168);
             logic_Button1.TabIndex = 12;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(121, 304);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(311, 31);
+            textBox1.TabIndex = 14;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(504, 335);
+            button3.Name = "button3";
+            button3.Size = new Size(126, 115);
+            button3.TabIndex = 15;
+            button3.Text = "button3";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += TestButton;
+            // 
             // OpSol_Form
             // 
             AllowDrop = true;
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(2290, 1479);
+            Controls.Add(button3);
+            Controls.Add(textBox1);
+            Controls.Add(pictureBox1);
             Controls.Add(logic_Button1);
             Controls.Add(operatorButton1);
             Controls.Add(moduleLoader1);
@@ -106,7 +144,9 @@ namespace OperatorsSolution
             ShowIcon = false;
             Text = "Operators Solution";
             TopMost = true;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         private Button button1;
@@ -116,5 +156,8 @@ namespace OperatorsSolution
         private ModuleLoader moduleLoader1;
         private OperatorButton operatorButton1;
         private Logic_Button logic_Button1;
+        private PictureBox pictureBox1;
+        private TextBox textBox1;
+        private Button button3;
     }
 }

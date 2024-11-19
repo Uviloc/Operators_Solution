@@ -6,6 +6,9 @@ using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using OperatorsSolution.Common;
 using OperatorsSolution.Controls;
+using System.Reflection;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 
 namespace OperatorsSolution.GraphicsProgramFunctions
@@ -118,6 +121,8 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         #endregion
 
         #region >----------------- XPression Display/Remove Preview: ---------------------
+
+        public static xpImage? imageOut;
         /// <summary>
         /// Displays a preview of the buttons scene in the given preview box.
         /// </summary>
@@ -132,14 +137,13 @@ namespace OperatorsSolution.GraphicsProgramFunctions
                 xpEngine XPression = new();
                 if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
                 {
-                    GetThumbnail(SceneGraphic, out xpImage? thumbnail);
-
-                    if (thumbnail != null)
-                    {
-                        Bitmap image = ConvertToBitmap(thumbnail);
-                        previewBox.SizeMode = PictureBoxSizeMode.Zoom;
-                        previewBox.Image = image;
-                    }
+                    int preveiwLocation = SceneGraphic.DefaultPreviewFrame;
+                    SceneGraphic.GetRenderedFrame(preveiwLocation, SceneGraphic.Width, SceneGraphic.Height, out imageOut);
+                    previewBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    //RenderRawPixelsDirectly(previewBox, imageOut);
+                    
+                    Bitmap image = ConvertToBitmap(imageOut);
+                    previewBox.Image = image;
                 }
                 else
                 {
@@ -154,6 +158,7 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         /// <param name = "previewBox">The PictureBox control element where the preview should be removed.</param>
         public static void RemovePreview(PictureBox previewBox)
         {
+            previewBox.Image?.Dispose();
             previewBox.Image = null;
         }
 
@@ -168,13 +173,54 @@ namespace OperatorsSolution.GraphicsProgramFunctions
             return true;
         }
 
-        private static Bitmap ConvertToBitmap(xpImage thumbNailImage)
+        private static Bitmap ConvertToBitmap(xpImage image)
         {
             Bitmap bmp;
-            bmp = xpTools.xpImageToBitmap(thumbNailImage);
+            bmp = xpTools.xpImageToBitmap(image);
             return bmp;
         }
         #endregion
+
+
+
+        //private static PropertyInfo adapterPropertyInfo = typeof(xpImage).GetProperty("Adapter");
+        private static void RenderRawPixelsDirectly(PictureBox pictureBox, xpImage image)
+        {
+            var adapter = image.Adapter;
+
+            if (adapter is Array byteArray)
+            {
+                byte[] rawData = new byte[byteArray.Length];
+                Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+                using var ms = new MemoryStream(rawData);
+                Bitmap bmp = new(ms);
+
+                // Assign the bitmap to the PictureBox.Image property
+                pictureBox.Image?.Dispose(); // Dispose of the old image
+                pictureBox.Image = bmp;
+                pictureBox.Invalidate(); // Force redraw
+            }
+
+
+
+            //var adapter = adapterPropertyInfo?.GetValue(image);  // Use cached PropertyInfo
+
+            //var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
+
+            //if (adapter is not Array byteArray) return; // Exit if the adaptor is not an Array for whatever reason
+
+            //byte[] rawData = new byte[byteArray.Length];
+            //Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+
+            //using var ms = new MemoryStream(rawData);
+            //Bitmap bmp = new(ms);
+
+            //pictureBox.Image?.Dispose(); // Dispose of the old image
+            //pictureBox.Image = bmp; // Assign the bitmap to the PictureBox.Image property
+            //pictureBox.Invalidate(); // Force redraw
+        }
+
 
         #region >----------------- Trigger clip: ---------------------
         /// <summary>
@@ -183,7 +229,9 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         /// <param name = "operatorButton">The button control that has the clip path list.</param>
         /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)    // "PUBLIC STATIC XPSCENE", OR "OUT XPSCENE" then use this to call the same scene if it already exists
+                                                                                        // xpEngine.GetSceneCopyByName
         {
+            clipIndex = 0;
             // Set all needed variables to the assigned properties in the ClipPath
             ClipPathCollection clipPath = operatorButton.ClipPaths;
             if (clipPath == null || clipPath.Count == 0)
@@ -210,7 +258,7 @@ namespace OperatorsSolution.GraphicsProgramFunctions
             xpEngine XPression = new();
             if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
             {
-                SetAllSceneMaterials(SceneGraphic, clipPath[clipIndex].ObjectChanges);
+                SetAllSceneMaterials(SceneGraphic, operatorButton.ObjectChanges);
                 PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
             }
             else
@@ -218,102 +266,6 @@ namespace OperatorsSolution.GraphicsProgramFunctions
                 CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
             }
         }
-        #endregion
-
-
-        #region UNUSED:
-        #region >----------------- XPression play preview scene: ---------------------
-        ///// <summary>
-        ///// Plays out the scene in XPression when this project is open in XPression.
-        ///// </summary>
-        ///// <param name = "scene">The xpScene in which the clip is located in.</param>
-        ///// <param name = "sceneDirectorName">The name of the scene director.</param>
-        ///// /// <param name = "clip">The name of the clip that needs to be played.</param>
-        ///// <param name = "previewChannel">The channel on which the clip needs to play.</param>
-        ///// <param name="layer">The layer on which the clip needs to play.</param>
-        ///// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
-        //public static bool PlayPreview(xpScene scene, string? sceneDirectorName, string clip, string? track, out xpImage? image, int previewChannel = 1, int layer = 1)
-        //{
-        //    image = null;
-        //    // Set to be a default of the same name as its scene if it was not filled in
-        //    if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
-        //    {
-        //        sceneDirectorName = scene.Name;
-        //        //sceneDirectorName = scene.SceneDirector
-        //    }
-        //    if (string.IsNullOrWhiteSpace(track))
-        //    {
-        //        track = "StateTrack";
-        //    }
-
-        //    if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
-        //        !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track) ||
-        //        !Scene_State_Track.GetClipByName(clip, out xpSceneDirectorClip State_Clip))
-        //    {
-        //        return false;
-        //    }
-
-        //    ////int defaultFrame = Scene_Director.DefaultFrameMarker;
-        //    //int lastFrameOfClip = State_Clip.Position + State_Clip.Duration - 1;
-        //    //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip);
-        //    //scene.SetOnline(previewChannel, layer);
-        //    //Scene_Director.PlayRange(lastFrameOfClip, lastFrameOfClip + 1, true);
-        //    ////scene.GetPreviewSceneDirector(out xpSceneDirector previewSD);
-        //    ////previewSD.
-        //    //scene.GetRenderedFrame(lastFrameOfClip, scene.Width, scene.Height, out image);
-
-        //    scene.GetThumbnail(out image);
-        //    return true;
-        //}
-        #endregion
-
-        #region >----------------- XPression get single object: ---------------------
-        /// <summary>
-        /// Gives the material of the specified object in a scene, given that this project is open in XPression.
-        /// </summary>
-        /// <param name="objectName">The name of the object (in XPression) to find the material of.</param>
-        /// <param name="scene">The scene in which this material needs to be searched.</param>
-        /// <returns>The IxpBaseObject as the material.</returns>
-        //public static IxpBaseObject getMaterialFromScene(string objectName, xpScene scene)
-        //{
-        //    scene.GetObjectByName(objectName, out xpBaseObject sceneObject);
-
-        //    return sceneObject;
-        //}
-        #endregion
-
-        #region >----------------- XPression play preview scene: ---------------------
-        ///// <summary>
-        ///// Plays out the scene in XPression when this project is open in XPression.
-        ///// </summary>
-        ///// <param name = "scene">The xpScene in which the clip is located in.</param>
-        ///// <param name = "sceneDirectorName">The name of the scene director.</param>
-        ///// <param name = "previewChannel">The channel on which the clip needs to play.</param>
-        ///// <param name="layer">The layer on which the clip needs to play.</param>
-        ///// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
-        //public static bool StopPreview(xpScene scene)
-        //{
-        //    // Set to be a default of the same name as its scene if it was not filled in
-        //    //if (string.IsNullOrWhiteSpace(sceneDirectorName) || sceneDirectorName == "Same as [Scene]")
-        //    //{
-        //    //    sceneDirectorName = scene.Name;
-        //    //    //sceneDirectorName = scene.SceneDirector
-        //    //}
-        //    //if (string.IsNullOrWhiteSpace(track))
-        //    //{
-        //    //    track = "StateTrack";
-        //    //}
-
-        //    //if (!scene.GetSceneDirectorByName(sceneDirectorName, out xpSceneDirector Scene_Director) ||
-        //    //    !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track))
-        //    //{ return false; }
-
-        //    //int defaultFrame = Scene_Director.DefaultFrameMarker;
-        //    //Scene_Director.PlayRange(defaultFrame, defaultFrame + 1);
-        //    scene.SetPreview();
-        //    return true;
-        //}
-        #endregion
         #endregion
     }
 }

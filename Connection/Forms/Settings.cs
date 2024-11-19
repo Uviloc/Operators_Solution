@@ -59,7 +59,7 @@ namespace OperatorsSolution
             switch (Properties.Settings.Default.GraphicsSoftware)
             {
                 case GraphicsSoftware.XPression:
-                    openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";
+                    openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";                // SHOULD NOT DEPEND ON THIS, HAVE THIS INFO IN ENUM?
                     break;
                 case GraphicsSoftware.CasparCG:
                     //openFileDialog.Filter = "CasparCG files (*.;*.)";

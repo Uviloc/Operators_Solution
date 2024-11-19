@@ -46,11 +46,11 @@ Mon:
 Tue: Improved dll loading, orginized all code, fixed stuff to be better in general
 Wed: Worked on making project nice, company outing/excursion
 Thu: Late, missed meds, went home
-Fri: 
+Fri: Got preview to work, feedback from hylke, made plan for controls
 
 Week 8:
-Mon: 
-Tue: 
+Mon: Mid-term Presentation
+Tue: Really tried to get preview to not kill XPression, but its almost looking like its a feature to stop previews in my program
 Wed: 
 Thu: 
 Fri: 

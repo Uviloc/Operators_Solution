@@ -5,6 +5,7 @@ using System.Threading.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using System.Reflection;
 using OperatorsSolution.Program;
+using OperatorsSolution.GraphicsProgramFunctions;
 
 namespace OperatorsSolution
 {
@@ -195,6 +196,20 @@ namespace OperatorsSolution
             Settings settingsForm = new();
             settingsForm.Show();  // Open as a modal dialog
             settingsForm.Focus();
+        }
+
+        private void TestButton(object sender, EventArgs e)
+        {
+            if (XP_Functions.imageOut == null) return;
+            MessageBox.Show("Kill activated");
+            var adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
+            adapter = XP_Functions.imageOut.Adapter;
         }
     }
 }
