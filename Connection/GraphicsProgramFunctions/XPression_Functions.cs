@@ -9,6 +9,7 @@ using OperatorsSolution.Controls;
 using System.Reflection;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.Reflection.Emit;
 
 
 namespace OperatorsSolution.GraphicsProgramFunctions
@@ -45,10 +46,6 @@ namespace OperatorsSolution.GraphicsProgramFunctions
                 !Scene_Director.GetTrackByName(track, out xpSceneDirectorTrack Scene_State_Track) ||
                 !Scene_State_Track.GetClipByName(clip, out xpSceneDirectorClip State_Clip))
             { return false; }
-
-            //int defaultFrame = Scene_Director.DefaultFrameMarker;
-            //Scene_Director.PlayRange(defaultFrame, defaultFrame+1);
-            //scene.SetOnline(1, layer);
 
             Scene_Director.PlayRange(State_Clip.Position, State_Clip.Position);
             scene.SetOnline(channel, layer);
@@ -135,13 +132,13 @@ namespace OperatorsSolution.GraphicsProgramFunctions
                 string scene = button.Scene;
 
                 xpEngine XPression = new();
-                if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
+                if (XPression.GetSceneByName(scene, out xpScene sceneGraphic, true))
                 {
-                    int preveiwLocation = SceneGraphic.DefaultPreviewFrame;
-                    SceneGraphic.GetRenderedFrame(preveiwLocation, SceneGraphic.Width, SceneGraphic.Height, out imageOut);
+                    int preveiwLocation = sceneGraphic.DefaultPreviewFrame;
+                    sceneGraphic.GetRenderedFrame(preveiwLocation, sceneGraphic.Width, sceneGraphic.Height, out imageOut);
                     previewBox.SizeMode = PictureBoxSizeMode.Zoom;
                     //RenderRawPixelsDirectly(previewBox, imageOut);
-                    
+
                     Bitmap image = ConvertToBitmap(imageOut);
                     previewBox.Image = image;
                 }
@@ -183,43 +180,24 @@ namespace OperatorsSolution.GraphicsProgramFunctions
 
 
 
-        //private static PropertyInfo adapterPropertyInfo = typeof(xpImage).GetProperty("Adapter");
-        private static void RenderRawPixelsDirectly(PictureBox pictureBox, xpImage image)
-        {
-            var adapter = image.Adapter;
+        //private static void RenderRawPixelsDirectly(PictureBox pictureBox, xpImage image)
+        //{
+        //    var adapter = image.Adapter;
 
-            if (adapter is Array byteArray)
-            {
-                byte[] rawData = new byte[byteArray.Length];
-                Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
+        //    if (adapter is Array byteArray)
+        //    {
+        //        byte[] rawData = new byte[byteArray.Length];
+        //        Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
 
-                using var ms = new MemoryStream(rawData);
-                Bitmap bmp = new(ms);
+        //        using var ms = new MemoryStream(rawData);
+        //        Bitmap bmp = new(ms);
 
-                // Assign the bitmap to the PictureBox.Image property
-                pictureBox.Image?.Dispose(); // Dispose of the old image
-                pictureBox.Image = bmp;
-                pictureBox.Invalidate(); // Force redraw
-            }
-
-
-
-            //var adapter = adapterPropertyInfo?.GetValue(image);  // Use cached PropertyInfo
-
-            //var adapter = image.GetType().GetProperty("Adapter")?.GetValue(image);
-
-            //if (adapter is not Array byteArray) return; // Exit if the adaptor is not an Array for whatever reason
-
-            //byte[] rawData = new byte[byteArray.Length];
-            //Buffer.BlockCopy(byteArray, 0, rawData, 0, rawData.Length);
-
-            //using var ms = new MemoryStream(rawData);
-            //Bitmap bmp = new(ms);
-
-            //pictureBox.Image?.Dispose(); // Dispose of the old image
-            //pictureBox.Image = bmp; // Assign the bitmap to the PictureBox.Image property
-            //pictureBox.Invalidate(); // Force redraw
-        }
+        //        // Assign the bitmap to the PictureBox.Image property
+        //        pictureBox.Image?.Dispose(); // Dispose of the old image
+        //        pictureBox.Image = bmp;
+        //        pictureBox.Invalidate(); // Force redraw
+        //    }
+        //}
 
 
         #region >----------------- Trigger clip: ---------------------

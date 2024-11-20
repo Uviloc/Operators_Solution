@@ -23,14 +23,14 @@ DONE	>	Scott wanted icon for twitter to be for x in Enfusion: made in flash so n
 DONE	>	GitHub eventually put it in the main repository but fine for now
 DONE	>	Dynamic reference loading: Great stuff
 DONE	>	Preview maybe not possible with XPression?: Check if preview marker can be accessed, otherwise check if preview channel can be setup as a temporary
-WIP	>	Settings: Setup what preview channel is used, setup what output channel is used
-WIP	>	When meeting with operator?: somewhere next week or maybe after
+WIP		>	Settings: Setup what preview channel is used, setup what output channel is used
+WIP		>	When meeting with operator?: somewhere next week or maybe after
 DONE	>	Mid-term evaluation form: send it.
-WIP	>	Do you ever want a button that can play clips in different scenes: Possibly in the future
+WIP		>	Do you ever want a button that can play clips in different scenes: Possibly in the future
 DONE	>	xml editor: libreoffice & db browser
 
 DONE	>	Does each sport get one database or does it need to be split up further?: each sport one, then further into national etc
-WIP	>	Can the player pictures also be in the database instead of a folder reference, or would this not be ideal?: if you make it nice, yes
+WIP		>	Can the player pictures also be in the database instead of a folder reference, or would this not be ideal?: if you make it nice, yes
 DONE	>	Can I get a vMix project code, to see its functions and how they differ: not a recent working one
 
 
@@ -50,11 +50,11 @@ DONE	>	GitHub will be checked
 DONE	>	Will setup a meeting with one of the operators to check what they want
 DONE	>	Make functions so that the graphics program can be interchanged
 DONE	>	Make the design of the program better (better menu on the left side, maybe check other programs)
-WIP	>	set all other buttons offline when clicking on any button to online
+WIP		>	set all other buttons offline when clicking on any button to online
 DONE	>	Make the process of adding a button easier then the current
 DONE	>	Contact Roy to setup a visit from Herman
 DONE	>	Office is not used (another xml software is used) 
-WIP	>	Excel as import
+WIP		>	Excel as import
 
 > Check how best to implement a new button. Such as one button with multiple possible types or adding custom buttons
 

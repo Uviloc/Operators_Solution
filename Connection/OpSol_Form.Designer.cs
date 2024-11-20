@@ -16,7 +16,6 @@ namespace OperatorsSolution
             operatorButton1 = new OperatorButton();
             pictureBox1 = new PictureBox();
             logic_Button1 = new Logic_Button();
-            textBox1 = new TextBox();
             button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -107,13 +106,6 @@ namespace OperatorsSolution
             logic_Button1.Size = new Size(461, 168);
             logic_Button1.TabIndex = 12;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(121, 304);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(311, 31);
-            textBox1.TabIndex = 14;
-            // 
             // button3
             // 
             button3.Location = new Point(504, 335);
@@ -130,7 +122,6 @@ namespace OperatorsSolution
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(2290, 1479);
             Controls.Add(button3);
-            Controls.Add(textBox1);
             Controls.Add(pictureBox1);
             Controls.Add(logic_Button1);
             Controls.Add(operatorButton1);
@@ -146,7 +137,6 @@ namespace OperatorsSolution
             TopMost = true;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         private Button button1;
@@ -157,7 +147,6 @@ namespace OperatorsSolution
         private OperatorButton operatorButton1;
         private Logic_Button logic_Button1;
         private PictureBox pictureBox1;
-        private TextBox textBox1;
         private Button button3;
     }
 }

@@ -51,7 +51,7 @@ Fri: Got preview to work, feedback from hylke, made plan for controls
 Week 8:
 Mon: Mid-term Presentation
 Tue: Really tried to get preview to not kill XPression, but its almost looking like its a feature to stop previews in my program
-Wed: 
+Wed: Setup community post (not posted) to fix preview, organised Trello board
 Thu: 
 Fri: 
 
