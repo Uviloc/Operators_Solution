@@ -90,11 +90,7 @@ namespace OperatorsSolution.GraphicsProgramFunctions
             }
 
             // Check what type of object it is
-            if (!scene.GetObjectByName(objectChange.SceneObject, out xpBaseObject baseObject))
-            {
-                // Exit in case no scene object has been found
-                return;
-            }
+            if (!scene.GetObjectByName(objectChange.SceneObject, out xpBaseObject baseObject)) return; // Exit in case no scene object has been found
 
             switch (baseObject)
             {

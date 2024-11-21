@@ -17,27 +17,11 @@ namespace OperatorsSolution
         string FormName { get; }
     }
 
-    [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(Button))]
-    public class ModuleLoader : Control
+    public class ModuleLoader
     {
-        #region >----------------- Add properties: ---------------------
-        // Panel
-        [Category(".Operation"),
-        Description("The panel control where the loaded forms will be displayed.")]
-        public Panel? FormModuleDisplay { get; set; }
-
-        // TreeView
-        [Category(".Operation"),
-        Description("The treeview control where the forms will be loaded into.")]
-        public TreeView? TreeviewExplorer { get; set; }
-        #endregion
-
         #region >----------------- LoadModules: ---------------------
-        public void LoadModules()
+        public static void LoadModules(TreeView treeviewExplorer)
         {
-            if (FormModuleDisplay == null || TreeviewExplorer == null) return;
-
             // Get or create "Modules" folder in the app directory
             string moduleFolder = Path.Combine(Application.StartupPath, "Modules");
             if (!Directory.Exists(moduleFolder)) Directory.CreateDirectory(moduleFolder);
@@ -63,7 +47,7 @@ namespace OperatorsSolution
                         if (moduleForm == null) return;
 
                         // Add the plugin form to the TreeView
-                        AddToTreeView(moduleForm, TreeviewExplorer);
+                        AddToTreeView(moduleForm, treeviewExplorer);
                     }
                 }
                 catch (Exception ex)
@@ -75,43 +59,13 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- AddToTreeView: ---------------------
-        private void AddToTreeView(IModuleForm moduleForm, TreeView treeviewMenu)
+        private static void AddToTreeView(IModuleForm moduleForm, TreeView treeviewExplorer)
         {
             TreeNode node = new(moduleForm.FormName) // Use the form's name as the node text
             {
                 Tag = moduleForm // Store the plugin form in the Tag property for easy access later
             };
-            treeviewMenu.Nodes.Add(node);
-
-            treeviewMenu.NodeMouseDoubleClick += TreeViewModules_NodeMouseDoubleClick; // TEMPORARY CREATE A TREEVIEW CONTROL TO HAVE THIS SET INSTEAD
-        }
-        #endregion
-
-        #region >----------------- NodeMouseClickEvent: ---------------------
-        // MAKE THIS FUNCTION WORK WITH BOTH DATABASE AND FORMS????
-        private void TreeViewModules_NodeMouseDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (FormModuleDisplay == null) return;
-
-            if (e.Node.Tag is IModuleForm pluginForm)
-            {
-                // Get the form from the IModuleForm instance
-                Form form = pluginForm.GetForm();
-
-                // Set the form to be a child inside the InnerPannel
-                form.TopLevel = false;                // This makes the form not open as a separate window
-                form.FormBorderStyle = FormBorderStyle.None; // Remove the border for a seamless look
-                form.Dock = DockStyle.Fill;            // Make the form fill the InnerPannel
-
-                // Clear the InnerPannel to ensure no other controls are blocking the new form
-                FormModuleDisplay.Controls.Clear();
-
-                // Add the form to the InnerPannel's Controls collection
-                FormModuleDisplay.Controls.Add(form);
-
-                // Show the form inside the panel
-                form.Show();
-            }
+            treeviewExplorer.Nodes.Add(node);
         }
         #endregion
     }

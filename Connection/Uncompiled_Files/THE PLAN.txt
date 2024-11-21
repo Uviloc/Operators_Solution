@@ -4,6 +4,8 @@ ___________________________________________________________________Questions:___
 Hylke:
 How can I get the live game up with preview
 Send Ross mail about xpTools having high memory and breaking the live view
+What is the distrubution of which graphics program is used for all current projects
+What is usually the go to program used for new projects
 
 Elsa:
 Pictures for presentation

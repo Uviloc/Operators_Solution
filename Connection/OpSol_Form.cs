@@ -9,21 +9,191 @@ using OperatorsSolution.GraphicsProgramFunctions;
 
 namespace OperatorsSolution
 {
-    public partial class OpSol_Form : Form
+    public partial class OpSol_Form : CustomForm
     {
         public OpSol_Form()
         {
             InitializeComponent();
+            InitializeCollapseControlPanelTimer();
 
-            // Load Modules:
-            try
-            {
-                List<ModuleLoader> moduleLoaders = Controls.OfType<ModuleLoader>().ToList();
-                if (moduleLoaders.Count == 0) return;
-                moduleLoaders[0].LoadModules();
-            }
-            catch (Exception ex) { Console.WriteLine("Could not load modules" + ex); }
+
+            if (TreeviewExplorer != null)
+                ModuleLoader.LoadModules(TreeviewExplorer);
         }
+
+        #region >----------------- Collapse Control Panel: ---------------------
+        private bool controlPanelOpen = true;
+        private readonly int animationDuration = 5;
+
+        private int originalControlPanelWidth;
+        //private Point originalControlPanelPos;
+        //private int originalControlPanelLeft;
+        private System.Windows.Forms.Timer? controlPanelAnimationTimer;
+
+        private void InitializeCollapseControlPanelTimer()
+        {
+            if (ControlPanel == null) return;
+            originalControlPanelWidth = ControlPanel.Width;
+            //originalControlPanelPos = ControlPanel.Location;
+            //originalControlPanelLeft = ControlPanel.Left;
+
+            controlPanelAnimationTimer = new System.Windows.Forms.Timer{ Interval = 1 };
+            controlPanelAnimationTimer.Tick += ControlPanelTimer_Tick;
+        }
+
+        private void CollapseControlPanel(object? sender, EventArgs e)
+        {
+            if (ControlPanel == null || controlPanelAnimationTimer == null) return;
+            controlPanelAnimationTimer.Start();
+        }
+
+        private void ControlPanelTimer_Tick(object? sender, EventArgs e)
+        {
+            if (ControlPanel == null || controlPanelAnimationTimer == null) return;
+            int animationSpeed = 100/animationDuration;
+            if (controlPanelOpen)
+            {
+                ControlPanel.Width -= animationSpeed;
+                if (ControlPanel.Width <= 0)
+                {
+                    controlPanelOpen = false;
+                    controlPanelAnimationTimer.Stop();
+                }
+            }
+            else
+            {
+                ControlPanel.Width += animationSpeed;
+                if (ControlPanel.Width >= originalControlPanelWidth)
+                {
+                    controlPanelOpen = true;
+                    controlPanelAnimationTimer.Stop();
+                }
+            }
+            //if (controlPanelOpen)
+            //{
+            //    ControlPanel.Left -= animationSpeed;
+            //    if (ControlPanel.Left <= originalControlPanelWidth)
+            //    {
+            //        ControlPanel.Left = originalControlPanelWidth;
+            //        controlPanelOpen = false;
+            //        controlPanelAnimationTimer.Stop();
+            //    }
+            //}
+            //else
+            //{
+            //    ControlPanel.Left += animationSpeed;
+            //    if (ControlPanel.Left >= originalControlPanelLeft)
+            //    {
+            //        ControlPanel.Left = originalControlPanelLeft;
+            //        controlPanelOpen = true;
+            //        controlPanelAnimationTimer.Stop();
+            //    }
+            //}
+            //if (controlPanelOpen)
+            //{
+            //    ControlPanel.Location = new Point(ControlPanel.Location.X - animationSpeed, 0);
+            //    if (ControlPanel.Location.X <= originalControlPanelPos.X)
+            //    {
+            //        controlPanelOpen = false;
+            //        controlPanelAnimationTimer.Stop();
+            //    }
+            //}
+            //else
+            //{
+            //    ControlPanel.Location = new Point(ControlPanel.Location.X + animationSpeed, 0);
+            //    if (ControlPanel.Location.X >= originalControlPanelPos.X)
+            //    {
+            //        controlPanelOpen = true;
+            //        controlPanelAnimationTimer.Stop();
+            //    }
+            //}
+        }
+        #endregion
+
+        #region >----------------- OpenForm: ---------------------
+        private void OpenForm(object? sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (FormModulePanel == null) return;
+
+            if (e.Node.Tag is IModuleForm pluginForm)
+            {
+                // Get the form from the IModuleForm instance
+                Form form = pluginForm.GetForm();
+
+                // Set the form to be a child inside the InnerPannel
+                form.TopLevel = false;
+                form.FormBorderStyle = FormBorderStyle.None;
+                form.Dock = DockStyle.None;
+
+                // Clear the InnerPannel to ensure no other controls are blocking the new form
+                FormModulePanel.Controls.Clear();
+
+                // Add the form to the InnerPannel's Controls collection
+                FormModulePanel.Controls.Add(form);
+
+                // Perform scaling
+                ScaleFormToFitPanel(form, FormModulePanel);
+
+                // Show the form inside the panel
+                form.Show();
+
+                // Store the form for use in the SizeChanged event
+                FormModulePanel.Tag = form;
+            }
+        }
+        #endregion
+
+        #region >----------------- Scale Form: ---------------------
+        private static void ScaleFormToFitPanel(Form form, Panel panel)
+        {
+            //// Get the original size of the form
+            //Size originalSize = form.Size;
+
+            // Check if the form's original size is already stored
+            if (form.Tag is Size originalSize)
+            {
+                // Reset the form to its original size
+                form.Size = originalSize;
+
+                // Reset all controls to their original sizes and locations
+                foreach (Control control in form.Controls)
+                {
+                    if (control.Tag is (Size controlOriginalSize, Point controlOriginalLocation))
+                    {
+                        control.Size = controlOriginalSize;
+                        control.Location = controlOriginalLocation;
+                    }
+                }
+            }
+            else
+            {
+                // Store the original size of the form in its Tag property
+                form.Tag = form.Size;
+
+                // Store the original size and location of each control
+                foreach (Control control in form.Controls)
+                {
+                    control.Tag = (control.Size, control.Location);
+                }
+            }
+
+            // Calculate scaling factors for width and height
+            float scaleX = (float)panel.Width / form.Size.Width;
+            float scaleY = (float)panel.Height / form.Size.Height;
+
+            // Use non-cumulative scaling
+            form.Scale(new SizeF(scaleX, scaleY));
+        }
+
+        private void FormModulePanel_SizeChanged(object? sender, EventArgs e)
+        {
+                                                                                                // Maybe based on timer for when control panel gets hidden
+            if (sender is Panel panel && panel.Tag is Form form)
+            {
+                ScaleFormToFitPanel(form, panel);
+            }
+        }
+        #endregion
 
         #region >----------------- Open project file: ---------------------
         private void OpenProject(object? sender, EventArgs e)
@@ -200,16 +370,16 @@ namespace OperatorsSolution
 
         private void TestButton(object sender, EventArgs e)
         {
-            if (XP_Functions.imageOut == null) return;
-            MessageBox.Show("Kill activated");
-            var adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
-            adapter = XP_Functions.imageOut.Adapter;
+            //if (XP_Functions.imageOut == null) return;
+            //MessageBox.Show("Kill activated");
+            //var adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
+            //adapter = XP_Functions.imageOut.Adapter;
         }
     }
 }

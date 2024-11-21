@@ -52,7 +52,7 @@ Week 8:
 Mon: Mid-term Presentation
 Tue: Really tried to get preview to not kill XPression, but its almost looking like its a feature to stop previews in my program
 Wed: Setup community post (not posted) to fix preview, organised Trello board
-Thu: 
+Thu: Lots of layout and general program stuff, revamped module loader to be inside a custom form base
 Fri: 
 
 Week 9:
@@ -77,6 +77,41 @@ Thu:
 Fri: 
 
 Week 12:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 13:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 14:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 15:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 16:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 17:
 Mon: 
 Tue: 
 Wed: 

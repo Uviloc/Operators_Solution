@@ -30,119 +30,85 @@ namespace TestModule
         /// </summary>
         private void InitializeComponent()
         {
-            ClipPath clipPath1 = new ClipPath();
-            ClipPath clipPath2 = new ClipPath();
-            ClipPath clipPath3 = new ClipPath();
-            ClipPath clipPath4 = new ClipPath();
-            ClipPath clipPath5 = new ClipPath();
-            ClipPath clipPath6 = new ClipPath();
-            ClipPath clipPath7 = new ClipPath();
-            ClipPath clipPath8 = new ClipPath();
-            ClipPath clipPath9 = new ClipPath();
-            ClipPath clipPath10 = new ClipPath();
-            ClipPath clipPath11 = new ClipPath();
-            ClipPath clipPath12 = new ClipPath();
-            ClipPath clipPath13 = new ClipPath();
-            ClipPath clipPath14 = new ClipPath();
-            ClipPath clipPath15 = new ClipPath();
-            ClipPath clipPath16 = new ClipPath();
-            ClipPath clipPath17 = new ClipPath();
             PreviewBox = new PictureBox();
-            operatorButton1 = new OperatorButton();
-            operatorButton2 = new OperatorButton();
+            logic_Button3 = new Logic_Button();
+            logic_Button4 = new Logic_Button();
+            operatorButton9 = new OperatorButton();
+            operatorButton10 = new OperatorButton();
+            operatorButton11 = new OperatorButton();
             ((System.ComponentModel.ISupportInitialize)PreviewBox).BeginInit();
             SuspendLayout();
             // 
             // PreviewBox
             // 
-            PreviewBox.Location = new Point(416, 566);
+            PreviewBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            PreviewBox.Location = new Point(30, 693);
             PreviewBox.Name = "PreviewBox";
             PreviewBox.Size = new Size(653, 389);
             PreviewBox.TabIndex = 9;
             PreviewBox.TabStop = false;
             // 
-            // operatorButton1
+            // logic_Button3
             // 
-            clipPath1.Clip = "inDuoTitle";
-            clipPath1.Scene = "FightGraphic";
-            clipPath2.Clip = "toFightGraphic";
-            clipPath2.Scene = "";
-            clipPath3.Clip = "weightDivisionIn";
-            clipPath3.Scene = "";
-            clipPath4.Clip = "weightDivisionOut";
-            clipPath4.Scene = "";
-            clipPath5.Clip = "toReduced";
-            clipPath5.Scene = "";
-            clipPath6.Clip = "sponsorIn";
-            clipPath6.Scene = "";
-            clipPath7.Clip = "sponsorOut";
-            clipPath7.Scene = "";
-            clipPath8.Clip = "weightDivisionIn1";
-            clipPath8.Scene = "";
-            clipPath9.Clip = "weightDivisionOut1";
-            clipPath9.Scene = "";
-            clipPath10.Clip = "out";
-            clipPath10.Scene = "";
-            operatorButton1.ClipPaths.Add(clipPath1);
-            operatorButton1.ClipPaths.Add(clipPath2);
-            operatorButton1.ClipPaths.Add(clipPath3);
-            operatorButton1.ClipPaths.Add(clipPath4);
-            operatorButton1.ClipPaths.Add(clipPath5);
-            operatorButton1.ClipPaths.Add(clipPath6);
-            operatorButton1.ClipPaths.Add(clipPath7);
-            operatorButton1.ClipPaths.Add(clipPath8);
-            operatorButton1.ClipPaths.Add(clipPath9);
-            operatorButton1.ClipPaths.Add(clipPath10);
-            operatorButton1.Location = new Point(806, 413);
-            operatorButton1.Name = "operatorButton1";
-            operatorButton1.PreviewBox = PreviewBox;
-            operatorButton1.Scene = "FightGraphic";
-            operatorButton1.Size = new Size(263, 103);
-            operatorButton1.TabIndex = 10;
-            operatorButton1.UseVisualStyleBackColor = false;
+            logic_Button3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            logic_Button3.Location = new Point(30, 25);
+            logic_Button3.Name = "logic_Button3";
+            logic_Button3.Size = new Size(297, 223);
+            logic_Button3.TabIndex = 10;
+            logic_Button3.Text = "logic_Button3";
             // 
-            // operatorButton2
+            // logic_Button4
             // 
-            clipPath11.Clip = "in";
-            clipPath11.Scene = "UpcomingEvents";
-            clipPath11.SceneDirector = "SceneDirector1";
-            clipPath11.Track = "Track1";
-            clipPath12.Clip = "out";
-            clipPath12.Scene = "UpcomingEvents";
-            clipPath12.SceneDirector = "SceneDirector1";
-            clipPath12.Track = "Track1";
-            clipPath13.Clip = "in1";
-            clipPath13.Scene = "FighterEntryBlue";
-            clipPath14.Clip = "out1";
-            clipPath14.Scene = "FighterEntryBlue";
-            clipPath15.Clip = "in4";
-            clipPath15.Scene = "FighterEntryBlue";
-            clipPath16.Clip = "out4";
-            clipPath16.Scene = "FighterEntryBlue";
-            clipPath17.Clip = "outAll";
-            clipPath17.Scene = "FighterEntryBlue";
-            operatorButton2.ClipPaths.Add(clipPath11);
-            operatorButton2.ClipPaths.Add(clipPath12);
-            operatorButton2.ClipPaths.Add(clipPath13);
-            operatorButton2.ClipPaths.Add(clipPath14);
-            operatorButton2.ClipPaths.Add(clipPath15);
-            operatorButton2.ClipPaths.Add(clipPath16);
-            operatorButton2.ClipPaths.Add(clipPath17);
-            operatorButton2.Location = new Point(806, 304);
-            operatorButton2.Name = "operatorButton2";
-            operatorButton2.PreviewBox = PreviewBox;
-            operatorButton2.Scene = "UpcomingEvents";
-            operatorButton2.Size = new Size(263, 103);
-            operatorButton2.TabIndex = 10;
-            operatorButton2.UseVisualStyleBackColor = false;
+            logic_Button4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            logic_Button4.Location = new Point(560, 449);
+            logic_Button4.Name = "logic_Button4";
+            logic_Button4.Size = new Size(297, 223);
+            logic_Button4.TabIndex = 10;
+            logic_Button4.Text = "logic_Button3";
+            // 
+            // operatorButton9
+            // 
+            operatorButton9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            operatorButton9.Location = new Point(651, 25);
+            operatorButton9.Name = "operatorButton9";
+            operatorButton9.PreviewBox = null;
+            operatorButton9.Scene = null;
+            operatorButton9.Size = new Size(193, 105);
+            operatorButton9.TabIndex = 11;
+            operatorButton9.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton10
+            // 
+            operatorButton10.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            operatorButton10.Location = new Point(651, 143);
+            operatorButton10.Name = "operatorButton10";
+            operatorButton10.PreviewBox = null;
+            operatorButton10.Scene = null;
+            operatorButton10.Size = new Size(193, 105);
+            operatorButton10.TabIndex = 11;
+            operatorButton10.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton11
+            // 
+            operatorButton11.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            operatorButton11.Location = new Point(30, 567);
+            operatorButton11.Name = "operatorButton11";
+            operatorButton11.PreviewBox = null;
+            operatorButton11.Scene = null;
+            operatorButton11.Size = new Size(193, 105);
+            operatorButton11.TabIndex = 11;
+            operatorButton11.UseVisualStyleBackColor = false;
             // 
             // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1528, 1121);
-            Controls.Add(operatorButton2);
-            Controls.Add(operatorButton1);
+            ClientSize = new Size(1479, 1109);
+            Controls.Add(operatorButton11);
+            Controls.Add(operatorButton10);
+            Controls.Add(operatorButton9);
+            Controls.Add(logic_Button4);
+            Controls.Add(logic_Button3);
             Controls.Add(PreviewBox);
             Name = "Test_Module";
             Text = "Test_Module";
@@ -154,5 +120,18 @@ namespace TestModule
         private PictureBox PreviewBox;
         private OperatorButton operatorButton1;
         private OperatorButton operatorButton2;
+        private Logic_Button logic_Button1;
+        private OperatorButton operatorButton3;
+        private OperatorButton operatorButton4;
+        private OperatorButton operatorButton5;
+        private OperatorButton operatorButton6;
+        private OperatorButton operatorButton7;
+        private OperatorButton operatorButton8;
+        private Logic_Button logic_Button2;
+        private Logic_Button logic_Button3;
+        private Logic_Button logic_Button4;
+        private OperatorButton operatorButton9;
+        private OperatorButton operatorButton10;
+        private OperatorButton operatorButton11;
     }
 }

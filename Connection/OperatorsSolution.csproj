@@ -15,6 +15,7 @@
 		<XPToolsLibFolder>..\..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\xpToolsLib.net</XPToolsLibFolder>
 		<ApplicationManifest>Program\app.manifest</ApplicationManifest>
 		<AppDesignerFolder>Program</AppDesignerFolder>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<!--<XPressionFolder>C:\Program Files\XPressionStudioSCE\net</XPressionFolder>-->
 	</PropertyGroup>
 
@@ -47,6 +48,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Program\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="Program\Settings.Designer.cs">
 	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
 	    <AutoGen>True</AutoGen>
@@ -66,6 +72,13 @@
 
 	<ItemGroup>
 	  <Folder Include="Program\DataSources\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Program\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	
 
