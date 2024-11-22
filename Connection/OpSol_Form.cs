@@ -16,16 +16,16 @@ namespace OperatorsSolution
             InitializeComponent();
             InitializeCollapseControlPanelTimer();
 
-
             if (TreeviewExplorer != null)
                 ModuleLoader.LoadModules(TreeviewExplorer);
         }
 
         #region >----------------- Collapse Control Panel: ---------------------
         private bool controlPanelOpen = true;
-        private readonly int animationDuration = 5;
+        private bool controlPanelChanging = false;
+        private readonly int animationDuration = 3;
 
-        private int originalControlPanelWidth;
+        //private int originalControlPanelWidth;
         //private Point originalControlPanelPos;
         //private int originalControlPanelLeft;
         private System.Windows.Forms.Timer? controlPanelAnimationTimer;
@@ -33,7 +33,7 @@ namespace OperatorsSolution
         private void InitializeCollapseControlPanelTimer()
         {
             if (ControlPanel == null) return;
-            originalControlPanelWidth = ControlPanel.Width;
+            //originalControlPanelWidth = ControlPanel.Width;
             //originalControlPanelPos = ControlPanel.Location;
             //originalControlPanelLeft = ControlPanel.Left;
 
@@ -45,28 +45,66 @@ namespace OperatorsSolution
         {
             if (ControlPanel == null || controlPanelAnimationTimer == null) return;
             controlPanelAnimationTimer.Start();
+            controlPanelChanging = true;
+            if (sender is Button collapseButton)
+            {
+                collapseButton.Text = controlPanelOpen ? ">" : "<";
+            }
         }
+
+        private void ButtonEnter(object? sender, EventArgs e)
+        {
+            if (sender is not Control control) return;
+            if (control.Tag is not Color originalColor) control.Tag = originalColor = control.BackColor;
+            control.BackColor = Color.FromArgb(originalColor.R + 50, originalColor.G + 50, originalColor.B + 50);
+        }
+        private void ButtonLeave(object? sender, EventArgs e)
+        {
+            if (sender is not Control control) return;
+            if (control.Tag is not Color originalColor) control.Tag = originalColor = control.BackColor;
+            control.BackColor = originalColor;
+        }
+
 
         private void ControlPanelTimer_Tick(object? sender, EventArgs e)
         {
             if (ControlPanel == null || controlPanelAnimationTimer == null) return;
             int animationSpeed = 100/animationDuration;
+
             if (controlPanelOpen)
             {
                 ControlPanel.Width -= animationSpeed;
-                if (ControlPanel.Width <= 0)
+
+                // Slow down redraws for form panel to reduce flickering
+                //if (ControlPanel.Width % 20 == 0)
+                //{
+                //    ScaleFormToFitPanel(FormModulePanel);
+                //}
+
+                if (ControlPanel.Width <= ControlPanel.MinimumSize.Width)
                 {
                     controlPanelOpen = false;
+                    controlPanelChanging = false;
                     controlPanelAnimationTimer.Stop();
+                    ScaleFormToFitPanel(FormModulePanel);
                 }
             }
             else
             {
                 ControlPanel.Width += animationSpeed;
-                if (ControlPanel.Width >= originalControlPanelWidth)
+
+                // Slow down redraws for form panel to reduce flickering
+                //if (ControlPanel.Width % 20 == 0)
+                //{
+                //    ScaleFormToFitPanel(FormModulePanel);
+                //}
+
+                if (ControlPanel.Width >= ControlPanel.MaximumSize.Width)
                 {
                     controlPanelOpen = true;
+                    controlPanelChanging = false;
                     controlPanelAnimationTimer.Stop();
+                    ScaleFormToFitPanel(FormModulePanel);
                 }
             }
             //if (controlPanelOpen)
@@ -115,7 +153,7 @@ namespace OperatorsSolution
         {
             if (FormModulePanel == null) return;
 
-            if (e.Node.Tag is IModuleForm pluginForm)
+            if (e.Node.Tag is Common.IModuleForm pluginForm)
             {
                 // Get the form from the IModuleForm instance
                 Form form = pluginForm.GetForm();
@@ -131,14 +169,14 @@ namespace OperatorsSolution
                 // Add the form to the InnerPannel's Controls collection
                 FormModulePanel.Controls.Add(form);
 
+                // Store the form for use in the SizeChanged event
+                FormModulePanel.Tag = form;
+
                 // Perform scaling
-                ScaleFormToFitPanel(form, FormModulePanel);
+                ScaleFormToFitPanel(FormModulePanel);
 
                 // Show the form inside the panel
                 form.Show();
-
-                // Store the form for use in the SizeChanged event
-                FormModulePanel.Tag = form;
             }
         }
         #endregion
@@ -184,14 +222,48 @@ namespace OperatorsSolution
             // Use non-cumulative scaling
             form.Scale(new SizeF(scaleX, scaleY));
         }
+        private static void ScaleFormToFitPanel(object? formModulePanel)
+        {
+            if (formModulePanel is not Panel panel || panel.Tag is not Form form) return;
+            // Check if the form's original size is already stored
+            if (form.Tag is not Size originalSize)
+            {
+                // Store the original size of the form in its Tag property
+                form.Tag = form.Size;
+                originalSize = form.Size;
+
+                // Store the original size and location of each control
+                foreach (Control control in form.Controls)
+                {
+                    control.Tag = (control.Size, control.Location);
+                }
+            }
+
+            // Reset all controls to their original sizes and locations
+            foreach (Control control in form.Controls)
+            {
+                if (control.Tag is (Size controlOriginalSize, Point controlOriginalLocation))
+                {
+                    control.Size = controlOriginalSize;
+                    control.Location = controlOriginalLocation;
+                }
+            }
+            //Reset the form to its original size
+            form.Size = originalSize;
+
+
+            // Calculate scaling factors for width and height
+            float scaleX = (float)panel.Width / originalSize.Width;
+            float scaleY = (float)panel.Height / originalSize.Height;
+
+            // Use non-cumulative scaling
+            form.Scale(new SizeF(scaleX, scaleY));
+        }
 
         private void FormModulePanel_SizeChanged(object? sender, EventArgs e)
         {
-                                                                                                // Maybe based on timer for when control panel gets hidden
-            if (sender is Panel panel && panel.Tag is Form form)
-            {
-                ScaleFormToFitPanel(form, panel);
-            }
+            if (controlPanelChanging) return;
+            ScaleFormToFitPanel(sender);
         }
         #endregion
 

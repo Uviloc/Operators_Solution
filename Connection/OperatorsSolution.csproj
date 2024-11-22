@@ -61,7 +61,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Modules\TestModule.dll">
+	  <None Update="Modules\**\*.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Program\Settings.settings">

@@ -352,8 +352,8 @@ namespace OperatorsSolution.Controls
             Click += PlayScenes;
             Enter += DisplayPreview;
             Leave += RemovePreview;
-            Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            MinimumSize = new Size(250, 200);
+            //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Size = new Size(200, 150);
         }
         #endregion
 

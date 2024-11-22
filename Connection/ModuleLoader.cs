@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OperatorsSolution.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,12 +12,6 @@ using static OperatorsSolution.OpSol_Form;
 
 namespace OperatorsSolution
 {
-    public interface IModuleForm
-    {
-        Form GetForm();
-        string FormName { get; }
-    }
-
     public class ModuleLoader
     {
         #region >----------------- LoadModules: ---------------------
@@ -27,7 +22,7 @@ namespace OperatorsSolution
             if (!Directory.Exists(moduleFolder)) Directory.CreateDirectory(moduleFolder);
 
             // Loop through each DLL in the Modules folder
-            foreach (string file in Directory.GetFiles(moduleFolder, "*.dll"))
+            foreach (string file in Directory.GetFiles(moduleFolder, "*.dll", SearchOption.AllDirectories))
             {
                 try
                 {
@@ -46,8 +41,10 @@ namespace OperatorsSolution
 
                         if (moduleForm == null) return;
 
+                        string[] relativePath = Path.GetRelativePath(moduleFolder, file).Split('\\');
+
                         // Add the plugin form to the TreeView
-                        AddToTreeView(moduleForm, treeviewExplorer);
+                        AddToTreeView(moduleForm, relativePath, treeviewExplorer.Nodes);
                     }
                 }
                 catch (Exception ex)
@@ -59,13 +56,57 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- AddToTreeView: ---------------------
-        private static void AddToTreeView(IModuleForm moduleForm, TreeView treeviewExplorer)
+        //private static TreeNode AddToTreeView(IModuleForm moduleForm, string[] filePath, TreeView? treeviewExplorer = null)
+        //{
+        //    TreeNode? node = treeviewExplorer?.Nodes
+        //        .Cast<TreeNode>()
+        //        .FirstOrDefault(n => n.Text == filePath[0]);
+        //    if (filePath.Length == 1)
+        //    {
+        //        // Store the plugin form in the Tag property for easy access later
+        //        node = new(moduleForm.FormName) { Tag = moduleForm };
+        //    }
+        //    else
+        //    {
+        //        node ??= new TreeNode(filePath[0]);
+        //        string[] newFilePath = filePath.Skip(1).ToArray();
+        //        node.Nodes.Add(AddToTreeView(moduleForm, newFilePath));
+        //    }
+        //    treeviewExplorer?.Nodes.Add(node);
+        //    return node;
+        //}
+
+        private static TreeNode AddToTreeView(IModuleForm moduleForm, string[] filePath, TreeNodeCollection nodes)
         {
-            TreeNode node = new(moduleForm.FormName) // Use the form's name as the node text
+            // If no nodes are provided, use the root nodes
+            //nodes ??= treeviewExplorer?.Nodes;
+
+            // Find an existing node at the current level
+            TreeNode? node = nodes
+                .Cast<TreeNode>()
+                .FirstOrDefault(n => n.Text == filePath[0]);
+
+            // If the node doesn't exist, create and add it
+            node ??= new TreeNode(filePath[0]);
+            if (!nodes.Contains(node))
             {
-                Tag = moduleForm // Store the plugin form in the Tag property for easy access later
-            };
-            treeviewExplorer.Nodes.Add(node);
+                nodes.Add(node);
+            }
+
+            // If we've reached the final level, add the form
+            if (filePath.Length == 1)
+            {
+                node.Tag = moduleForm; // Store the plugin form in the Tag property
+                node.Text = moduleForm.FormName; // Set the text to the form name
+            }
+            else
+            {
+                // Recursively process the next level
+                string[] newFilePath = filePath.Skip(1).ToArray();
+                AddToTreeView(moduleForm, newFilePath, node.Nodes);
+            }
+
+            return node;
         }
         #endregion
     }

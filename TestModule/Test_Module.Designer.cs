@@ -41,7 +41,6 @@ namespace TestModule
             // 
             // PreviewBox
             // 
-            PreviewBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             PreviewBox.Location = new Point(30, 693);
             PreviewBox.Name = "PreviewBox";
             PreviewBox.Size = new Size(653, 389);
@@ -50,17 +49,15 @@ namespace TestModule
             // 
             // logic_Button3
             // 
-            logic_Button3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            logic_Button3.Location = new Point(30, 25);
+            logic_Button3.Location = new Point(190, 116);
             logic_Button3.Name = "logic_Button3";
-            logic_Button3.Size = new Size(297, 223);
+            logic_Button3.Size = new Size(349, 286);
             logic_Button3.TabIndex = 10;
             logic_Button3.Text = "logic_Button3";
             // 
             // logic_Button4
             // 
-            logic_Button4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            logic_Button4.Location = new Point(560, 449);
+            logic_Button4.Location = new Point(569, 411);
             logic_Button4.Name = "logic_Button4";
             logic_Button4.Size = new Size(297, 223);
             logic_Button4.TabIndex = 10;
@@ -68,34 +65,31 @@ namespace TestModule
             // 
             // operatorButton9
             // 
-            operatorButton9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            operatorButton9.Location = new Point(651, 25);
+            operatorButton9.Location = new Point(616, 116);
             operatorButton9.Name = "operatorButton9";
             operatorButton9.PreviewBox = null;
             operatorButton9.Scene = null;
-            operatorButton9.Size = new Size(193, 105);
+            operatorButton9.Size = new Size(250, 142);
             operatorButton9.TabIndex = 11;
             operatorButton9.UseVisualStyleBackColor = false;
             // 
             // operatorButton10
             // 
-            operatorButton10.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            operatorButton10.Location = new Point(651, 143);
+            operatorButton10.Location = new Point(616, 255);
             operatorButton10.Name = "operatorButton10";
             operatorButton10.PreviewBox = null;
             operatorButton10.Scene = null;
-            operatorButton10.Size = new Size(193, 105);
+            operatorButton10.Size = new Size(250, 136);
             operatorButton10.TabIndex = 11;
             operatorButton10.UseVisualStyleBackColor = false;
             // 
             // operatorButton11
             // 
-            operatorButton11.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            operatorButton11.Location = new Point(30, 567);
+            operatorButton11.Location = new Point(190, 434);
             operatorButton11.Name = "operatorButton11";
             operatorButton11.PreviewBox = null;
             operatorButton11.Scene = null;
-            operatorButton11.Size = new Size(193, 105);
+            operatorButton11.Size = new Size(250, 200);
             operatorButton11.TabIndex = 11;
             operatorButton11.UseVisualStyleBackColor = false;
             // 

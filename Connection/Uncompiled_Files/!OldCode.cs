@@ -1,4 +1,224 @@
-﻿#region UNUSED:
+﻿// Maybe fix later::
+
+public static void LoadModules(TreeView treeviewExplorer)
+{
+    // Get or create "Modules" folder in the app directory
+    string moduleFolder = Path.Combine(Application.StartupPath, "Modules");
+    if (!Directory.Exists(moduleFolder)) Directory.CreateDirectory(moduleFolder);
+
+
+
+
+    SortFiles(moduleFolder, treeviewExplorer);
+
+
+    //// Loop through each DLL in the Modules folder
+    //foreach (string file in Directory.GetFiles(moduleFolder))
+    //{
+    //    // Add to treeview
+
+
+
+    //    try
+    //    {
+    //        // Load the assembly
+    //        Assembly assembly = Assembly.LoadFrom(file);
+
+    //        // Find all types in the assembly that implement IModuleForm
+    //        foreach (Type type in assembly.GetTypes())
+    //        {
+    //            if (!typeof(IModuleForm).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) return;
+
+    //            // Create an instance of the module form
+    //            var typeInstance = Activator.CreateInstance(type);
+    //            if (typeInstance == null) return;
+    //            IModuleForm moduleForm = (IModuleForm)typeInstance;
+
+    //            if (moduleForm == null) return;
+
+    //            string[] relativePath = Path.GetRelativePath(moduleFolder, file).Split('\\');
+
+    //            // Add the plugin form to the TreeView
+    //            AddToTreeView(moduleForm, relativePath, treeviewExplorer);
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        MessageBox.Show($"Error loading plugin {file}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    //    }
+    //}
+}
+
+
+public static void SortFiles(string folder, TreeView treeviewExplorer)
+{
+    foreach (string file in Directory.GetFiles(folder))
+    {
+        // Check what file type:
+        // switch case for:
+        // folder: add as node and recursive SortFiles()
+        // Form.dll: load into 
+
+
+        if (file.EndsWith(".dll"))
+        {
+            if (!LoadDllFile(file, treeviewExplorer, out FileLoadingTypes? fileType, out IModuleForm? form)) return;
+            string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
+            if (form != null) AddToTreeView(form, relativePath, treeviewExplorer);
+        }
+
+
+        //string[] relativePath = Path.GetRelativePath(moduleFolder, filePath).Split('\\');
+
+        //// Add the plugin form to the TreeView
+        //AddToTreeView(moduleForm, relativePath, treeviewExplorer);
+    }
+}
+
+public static bool LoadDllFile(string filePath, TreeView treeviewExplorer, out FileLoadingTypes? fileType, out IModuleForm? moduleForm)
+{
+    fileType = null;
+    moduleForm = null;
+    try
+    {
+        // Load the assembly
+        Assembly assembly = Assembly.LoadFrom(filePath);
+
+        // Find all types in the assembly that implement IModuleForm
+        foreach (Type type in assembly.GetTypes())
+        {
+            if (!typeof(IModuleForm).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) return false;
+
+            fileType = FileLoadingTypes.Form;
+
+            // Create an instance of the module form
+            var typeInstance = Activator.CreateInstance(type);
+            if (typeInstance == null) return false;
+            moduleForm = (IModuleForm)typeInstance;
+
+            if (moduleForm == null) return false;
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Error loading plugin {filePath}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+    }
+    return true;
+}
+#endregion
+
+#region >----------------- AddToTreeView: ---------------------
+private static TreeNode AddToTreeView(object file, string[] filePath, TreeView? treeviewExplorer = null)
+{
+    // Store the plugin form in the Tag property for easy access later
+    if (file is IModuleForm moduleForm)
+    {
+        node = new(moduleForm.FormName) { Tag = moduleForm };
+    }
+    else
+    {
+        return null;
+    }
+
+
+
+
+    TreeNode? node = treeviewExplorer?.Nodes
+        .Cast<TreeNode>()
+        .FirstOrDefault(n => n.Text == filePath[0]);
+    if (filePath.Length == 1)
+    {
+        // Store the plugin form in the Tag property for easy access later
+        if (file is IModuleForm moduleForm)
+        {
+            node = new(moduleForm.FormName) { Tag = moduleForm };
+        }
+        else
+        {
+            return null;
+        }
+    }
+    else
+    {
+        node ??= new TreeNode(filePath[0]);
+        string[] newFilePath = filePath.Skip(1).ToArray();
+        node.Nodes.Add(AddToTreeView(file, newFilePath));
+    }
+    treeviewExplorer?.Nodes.Add(node);
+    return node;
+}
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+private static void ScaleFormToFitPanel(Form form, Panel panel)
+{
+    //// Get the original size of the form
+    //Size originalSize = form.Size;
+
+    // Check if the form's original size is already stored
+    if (form.Tag is Size originalSize)
+    {
+        // Reset the form to its original size
+        form.Size = originalSize;
+
+        // Reset all controls to their original sizes and locations
+        foreach (Control control in form.Controls)
+        {
+            if (control.Tag is (Size controlOriginalSize, Point controlOriginalLocation))
+            {
+                control.Size = controlOriginalSize;
+                control.Location = controlOriginalLocation;
+            }
+        }
+    }
+    else
+    {
+        // Store the original size of the form in its Tag property
+        form.Tag = form.Size;
+
+        // Store the original size and location of each control
+        foreach (Control control in form.Controls)
+        {
+            control.Tag = (control.Size, control.Location);
+        }
+    }
+
+    // Calculate scaling factors for width and height
+    float scaleX = (float)panel.Width / form.Size.Width;
+    float scaleY = (float)panel.Height / form.Size.Height;
+
+    // Use non-cumulative scaling
+    form.Scale(new SizeF(scaleX, scaleY));
+}
+
+
+
+#region UNUSED:
 #region >----------------- XPression play preview scene: ---------------------
 /// <summary>
 /// Plays out the scene in XPression when this project is open in XPression.
