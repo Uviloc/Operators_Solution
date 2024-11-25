@@ -36,6 +36,7 @@ namespace TestModule
             operatorButton9 = new OperatorButton();
             operatorButton10 = new OperatorButton();
             operatorButton11 = new OperatorButton();
+            textBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)PreviewBox).BeginInit();
             SuspendLayout();
             // 
@@ -93,11 +94,19 @@ namespace TestModule
             operatorButton11.TabIndex = 11;
             operatorButton11.UseVisualStyleBackColor = false;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(952, 544);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(174, 31);
+            textBox1.TabIndex = 12;
+            // 
             // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
+            Controls.Add(textBox1);
             Controls.Add(operatorButton11);
             Controls.Add(operatorButton10);
             Controls.Add(operatorButton9);
@@ -108,6 +117,7 @@ namespace TestModule
             Text = "Test_Module";
             ((System.ComponentModel.ISupportInitialize)PreviewBox).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -127,5 +137,6 @@ namespace TestModule
         private OperatorButton operatorButton9;
         private OperatorButton operatorButton10;
         private OperatorButton operatorButton11;
+        private TextBox textBox1;
     }
 }

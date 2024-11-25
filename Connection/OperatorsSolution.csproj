@@ -25,6 +25,14 @@
 		<Compile Remove="Uncompiled_Files\!CollectionEditorTest.cs" />
 		<Compile Remove="Uncompiled_Files\!OldCode.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="TemporaryTestDB.db" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="TemporaryTestDB.db">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="Uncompiled_Files\!AssemblyLoader.cs" />
@@ -71,6 +79,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Forms\" />
 	  <Folder Include="Program\DataSources\" />
 	</ItemGroup>
 

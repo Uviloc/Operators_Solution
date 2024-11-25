@@ -50,6 +50,7 @@ namespace OperatorsSolution.Common
     {
         Form,
         GraphicsFunctions,
+        Databases,
         VisualStyles
     }
 

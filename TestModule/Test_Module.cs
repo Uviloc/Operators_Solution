@@ -20,7 +20,7 @@ namespace TestModule
         {
             InitializeComponent();
         }
-        public string FormName => "Test Module Form";
+        public string FormName => "Test Module Form3";
 
         public Form GetForm()
         {
