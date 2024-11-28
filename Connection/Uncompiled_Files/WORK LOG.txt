@@ -56,10 +56,10 @@ Thu: Lots of layout and general program stuff, revamped module loader to be insi
 Fri: Got a bunch of stuff working nicely. Implemented panel collapsing, resizing and dll loading refinements
 
 Week 9:
-Mon: 
+Mon: Added tab control in main view, added initial database stuff
 Tue: 
-Wed: 
-Thu: 
+Wed: Developed plugin loading further, and got database working quite far
+Thu: Added scalable control, developed plugin loader to read .db files, got databases to be fully plugin compatible
 Fri: 
 
 Week 10:

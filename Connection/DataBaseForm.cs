@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution
 {
@@ -18,7 +19,8 @@ namespace OperatorsSolution
 
         private SQLiteDataAdapter? dataAdapter;
         private DataTable? dataTable;
-        private readonly string connectionString = "Data Source=TemporaryTestDB.db;Version=3;";
+        //private readonly string connectionString = "Data Source=Modules\\Databases\\TemporaryTestDB.db;Version=3;";
+        //private readonly string connectionString;
         private SQLiteConnection? connection;
 
 
@@ -27,10 +29,12 @@ namespace OperatorsSolution
         {
             InitializeComponent();
 
+            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Modules", "Databases", "TemporaryTestDB.db");
+            string connectionString = $"Data Source={dbPath};Version=3;";
 
-            LoadData();
+            LoadData(connectionString);
         }
-        private void LoadData()
+        private void LoadData(string connectionString)
         {
             try
             {

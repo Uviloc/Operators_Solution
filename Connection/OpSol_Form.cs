@@ -10,7 +10,8 @@ using OperatorsSolution.Common;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Data;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Console = System.Diagnostics.Debug;
+using System.Windows.Forms;
 
 namespace OperatorsSolution
 {
@@ -20,19 +21,11 @@ namespace OperatorsSolution
         {
             InitializeComponent();
             InitializeSettings();
-            InitializeForms();
             InitializeCollapseControlPanelTimer();
             HideTabBar();
 
-            if (TreeviewExplorer != null)
-                ModuleLoader.LoadModules(TreeviewExplorer);
-        }
-
-        private void InitializeForms()
-        {
-            if (ContentsPanel == null) return;
-            Form form = new DataBaseForm();
-            OpenFormInPanel(form, ContentsPanel.TabPages[1]);
+            if (OperationTreeview != null && DatabaseTreeview != null)
+                PluginLoader.LoadPlugins(OperationTreeview, DatabaseTreeview);
         }
 
 
@@ -55,7 +48,7 @@ namespace OperatorsSolution
         {
             if (ControlPanel == null || controlPanelAnimationTimer == null) return;
             controlPanelAnimationTimer.Start();
-            controlPanelChanging = true;
+            controlPanelChanging = true; // Prevent constant scaling of inner form
             if (sender is Button collapseButton)
             {
                 collapseButton.Text = controlPanelOpen ? ">" : "<";
@@ -99,9 +92,9 @@ namespace OperatorsSolution
         {
             if (ContentsPanel == null || TabControl == null) return;
 
-            if (e.Node.Tag is Common.IModuleForm pluginForm)
+            if (e.Node.Tag is Common.IFormPlugin pluginForm)
             {
-                // Get the form from the IModuleForm instance
+                // Get the form from the IFormPlugin instance
                 Form form = pluginForm.GetForm();
 
                 // Store form in Operation tab to use for scaling and open when set.
@@ -141,48 +134,6 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Scale Form: ---------------------
-        //private static void ScaleFormToFitPanel(Form form, Panel panel)
-        //{
-        //    //// Get the original size of the form
-        //    //Size originalSize = form.Size;
-
-        //    // Check if the form's original size is already stored
-        //    if (form.Tag is Size originalSize)
-        //    {
-        //        // Reset the form to its original size
-        //        form.Size = originalSize;
-
-        //        // Reset all controls to their original sizes and locations
-        //        foreach (Control control in form.Controls)
-        //        {
-        //            if (control.Tag is (Size controlOriginalSize, Point controlOriginalLocation))
-        //            {
-        //                control.Size = controlOriginalSize;
-        //                control.Location = controlOriginalLocation;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Store the original size of the form in its Tag property
-        //        form.Tag = form.Size;
-
-        //        // Store the original size and location of each control
-        //        foreach (Control control in form.Controls)
-        //        {
-        //            control.Tag = (control.Size, control.Location);
-        //        }
-        //    }
-
-        //    // Calculate scaling factors for width and height
-        //    float scaleX = (float)panel.Width / form.Size.Width;
-        //    float scaleY = (float)panel.Height / form.Size.Height;
-
-        //    // Use non-cumulative scaling
-        //    form.Scale(new SizeF(scaleX, scaleY));
-        //}
-
-
         private static void ScaleFormToFitPanel(object? formModulePanel)
         {
             if (formModulePanel is TabControl tabControl) formModulePanel = tabControl.SelectedTab;
@@ -221,67 +172,6 @@ namespace OperatorsSolution
             // Use non-cumulative scaling
             form.Scale(new SizeF(scaleX, scaleY));
         }
-        //private static void ScaleFormToFitPanel(object? formModulePanel)
-        //{
-        //    if (formModulePanel is TabControl tabControl)
-        //        formModulePanel = tabControl.SelectedTab;
-
-        //    if (formModulePanel is not Panel panel || panel.Tag is not Form form)
-        //        return;
-
-        //    // Check for size change
-        //    var currentPanelSize = panel.Size;
-
-        //    // Retrieve or initialize original size and control data
-        //    if (form.Tag is not (Size originalSize, Size lastScaledSize, Dictionary<Control, (Size, Point)> controlOriginalData))
-        //    {
-        //        originalSize = form.Size;
-        //        lastScaledSize = currentPanelSize;
-
-        //        // Store original size and location for each control
-        //        controlOriginalData = form.Controls
-        //            .OfType<Control>()
-        //            .ToDictionary(control => control, control => (control.Size, control.Location));
-
-        //        // Store the initial data in form.Tag
-        //        form.Tag = (originalSize, lastScaledSize, controlOriginalData);
-        //    }
-        //    else if (lastScaledSize == currentPanelSize)
-        //    {
-        //        // Skip scaling if panel size hasn't changed
-        //        return;
-        //    }
-
-        //    // Calculate scaling factors
-        //    float scaleX = (float)currentPanelSize.Width / originalSize.Width;
-        //    float scaleY = (float)currentPanelSize.Height / originalSize.Height;
-
-        //    if (Math.Abs(scaleX - 1) > 0.01 || Math.Abs(scaleY - 1) > 0.01)
-        //    {
-        //        form.SuspendLayout(); // Reduce flickering during scaling
-
-        //        // Reset controls to original size and location before scaling
-        //        foreach (var (control, (controlOriginalSize, controlOriginalLocation)) in controlOriginalData)
-        //        {
-        //            control.Size = controlOriginalSize;
-        //            control.Location = controlOriginalLocation;
-        //        }
-
-        //        // Scale controls
-        //        foreach (var control in form.Controls.OfType<Control>())
-        //        {
-        //            control.Scale(new SizeF(scaleX, scaleY));
-        //        }
-
-        //        // Scale the form itself
-        //        form.Scale(new SizeF(scaleX, scaleY));
-
-        //        // Update last-scaled size in Tag
-        //        form.Tag = (originalSize, currentPanelSize, controlOriginalData);
-
-        //        form.ResumeLayout();
-        //    }
-        //}
 
         private void FormModulePanel_SizeChanged(object? sender, EventArgs e)
         {
@@ -385,67 +275,15 @@ namespace OperatorsSolution
         }
         #endregion
 
-
-        //private readonly List<Form> formHistory = [];
-
-        //private void SaveFormToHistory(Form form)
-        //{
-        //    if (formHistory.Count > 10) formHistory.Remove(formHistory.Last());
-        //    formHistory.Prepend(form);
-        //}
-
-        //private Form? GetLastFromFormHistory(string formType) //                 CHANGE TO TYPE INSTEAD OF STRING
-        //{
-        //    Form? form = formHistory.Find(match: x => x.Tag?.ToString() == formType);
-        //    return form;
-        //}
-
-
+        #region >----------------- Tab stuff: ---------------------
         private void TabChange(object? sender, EventArgs e)
         {
             if (sender is not TabControl tabControl) return;
             if (ContentsPanel == null) return;
 
+            if (tabControl.SelectedIndex == 2) return; // If its the settings tab, do not execute auto switch
+
             ContentsPanel.SelectedIndex = tabControl.SelectedIndex;
-
-            //if (tabs.SelectedTab is not TabPage tab) return;
-
-
-
-            //switch (tabControl.SelectedIndex)
-            //{
-            //    case 0: // Operation Tab
-
-            //        //if (tab.Tag == null)
-            //        //{
-            //        //    tab.Tag = OpenFormInPanel(, ContentsPanel);
-            //        //}
-            //        //else
-            //        //{
-            //        //    OpenFormInPanel((Form)tab.Tag, ContentsPanel);
-            //        //}
-            //        break;
-            //    case 1: // Database Tab
-
-
-            //        Form form = new DataBaseForm();
-            //        //if (tab.Tag == null)
-            //        //{
-            //        //    tab.Tag = OpenFormInPanel(form, ContentsPanel);
-            //        //} else
-            //        //{
-            //        //    OpenFormInPanel((Form)tab.Tag, ContentsPanel);
-            //        //}
-            //        //tabs.SelectedTab.Tag = OpenFormInPanel(form, ContentsPanel);
-            //        //ContentsPanel.Visible = false;
-            //        break;
-            //    case 2: // Settings Tab
-            //        ContentsPanel.Visible = true;
-            //        break;
-            //    default:
-            //        ContentsPanel.Visible = true;
-            //        break;
-            //}
         }
 
         private void HideTabBar()
@@ -455,5 +293,66 @@ namespace OperatorsSolution
             ContentsPanel.ItemSize = new Size(0, 1);
             ContentsPanel.SizeMode = TabSizeMode.Fixed;
         }
+        #endregion
+
+        #region >----------------- Database stuff: ---------------------
+        private void OpenDatabase(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (ContentsPanel == null || TabControl == null || DataViewer == null) return;
+
+            if (e.Node.Tag is string dbPath)
+            {
+                string connectionString = $"Data Source={dbPath};Version=3;";
+                LoadData(connectionString, DataViewer);
+            }
+        }
+        private SQLiteDataAdapter? dataAdapter;
+        private DataTable? dataTable;
+        private SQLiteConnection? connection;
+
+        private void LoadData(string connectionString, DataGridView dataViewer)
+        {
+            try
+            {
+                connection?.Close();
+                if (connection == null || connection.State != ConnectionState.Open) connection = new SQLiteConnection(connectionString);
+
+                connection.Open();
+
+                // Load data into a DataTable
+                string query = "SELECT * FROM People";
+                dataAdapter = new SQLiteDataAdapter(query, connection);
+
+                // CommandBuilder to automatically generate INSERT/UPDATE/DELETE commands
+                var commandBuilder = new SQLiteCommandBuilder(dataAdapter);
+
+                dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+
+                // Bind the DataTable to the DataGridView
+                dataViewer.DataSource = dataTable;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading data: " + ex.Message);
+            }
+        }
+
+        private void SaveButton_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (dataAdapter == null || dataTable == null) return;
+
+                // Update the database with changes made in the DataGridView
+                dataAdapter.Update(dataTable);
+                MessageBox.Show("Changes saved successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving data: " + ex.Message);
+            }
+        }
+        #endregion
     }
 }

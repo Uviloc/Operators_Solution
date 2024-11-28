@@ -1,18 +1,79 @@
-﻿using System;
+﻿using OperatorsSolution.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution.Common
 {
-    public interface IModuleForm
+    #region >----------------- Interfaces: ---------------------
+    public interface IFormPlugin
     {
         Form GetForm();
         string FormName { get; }
     }
 
+    public interface IStylePlugin
+    {
+        // All style parts needed like: backcolor, forecolor, etc
+        string StyleName { get; }
+    }
 
+    public interface IGraphicFunctionsPlugin // ADD SOMETHING LIKE WHAT DLL FILES TO LOAD AS EXTRA FOR XPRESSION.NET AND LIB ETC
+    {
+        GraphicsSoftwareInfo GraphicsSoftwareInfo { get; }
+
+        static abstract void DisplayPreview(object? sender, PictureBox previewBox);
+        static abstract void RemovePreview(PictureBox previewBox);
+        static abstract void TriggerClip(OperatorButton operatorButton, int clipIndex);
+    }
+    #endregion
+
+    #region >----------------- Types and Graphics Software: ---------------------
+    public enum GraphicsSoftware
+    {
+        XPression,
+        CasparCG,
+        vMix
+    }
+
+    public class GraphicsSoftwareInfo(GraphicsSoftware graphicsSoftware, string graphicsProgramName, string fileExtension)
+    {
+        public GraphicsSoftware GraphicsSoftware { get; set; } = graphicsSoftware;
+        public string GraphicsProgramName { get; set; } = graphicsProgramName;
+        public string FileExtension { get; set; } = fileExtension;
+    }
+
+
+    public enum PluginType
+    {
+        Interfaces,
+        Graphics_Program_Functions,
+        Databases,
+        Visual_Styles
+    }
+
+    //public class PluginTypeInfo(PluginType pluginType, string folderName)
+    //{
+    //    public PluginType PluginType { get; set; } = pluginType;
+    //    public string FolderName { get; set; } = folderName;
+    //}
+
+    //public static class PluginTypeRegistry
+    //{
+    //    public static readonly Dictionary<PluginType, PluginTypeInfo> PluginMappings = new()
+    //    {
+    //        { PluginType.Interfaces, new PluginTypeInfo(PluginType.Interfaces, "Forms") },
+    //        { PluginType.Visual_Styles, new PluginTypeInfo(PluginType.Visual_Styles, "Visual Styles") },
+    //        { PluginType.Graphics_Program_Functions, new PluginTypeInfo(PluginType.Graphics_Program_Functions, "Graphics Program Functions") },
+    //        { PluginType.Databases, new PluginTypeInfo(PluginType.Databases, "Databases") }
+    //    };
+    //}
+    #endregion
+
+    #region >----------------- Common Functions: ---------------------
     public class CommonFunctions
     {
         /// <summary>
@@ -28,7 +89,7 @@ namespace OperatorsSolution.Common
             control.BackColor = originalColor;
         }
 
-        //public static List<T> GetControlsByType<T>(Form form)
+        //public static List<T> GetControlsByType<T>(Interfaces form)
         //{
         //    List<T> controls = [];
         //    foreach (Control control in form.Controls)
@@ -38,21 +99,7 @@ namespace OperatorsSolution.Common
         //    return controls;
         //}
     }
-
-    public enum GraphicsSoftware
-    {
-        XPression,
-        CasparCG,
-        vMix
-    }
-
-    public enum FileLoadingTypes
-    {
-        Form,
-        GraphicsFunctions,
-        Databases,
-        VisualStyles
-    }
+    #endregion
 
 
 
@@ -76,7 +123,7 @@ namespace OperatorsSolution.Common
     //    // Slow down redraws for form panel to reduce flickering
     //    if (control.Width % 5 == 0 && reduceScaleChangesOn != null)
     //    {
-    //        if (reduceScaleChangesOn is Panel panel && panel.Tag is Form form)
+    //        if (reduceScaleChangesOn is Panel panel && panel.Tag is Interfaces form)
     //        {
     //            ScaleFormToFitPanel(form, panel);
     //        }

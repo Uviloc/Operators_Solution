@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Reflection.Emit;
+using Console = System.Diagnostics.Debug;
 
 
 namespace OperatorsSolution.GraphicsProgramFunctions
@@ -17,8 +18,10 @@ namespace OperatorsSolution.GraphicsProgramFunctions
     /// <summary>
     /// All functions for the XPression Graphics Program.
     /// </summary>
-    internal class XP_Functions
+    internal class XP_Functions : IGraphicFunctionsPlugin
     {
+        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new(GraphicsSoftware.XPression, "XPression", "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp");
+
         #region >----------------- XPression play scene: ---------------------
         /// <summary>
         /// Plays out the scene in XPression when this project is open in XPression.

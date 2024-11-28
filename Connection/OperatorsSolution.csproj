@@ -21,23 +21,10 @@
 
 	<!-- Dont include certain files into loading: -->
 	<ItemGroup>
-		<Compile Remove="Uncompiled_Files\!AssemblyLoader.cs" />
-		<Compile Remove="Uncompiled_Files\!CollectionEditorTest.cs" />
-		<Compile Remove="Uncompiled_Files\!OldCode.cs" />
+		<Compile Remove="Uncompiled_Files\**\*.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="TemporaryTestDB.db" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Content Include="TemporaryTestDB.db">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Uncompiled_Files\!AssemblyLoader.cs" />
-		<None Include="Uncompiled_Files\!CollectionEditorTest.cs" />
-		<None Include="Uncompiled_Files\!OldCode.cs" />
+		<None Include="Uncompiled_Files\**\*.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -55,41 +42,46 @@
 		<!--<PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />-->
 	</ItemGroup>
 
+	<!-- Program files: -->
 	<ItemGroup>
-	  <Compile Update="Program\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Program\Settings.Designer.cs">
-	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Settings.settings</DependentUpon>
-	  </Compile>
+		<Compile Update="Program\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Program\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<None Update="Program\Settings.settings">
+			<Generator>PublicSettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		<EmbeddedResource Update="Program\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
+	<!-- Module files: -->
 	<ItemGroup>
-	  <None Update="Modules\**\*.dll">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Program\Settings.settings">
-	    <Generator>PublicSettingsSingleFileGenerator</Generator>
-	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Forms\" />
-	  <Folder Include="Program\DataSources\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Program\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<Content Include="Modules\Databases\**\*.db">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 	
+	<ItemGroup>
+		<None Update="Modules\**\*.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Forms\" />
+		<Folder Include="Program\DataSources\" />
+	</ItemGroup>
+
 
 	<!-- Include XPression if it is found -->
 	<Choose>

@@ -8,6 +8,7 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Reflection;
 using OperatorsSolution.Common;
+using Console = System.Diagnostics.Debug;
 
 
 namespace OperatorsSolution.Controls

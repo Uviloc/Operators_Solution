@@ -9,13 +9,13 @@ namespace OperatorsSolution
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpSol_Form));
             button2 = new Button();
-            treeViewModules = new TreeView();
-            treeView1 = new TreeView();
-            tabControl1 = new TabControl();
+            operationTreeview = new TreeView();
+            databaseTreeview = new TreeView();
+            controlPanelTabs = new TabControl();
             Operation = new TabPage();
             DataBase = new TabPage();
             Settings = new TabPage();
-            textBox1 = new TextBox();
+            settingsGraphicsProgram = new TextBox();
             button1 = new Button();
             textBox2 = new TextBox();
             ProjectFile = new TextBox();
@@ -27,21 +27,31 @@ namespace OperatorsSolution
             textBox3 = new TextBox();
             textBox7 = new TextBox();
             CollapseControlPanel1 = new Button();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            innerPanel2 = new TabControl();
-            tab1 = new TabPage();
-            label1 = new Label();
-            tab2 = new TabPage();
-            tab3 = new TabPage();
+            mainLayoutTable = new TableLayoutPanel();
+            innerPanelTabs = new TabControl();
+            innerPanelOperationTab = new TabPage();
+            defaultInstructionsOperation = new Label();
+            innerPanelDatabaseTab = new TabPage();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            dataViewer = new DataGridView();
+            tabPage2 = new TabPage();
+            button3 = new Button();
+            defaultDatabaseInstructions = new Label();
+            settingsTab = new TabPage();
             controlPanel = new Panel();
             ToolTip = new ToolTip(components);
-            tabControl1.SuspendLayout();
+            controlPanelTabs.SuspendLayout();
             Operation.SuspendLayout();
             DataBase.SuspendLayout();
             Settings.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            innerPanel2.SuspendLayout();
-            tab1.SuspendLayout();
+            mainLayoutTable.SuspendLayout();
+            innerPanelTabs.SuspendLayout();
+            innerPanelOperationTab.SuspendLayout();
+            innerPanelDatabaseTab.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataViewer).BeginInit();
             controlPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,51 +67,52 @@ namespace OperatorsSolution
             button2.UseVisualStyleBackColor = false;
             button2.Click += OpenProject;
             // 
-            // treeViewModules
+            // operationTreeview
             // 
-            treeViewModules.BackColor = Color.Black;
-            treeViewModules.Dock = DockStyle.Fill;
-            treeViewModules.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            treeViewModules.ForeColor = Color.White;
-            treeViewModules.LineColor = Color.White;
-            treeViewModules.Location = new Point(0, 0);
-            treeViewModules.Name = "treeViewModules";
-            treeViewModules.Size = new Size(609, 1264);
-            treeViewModules.TabIndex = 6;
-            treeViewModules.NodeMouseDoubleClick += OpenExternalForm;
+            operationTreeview.BackColor = Color.Black;
+            operationTreeview.Dock = DockStyle.Fill;
+            operationTreeview.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            operationTreeview.ForeColor = Color.White;
+            operationTreeview.LineColor = Color.White;
+            operationTreeview.Location = new Point(0, 0);
+            operationTreeview.Name = "operationTreeview";
+            operationTreeview.Size = new Size(609, 1264);
+            operationTreeview.TabIndex = 6;
+            operationTreeview.NodeMouseDoubleClick += OpenExternalForm;
             // 
-            // treeView1
+            // databaseTreeview
             // 
-            treeView1.BackColor = Color.Black;
-            treeView1.Font = new Font("Segoe UI", 14F);
-            treeView1.ForeColor = Color.White;
-            treeView1.Location = new Point(9, 96);
-            treeView1.MinimumSize = new Size(0, 10);
-            treeView1.Name = "treeView1";
-            treeView1.Size = new Size(597, 1062);
-            treeView1.TabIndex = 0;
+            databaseTreeview.BackColor = Color.Black;
+            databaseTreeview.Font = new Font("Segoe UI", 14F);
+            databaseTreeview.ForeColor = Color.White;
+            databaseTreeview.Location = new Point(9, 96);
+            databaseTreeview.MinimumSize = new Size(0, 10);
+            databaseTreeview.Name = "databaseTreeview";
+            databaseTreeview.Size = new Size(597, 1062);
+            databaseTreeview.TabIndex = 0;
+            databaseTreeview.NodeMouseDoubleClick += OpenDatabase;
             // 
-            // tabControl1
+            // controlPanelTabs
             // 
-            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            tabControl1.Appearance = TabAppearance.Buttons;
-            tabControl1.Controls.Add(Operation);
-            tabControl1.Controls.Add(DataBase);
-            tabControl1.Controls.Add(Settings);
-            tabControl1.ItemSize = new Size(20000, 200);
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Margin = new Padding(0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.Padding = new Point(20, 3);
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(617, 1472);
-            tabControl1.SizeMode = TabSizeMode.FillToRight;
-            tabControl1.TabIndex = 0;
-            tabControl1.SelectedIndexChanged += TabChange;
+            controlPanelTabs.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            controlPanelTabs.Appearance = TabAppearance.Buttons;
+            controlPanelTabs.Controls.Add(Operation);
+            controlPanelTabs.Controls.Add(DataBase);
+            controlPanelTabs.Controls.Add(Settings);
+            controlPanelTabs.ItemSize = new Size(20000, 200);
+            controlPanelTabs.Location = new Point(0, 0);
+            controlPanelTabs.Margin = new Padding(0);
+            controlPanelTabs.Name = "controlPanelTabs";
+            controlPanelTabs.Padding = new Point(20, 3);
+            controlPanelTabs.SelectedIndex = 0;
+            controlPanelTabs.Size = new Size(617, 1472);
+            controlPanelTabs.SizeMode = TabSizeMode.FillToRight;
+            controlPanelTabs.TabIndex = 0;
+            controlPanelTabs.SelectedIndexChanged += TabChange;
             // 
             // Operation
             // 
-            Operation.Controls.Add(treeViewModules);
+            Operation.Controls.Add(operationTreeview);
             Operation.Location = new Point(4, 204);
             Operation.Margin = new Padding(0);
             Operation.Name = "Operation";
@@ -112,7 +123,7 @@ namespace OperatorsSolution
             // DataBase
             // 
             DataBase.BackColor = Color.FromArgb(60, 60, 60);
-            DataBase.Controls.Add(treeView1);
+            DataBase.Controls.Add(databaseTreeview);
             DataBase.ForeColor = Color.White;
             DataBase.Location = new Point(4, 204);
             DataBase.Name = "DataBase";
@@ -125,7 +136,7 @@ namespace OperatorsSolution
             // 
             Settings.AutoScroll = true;
             Settings.BackColor = Color.FromArgb(60, 60, 60);
-            Settings.Controls.Add(textBox1);
+            Settings.Controls.Add(settingsGraphicsProgram);
             Settings.Controls.Add(button1);
             Settings.Controls.Add(textBox2);
             Settings.Controls.Add(button2);
@@ -144,15 +155,15 @@ namespace OperatorsSolution
             Settings.TabIndex = 2;
             Settings.Text = "         Settings         ";
             // 
-            // textBox1
+            // settingsGraphicsProgram
             // 
-            textBox1.Location = new Point(16, 25);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(165, 33);
-            textBox1.TabIndex = 11;
-            textBox1.Text = "Graphics Program:";
+            settingsGraphicsProgram.Location = new Point(16, 25);
+            settingsGraphicsProgram.Multiline = true;
+            settingsGraphicsProgram.Name = "settingsGraphicsProgram";
+            settingsGraphicsProgram.ReadOnly = true;
+            settingsGraphicsProgram.Size = new Size(165, 33);
+            settingsGraphicsProgram.TabIndex = 11;
+            settingsGraphicsProgram.Text = "Graphics Program:";
             // 
             // button1
             // 
@@ -267,84 +278,149 @@ namespace OperatorsSolution
             CollapseControlPanel1.MouseEnter += ButtonEnter;
             CollapseControlPanel1.MouseLeave += ButtonLeave;
             // 
-            // tableLayoutPanel1
+            // mainLayoutTable
             // 
-            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(innerPanel2, 2, 0);
-            tableLayoutPanel1.Controls.Add(CollapseControlPanel1, 1, 0);
-            tableLayoutPanel1.Controls.Add(controlPanel, 0, 0);
-            tableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel1.Location = new Point(12, 15);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(2234, 1478);
-            tableLayoutPanel1.TabIndex = 0;
+            mainLayoutTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            mainLayoutTable.ColumnCount = 3;
+            mainLayoutTable.ColumnStyles.Add(new ColumnStyle());
+            mainLayoutTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            mainLayoutTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            mainLayoutTable.Controls.Add(innerPanelTabs, 2, 0);
+            mainLayoutTable.Controls.Add(CollapseControlPanel1, 1, 0);
+            mainLayoutTable.Controls.Add(controlPanel, 0, 0);
+            mainLayoutTable.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            mainLayoutTable.Location = new Point(12, 15);
+            mainLayoutTable.Name = "mainLayoutTable";
+            mainLayoutTable.RowCount = 1;
+            mainLayoutTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            mainLayoutTable.Size = new Size(2234, 1478);
+            mainLayoutTable.TabIndex = 0;
             // 
-            // innerPanel2
+            // innerPanelTabs
             // 
-            innerPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            innerPanel2.Appearance = TabAppearance.FlatButtons;
-            innerPanel2.Controls.Add(tab1);
-            innerPanel2.Controls.Add(tab2);
-            innerPanel2.Controls.Add(tab3);
-            innerPanel2.ItemSize = new Size(0, 50);
-            innerPanel2.Location = new Point(653, 0);
-            innerPanel2.Margin = new Padding(0);
-            innerPanel2.Name = "innerPanel2";
-            innerPanel2.SelectedIndex = 0;
-            innerPanel2.Size = new Size(1581, 1478);
-            innerPanel2.TabIndex = 4;
-            innerPanel2.SizeChanged += FormModulePanel_SizeChanged;
+            innerPanelTabs.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            innerPanelTabs.Appearance = TabAppearance.FlatButtons;
+            innerPanelTabs.Controls.Add(innerPanelOperationTab);
+            innerPanelTabs.Controls.Add(innerPanelDatabaseTab);
+            innerPanelTabs.Controls.Add(settingsTab);
+            innerPanelTabs.ItemSize = new Size(0, 30);
+            innerPanelTabs.Location = new Point(653, 0);
+            innerPanelTabs.Margin = new Padding(0);
+            innerPanelTabs.Name = "innerPanelTabs";
+            innerPanelTabs.SelectedIndex = 0;
+            innerPanelTabs.Size = new Size(1581, 1478);
+            innerPanelTabs.TabIndex = 4;
+            innerPanelTabs.SizeChanged += FormModulePanel_SizeChanged;
             // 
-            // tab1
+            // innerPanelOperationTab
             // 
-            tab1.BackColor = Color.FromArgb(32, 32, 32);
-            tab1.Controls.Add(label1);
-            tab1.Location = new Point(4, 54);
-            tab1.Name = "tab1";
-            tab1.Size = new Size(1573, 1420);
-            tab1.TabIndex = 0;
-            tab1.Text = "Operation";
+            innerPanelOperationTab.BackColor = Color.FromArgb(32, 32, 32);
+            innerPanelOperationTab.Controls.Add(defaultInstructionsOperation);
+            innerPanelOperationTab.Location = new Point(4, 34);
+            innerPanelOperationTab.Name = "innerPanelOperationTab";
+            innerPanelOperationTab.Size = new Size(1573, 1440);
+            innerPanelOperationTab.TabIndex = 0;
+            innerPanelOperationTab.Text = "Operation";
             // 
-            // label1
+            // defaultInstructionsOperation
             // 
-            label1.Dock = DockStyle.Fill;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(1573, 1420);
-            label1.TabIndex = 3;
-            label1.Text = "Open a project or database on the left.";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            defaultInstructionsOperation.Dock = DockStyle.Fill;
+            defaultInstructionsOperation.Location = new Point(0, 0);
+            defaultInstructionsOperation.Name = "defaultInstructionsOperation";
+            defaultInstructionsOperation.Size = new Size(1573, 1440);
+            defaultInstructionsOperation.TabIndex = 3;
+            defaultInstructionsOperation.Text = "Open a project on the left.";
+            defaultInstructionsOperation.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // tab2
+            // innerPanelDatabaseTab
             // 
-            tab2.BackColor = Color.FromArgb(32, 32, 32);
-            tab2.Location = new Point(4, 54);
-            tab2.Name = "tab2";
-            tab2.Size = new Size(1573, 1420);
-            tab2.TabIndex = 1;
-            tab2.Text = "DataBase";
+            innerPanelDatabaseTab.BackColor = Color.FromArgb(32, 32, 32);
+            innerPanelDatabaseTab.Controls.Add(tabControl1);
+            innerPanelDatabaseTab.Controls.Add(button3);
+            innerPanelDatabaseTab.Controls.Add(defaultDatabaseInstructions);
+            innerPanelDatabaseTab.Location = new Point(4, 34);
+            innerPanelDatabaseTab.Name = "innerPanelDatabaseTab";
+            innerPanelDatabaseTab.Size = new Size(1573, 1440);
+            innerPanelDatabaseTab.TabIndex = 1;
+            innerPanelDatabaseTab.Text = "DataBase";
             // 
-            // tab3
+            // tabControl1
             // 
-            tab3.BackColor = Color.FromArgb(32, 32, 32);
-            tab3.Location = new Point(4, 54);
-            tab3.Name = "tab3";
-            tab3.Size = new Size(1573, 1420);
-            tab3.TabIndex = 2;
-            tab3.Text = "Settings";
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControl1.Appearance = TabAppearance.FlatButtons;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Location = new Point(39, 111);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(1435, 1209);
+            tabControl1.TabIndex = 6;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(dataViewer);
+            tabPage1.Location = new Point(4, 37);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1427, 1168);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "tabPage1";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataViewer
+            // 
+            dataViewer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataViewer.Dock = DockStyle.Fill;
+            dataViewer.Location = new Point(3, 3);
+            dataViewer.Name = "dataViewer";
+            dataViewer.RowHeadersWidth = 62;
+            dataViewer.Size = new Size(1421, 1162);
+            dataViewer.TabIndex = 2;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Location = new Point(4, 37);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(1427, 1168);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(1381, 1383);
+            button3.Name = "button3";
+            button3.Size = new Size(112, 34);
+            button3.TabIndex = 5;
+            button3.Text = "Save";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += SaveButton_Click;
+            // 
+            // defaultDatabaseInstructions
+            // 
+            defaultDatabaseInstructions.Location = new Point(0, 0);
+            defaultDatabaseInstructions.Name = "defaultDatabaseInstructions";
+            defaultDatabaseInstructions.Size = new Size(175, 71);
+            defaultDatabaseInstructions.TabIndex = 4;
+            defaultDatabaseInstructions.Text = "Open a database on the left.";
+            defaultDatabaseInstructions.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // settingsTab
+            // 
+            settingsTab.BackColor = Color.FromArgb(32, 32, 32);
+            settingsTab.Location = new Point(4, 34);
+            settingsTab.Name = "settingsTab";
+            settingsTab.Size = new Size(1573, 1440);
+            settingsTab.TabIndex = 2;
+            settingsTab.Text = "Settings";
             // 
             // controlPanel
             // 
             controlPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             controlPanel.AutoScroll = true;
             controlPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            controlPanel.Controls.Add(tabControl1);
+            controlPanel.Controls.Add(controlPanelTabs);
             controlPanel.Location = new Point(3, 3);
             controlPanel.MaximumSize = new Size(617, 1000000000);
             controlPanel.Name = "controlPanel";
@@ -357,35 +433,41 @@ namespace OperatorsSolution
             AutoScaleMode = AutoScaleMode.Inherit;
             BackColor = Color.FromArgb(32, 32, 32);
             ClientSize = new Size(2258, 1505);
-            ContentsPanel = innerPanel2;
+            ContentsPanel = innerPanelTabs;
             ControlPanel = controlPanel;
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(mainLayoutTable);
+            DatabaseTreeview = databaseTreeview;
+            DataViewer = dataViewer;
             ForeColor = Color.FromArgb(60, 60, 60);
             MinimumSize = new Size(1150, 500);
             Name = "OpSol_Form";
+            OperationTreeview = operationTreeview;
             ShowIcon = false;
-            TabControl = tabControl1;
+            TabControl = controlPanelTabs;
             Text = "Operators Solution";
             TopMost = true;
-            TreeviewExplorer = treeViewModules;
-            tabControl1.ResumeLayout(false);
+            controlPanelTabs.ResumeLayout(false);
             Operation.ResumeLayout(false);
             DataBase.ResumeLayout(false);
             Settings.ResumeLayout(false);
             Settings.PerformLayout();
-            tableLayoutPanel1.ResumeLayout(false);
-            innerPanel2.ResumeLayout(false);
-            tab1.ResumeLayout(false);
+            mainLayoutTable.ResumeLayout(false);
+            innerPanelTabs.ResumeLayout(false);
+            innerPanelOperationTab.ResumeLayout(false);
+            innerPanelDatabaseTab.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataViewer).EndInit();
             controlPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         private Button button2;
-        private TreeView treeViewModules;
+        private TreeView operationTreeview;
         private Button CollapseControlPanel1;
         private System.ComponentModel.IContainer components;
-        private TableLayoutPanel tableLayoutPanel1;
-        private TabControl tabControl1;
+        private TableLayoutPanel mainLayoutTable;
+        private TabControl controlPanelTabs;
         private TabPage Operation;
         private TabPage DataBase;
         private TabPage Settings;
@@ -394,19 +476,25 @@ namespace OperatorsSolution
         private TextBox ProjectFile;
         private TextBox textBox3;
         private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox settingsGraphicsProgram;
         private ComboBox GraphicsSoftwareOption;
-        private TreeView treeView1;
+        private TreeView databaseTreeview;
         private ToolTip ToolTip;
         private TextBox textBox5;
         private TextBox textBox4;
         private TextBox textBox8;
         private TextBox textBox7;
         private TextBox textBox6;
-        private TabControl innerPanel2;
-        private TabPage tab1;
-        private Label label1;
-        private TabPage tab2;
-        private TabPage tab3;
+        private TabControl innerPanelTabs;
+        private TabPage innerPanelOperationTab;
+        private Label defaultInstructionsOperation;
+        private TabPage innerPanelDatabaseTab;
+        private TabPage settingsTab;
+        private Label defaultDatabaseInstructions;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private DataGridView dataViewer;
+        private TabPage tabPage2;
+        private Button button3;
     }
 }

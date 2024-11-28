@@ -1,4 +1,301 @@
-﻿#region >----------------- Testing Preview on Hover: ---------------------
+﻿// MODULE LOADER CODE:
+//public static void LoadFilesFromFolder(string folder, PluginType type, TreeView treeviewExplorer)
+//{
+//    // Loop through each DLL in the Modules folder
+//    foreach (string file in Directory.GetFiles(folder, "*.dll", SearchOption.AllDirectories))
+//    {
+//        try
+//        {
+//            // Load the assembly
+//            var context = new AssemblyLoadContext(file, isCollectible: true);
+//            Assembly assembly = context.LoadFromAssemblyPath(file);
+
+//            // Find all types in the assembly that implement IFormPlugin
+//            foreach (Type type in assembly.GetTypes())
+//            {
+//                if (!typeof(IFormPlugin).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) return;
+
+//                // Create an instance of the module form
+//                var typeInstance = Activator.CreateInstance(type);
+//                if (typeInstance == null) return;
+//                IFormPlugin moduleForm = (IFormPlugin)typeInstance;
+
+//                if (moduleForm == null) return;
+
+//                string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
+
+//                // Add the plugin form to the TreeView
+//                //AddToTreeView(moduleForm, relativePath, treeviewExplorer.Nodes);
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            MessageBox.Show($"Error loading module {file}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+//        }
+//    }
+//}
+
+
+
+//public static void LoadModules(TreeView treeviewExplorer)
+//{
+//    // Get or create "Modules" folder in the app directory
+//    string moduleFolder = Path.Combine(Application.StartupPath, "Modules");
+//    if (!Directory.Exists(moduleFolder))
+//        Directory.CreateDirectory(moduleFolder);
+
+//    // Loop through each DLL in the Modules folder
+//    foreach (string file in Directory.GetFiles(moduleFolder, "*.dll", SearchOption.AllDirectories))
+//    {
+//        try
+//        {
+//            // Load the assembly
+//            var context = new AssemblyLoadContext(file, isCollectible: true);
+//            Assembly assembly = context.LoadFromAssemblyPath(file);
+
+//            // Find all types in the assembly that implement IFormPlugin
+//            foreach (Type type in assembly.GetTypes())
+//            {
+//                if (!typeof(IFormPlugin).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) return;
+
+//                // Create an instance of the module form
+//                var typeInstance = Activator.CreateInstance(type);
+//                if (typeInstance == null) return;
+//                IFormPlugin moduleForm = (IFormPlugin)typeInstance;
+
+//                if (moduleForm == null) return;
+
+//                string[] relativePath = Path.GetRelativePath(moduleFolder, file).Split('\\');
+
+//                // Add the plugin form to the TreeView
+//                AddToTreeView(moduleForm, moduleForm.FormName, relativePath, treeviewExplorer.Nodes);
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            MessageBox.Show($"Error loading module {file}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+//        }
+//    }
+//}
+
+
+//private static TreeNode AddToTreeView(IFormPlugin moduleForm, string[] filePath, TreeView? treeviewExplorer = null)
+//{
+//    TreeNode? node = treeviewExplorer?.Nodes
+//        .Cast<TreeNode>()
+//        .FirstOrDefault(n => n.Text == filePath[0]);
+//    if (filePath.Length == 1)
+//    {
+//        // Store the plugin form in the Tag property for easy access later
+//        node = new(moduleForm.FormName) { Tag = moduleForm };
+//    }
+//    else
+//    {
+//        node ??= new TreeNode(filePath[0]);
+//        string[] newFilePath = filePath.Skip(1).ToArray();
+//        node.Nodes.Add(AddToTreeView(moduleForm, newFilePath));
+//    }
+//    treeviewExplorer?.Nodes.Add(node);
+//    return node;
+//}
+
+//private static TreeNode AddToTreeView(IFormPlugin moduleForm, string[] filePath, TreeNodeCollection nodes)
+//{
+//    // If no nodes are provided, use the root nodes
+//    //nodes ??= treeviewExplorer?.Nodes;
+
+//    // Find an existing node at the current level
+//    TreeNode? node = nodes
+//        .Cast<TreeNode>()
+//        .FirstOrDefault(n => n.Text == filePath[0]);
+
+//    // If the node doesn't exist, create and add it
+//    node ??= new TreeNode(filePath[0]);
+//    if (!nodes.Contains(node))
+//    {
+//        nodes.Add(node);
+//    }
+
+//    // If we've reached the final level, add the form
+//    if (filePath.Length == 1)
+//    {
+//        node.Tag = moduleForm; // Store the plugin form in the Tag property
+//        node.Text = moduleForm.FormName; // Set the text to the form name
+//    }
+//    else
+//    {
+//        // Recursively process the next level
+//        string[] newFilePath = filePath.Skip(1).ToArray();
+//        AddToTreeView(moduleForm, newFilePath, node.Nodes);
+//    }
+
+//    return node;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//private readonly List<Interfaces> formHistory = [];
+
+//private void SaveFormToHistory(Interfaces form)
+//{
+//    if (formHistory.Count > 10) formHistory.Remove(formHistory.Last());
+//    formHistory.Prepend(form);
+//}
+
+//private Interfaces? GetLastFromFormHistory(string formType) //                 CHANGE TO TYPE INSTEAD OF STRING
+//{
+//    Interfaces? form = formHistory.Find(match: x => x.Tag?.ToString() == formType);
+//    return form;
+//}
+
+
+
+
+//private void InitializeForms()
+//{
+//    if (ContentsPanel == null) return;
+//    Form form = new DataBaseForm();
+//    OpenFormInPanel(form, ContentsPanel.TabPages[1]);
+//}
+
+
+//private static void ScaleFormToFitPanel(Interfaces form, Panel panel)
+//{
+//    //// Get the original size of the form
+//    //Size originalSize = form.Size;
+
+//    // Check if the form's original size is already stored
+//    if (form.Tag is Size originalSize)
+//    {
+//        // Reset the form to its original size
+//        form.Size = originalSize;
+
+//        // Reset all controls to their original sizes and locations
+//        foreach (Control control in form.Controls)
+//        {
+//            if (control.Tag is (Size controlOriginalSize, Point controlOriginalLocation))
+//            {
+//                control.Size = controlOriginalSize;
+//                control.Location = controlOriginalLocation;
+//            }
+//        }
+//    }
+//    else
+//    {
+//        // Store the original size of the form in its Tag property
+//        form.Tag = form.Size;
+
+//        // Store the original size and location of each control
+//        foreach (Control control in form.Controls)
+//        {
+//            control.Tag = (control.Size, control.Location);
+//        }
+//    }
+
+//    // Calculate scaling factors for width and height
+//    float scaleX = (float)panel.Width / form.Size.Width;
+//    float scaleY = (float)panel.Height / form.Size.Height;
+
+//    // Use non-cumulative scaling
+//    form.Scale(new SizeF(scaleX, scaleY));
+//}
+
+
+
+//private static void ScaleFormToFitPanel(object? formModulePanel)
+//{
+//    if (formModulePanel is TabControl tabControl)
+//        formModulePanel = tabControl.SelectedTab;
+
+//    if (formModulePanel is not Panel panel || panel.Tag is not Interfaces form)
+//        return;
+
+//    // Check for size change
+//    var currentPanelSize = panel.Size;
+
+//    // Retrieve or initialize original size and control data
+//    if (form.Tag is not (Size originalSize, Size lastScaledSize, Dictionary<Control, (Size, Point)> controlOriginalData))
+//    {
+//        originalSize = form.Size;
+//        lastScaledSize = currentPanelSize;
+
+//        // Store original size and location for each control
+//        controlOriginalData = form.Controls
+//            .OfType<Control>()
+//            .ToDictionary(control => control, control => (control.Size, control.Location));
+
+//        // Store the initial data in form.Tag
+//        form.Tag = (originalSize, lastScaledSize, controlOriginalData);
+//    }
+//    else if (lastScaledSize == currentPanelSize)
+//    {
+//        // Skip scaling if panel size hasn't changed
+//        return;
+//    }
+
+//    // Calculate scaling factors
+//    float scaleX = (float)currentPanelSize.Width / originalSize.Width;
+//    float scaleY = (float)currentPanelSize.Height / originalSize.Height;
+
+//    if (Math.Abs(scaleX - 1) > 0.01 || Math.Abs(scaleY - 1) > 0.01)
+//    {
+//        form.SuspendLayout(); // Reduce flickering during scaling
+
+//        // Reset controls to original size and location before scaling
+//        foreach (var (control, (controlOriginalSize, controlOriginalLocation)) in controlOriginalData)
+//        {
+//            control.Size = controlOriginalSize;
+//            control.Location = controlOriginalLocation;
+//        }
+
+//        // Scale controls
+//        foreach (var control in form.Controls.OfType<Control>())
+//        {
+//            control.Scale(new SizeF(scaleX, scaleY));
+//        }
+
+//        // Scale the form itself
+//        form.Scale(new SizeF(scaleX, scaleY));
+
+//        // Update last-scaled size in Tag
+//        form.Tag = (originalSize, currentPanelSize, controlOriginalData);
+
+//        form.ResumeLayout();
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#region >----------------- Testing Preview on Hover: ---------------------
 #if HAS_XPRESSION
         //private void DisplayPreview(object sender, EventArgs e)
         //{

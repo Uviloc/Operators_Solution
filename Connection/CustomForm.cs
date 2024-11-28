@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution
 {
@@ -18,15 +19,21 @@ namespace OperatorsSolution
         [Browsable(true)]
         public TabControl? ContentsPanel { get; set; }
 
-        // TreeView
+        // Operation TreeView
         [Category(".Operation")]
         [Description("The treeview control where the forms will be loaded into.")]
         [Browsable(true)]
-        public TreeView? TreeviewExplorer { get; set; }
+        public TreeView? OperationTreeview { get; set; }
+
+        // Data TreeView
+        [Category(".Operation")]
+        [Description("The treeview control where the databases will be loaded into.")]
+        [Browsable(true)]
+        public TreeView? DatabaseTreeview { get; set; }
 
         // Control Panel
         [Category(".Operation")]
-        [Description("The control panel containing the TreeviewExplorer and menu buttons.")]
+        [Description("The control panel containing the OperationTreeview and menu buttons.")]
         [Browsable(true)]
         public Panel? ControlPanel { get; set; }
 
@@ -35,6 +42,12 @@ namespace OperatorsSolution
         [Description("The tab control that has the main program tabs in.")]
         [Browsable(true)]
         public TabControl? TabControl { get; set; }
+
+        // Data Viewer
+        [Category(".Operation")]
+        [Description("The DataGridView that the databases can be loaded into.")]
+        [Browsable(true)]
+        public DataGridView? DataViewer { get; set; }
         #endregion
 
         // SHOULD MAYBE HAVE SETTINGS CONTROL HERE SO THAT EXTERNAL FORMS CAN USE THOSE FUNCTIONS EASILY

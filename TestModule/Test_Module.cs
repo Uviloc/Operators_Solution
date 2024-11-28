@@ -1,5 +1,4 @@
-﻿using OperatorsSolution;
-using OperatorsSolution.Common;
+﻿using OperatorsSolution.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,22 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static OperatorsSolution.ModuleLoader;
+using static OperatorsSolution.Common.PluginLoader;
 using static OperatorsSolution.OpSol_Form;
+using static OperatorsSolution.Common.CommonFunctions;
+using Console = System.Diagnostics.Debug;
 
-namespace TestModule
+namespace TestModule1
 {
-    public partial class Test_Module : Form, IModuleForm
+    public partial class Test_Module : Form, IFormPlugin
     {
-        public Test_Module()
-        {
-            InitializeComponent();
-        }
-        public string FormName => "Test Module Form3";
-
+        public string FormName => "Test Module Form1";
         public Form GetForm()
         {
             return this;
+        }
+
+
+        public Test_Module()
+        {
+            InitializeComponent();
         }
     }
 }

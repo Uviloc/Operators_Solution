@@ -1,6 +1,6 @@
 ﻿using OperatorsSolution.Controls;
 
-namespace TestModule
+namespace TestModule1
 {
     partial class Test_Module
     {
