@@ -60,7 +60,7 @@ Mon: Added tab control in main view, added initial database stuff
 Tue: 
 Wed: Developed plugin loading further, and got database working quite far
 Thu: Added scalable control, developed plugin loader to read .db files, got databases to be fully plugin compatible
-Fri: 
+Fri: Added a huge amount of control to databases, got overwhelmed by all the code and databases stuff
 
 Week 10:
 Mon: 

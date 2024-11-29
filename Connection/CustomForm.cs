@@ -45,9 +45,9 @@ namespace OperatorsSolution
 
         // Data Viewer
         [Category(".Operation")]
-        [Description("The DataGridView that the databases can be loaded into.")]
+        [Description("The TabControl that the databases can be loaded into.")]
         [Browsable(true)]
-        public DataGridView? DataViewer { get; set; }
+        public TabControl? DataViewer { get; set; }
         #endregion
 
         // SHOULD MAYBE HAVE SETTINGS CONTROL HERE SO THAT EXTERNAL FORMS CAN USE THOSE FUNCTIONS EASILY

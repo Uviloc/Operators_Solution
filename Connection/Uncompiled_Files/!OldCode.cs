@@ -1,4 +1,169 @@
-﻿// MODULE LOADER CODE:
+﻿private SQLiteConnection? connection;
+
+private void LoadData(string connectionString, TabControl dataViewer)
+{
+    try
+    {
+        // Open new connection with the chosen database
+        connection?.Close();
+        dataViewer.TabPages.Clear();
+        if (connection == null || connection.State != ConnectionState.Open) connection = new SQLiteConnection(connectionString);
+        connection.Open();
+
+        // Load each table in dataViewer
+        foreach (var table in GetTables(connection))
+        {
+            DataGridView dataGridView = new()
+            {
+                Dock = DockStyle.Fill,
+            };
+
+            // Load data into a DataTable
+            //string query = $"SELECT * FROM {table}";
+            string query = $"SELECT rowid AS RowID, * FROM {table}";
+            SQLiteDataAdapter dataAdapter = new(query, connection);
+
+            // CommandBuilder to automatically generate INSERT/UPDATE/DELETE commands
+            var commandBuilder = new SQLiteCommandBuilder(dataAdapter);
+
+            DataTable dataTable = new();
+            dataAdapter.Fill(dataTable);
+
+
+            // Bind the DataTable to the DataGridView
+            dataGridView.DataSource = dataTable;
+
+
+            dataGridView.CellValueChanged += (sender, e) => SaveTable(dataAdapter, dataTable);
+            //dataGridView.UserDeletingRow += AskConfirmation;
+            dataGridView.KeyDown += AskConfirmation;
+            //dataGridView.RowsRemoved += 
+
+            TabPage page = new()
+            {
+                Text = table,
+                Tag = dataAdapter,
+            };
+            page.Controls.Add(dataGridView);
+            dataViewer.TabPages.Add(page);
+
+
+
+            // Hide the RowID column
+            if (dataTable.Columns.Contains("RowID"))
+            {
+                dataGridView.Columns["RowID"].Visible = false;
+            }
+        }
+        TabPage newPage = new()
+        {
+            Text = "         +         ",
+            Tag = "pageAdder",
+        };
+        dataViewer.Selecting += AddPage;
+        dataViewer.TabPages.Add(newPage);
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error loading data: " + ex.Message);
+    }
+}
+
+// Function to get table names from the SQLite database
+public static IEnumerable<string> GetTables(SQLiteConnection connection)
+{
+    string query = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
+
+    // Query the database and return the list of table names
+    var tableNames = connection.Query<string>(query);
+
+    return tableNames;
+}
+
+private static void AddPage(object? sender, TabControlCancelEventArgs e)
+{
+    if (e.TabPage?.Tag?.ToString() == "pageAdder")
+    {
+        if (sender is not TabControl dataViewer) return;
+        Rectangle tabRect = dataViewer.GetTabRect(e.TabPageIndex);
+        StartTabEditing(dataViewer, e.TabPage, tabRect);
+    }
+}
+
+private static void StartTabEditing(TabControl tabControl, TabPage tabPage, Rectangle tabRect)
+{
+    // Create a TextBox for in-place editing
+    TextBox textBox = new()
+    {
+        Text = "Table name",
+        TextAlign = HorizontalAlignment.Center,
+        Multiline = true,
+        BorderStyle = BorderStyle.None,
+        Font = tabControl.Font,
+        Location = tabControl.PointToScreen(tabRect.Location),
+        Size = new Size(tabRect.Width, tabRect.Height)
+    };
+
+    // Add the TextBox to the form or the parent container of the TabControl
+    Control? parent = tabControl.Parent;
+    if (parent == null) return;
+    parent.Controls.Add(textBox);
+    textBox.BringToFront();
+    textBox.Focus();
+
+    // Adjust position to align with the tab
+    textBox.Location = parent.PointToClient(tabControl.PointToScreen(tabRect.Location));
+
+    // Handle text changes
+    textBox.KeyDown += (s, ev) =>
+    {
+        if (ev.KeyCode == Keys.Enter || ev.KeyCode == Keys.Escape)
+        {
+            ev.SuppressKeyPress = true; // Prevent beep on Enter/Escape
+            textBox.Leave -= (s, ev) => FinishTabEditing(tabControl, tabPage, textBox);
+            FinishTabEditing(tabControl, tabPage, textBox);
+        }
+    };
+
+    // Delay the selection to ensure it works
+    Task.Delay(50).ContinueWith(_ =>
+    {
+        textBox.Invoke(() =>
+        {
+            textBox.Focus();
+            textBox.SelectAll();
+        });
+    });
+}
+
+private static void FinishTabEditing(TabControl tabControl, TabPage tabPage, TextBox textBox)
+{
+    // Set the TabPage's text to the TextBox's value
+    if (!string.IsNullOrWhiteSpace(textBox.Text))
+    {
+        tabPage.Text = textBox.Text.Trim();
+    }
+
+    // Remove the TextBox
+    Control? parent = tabControl.Parent;
+    parent?.Controls.Remove(textBox);
+    textBox.Dispose();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// MODULE LOADER CODE:
 //public static void LoadFilesFromFolder(string folder, PluginType type, TreeView treeviewExplorer)
 //{
 //    // Loop through each DLL in the Modules folder
