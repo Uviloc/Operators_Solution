@@ -63,7 +63,7 @@ Thu: Added scalable control, developed plugin loader to read .db files, got data
 Fri: Added a huge amount of control to databases, got overwhelmed by all the code and databases stuff
 
 Week 10:
-Mon: 
+Mon: Added a bunch of functionality to the database view such as adding, removing, name changes etc
 Tue: 
 Wed: 
 Thu: 

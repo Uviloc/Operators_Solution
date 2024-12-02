@@ -1,4 +1,750 @@
-﻿private SQLiteConnection? connection;
+﻿//WORKING CODE:
+#region >----------------- Database stuff: ---------------------
+private void OpenDatabase(object sender, TreeNodeMouseClickEventArgs e)
+{
+if (ContentsPanel == null || TabControl == null || DataViewer == null) return;
+
+if (e.Node.Tag is string dbPath)
+{
+string connectionString = $"Data Source={dbPath};Version=3;";
+LoadData(connectionString, DataViewer);
+}
+}
+
+private SQLiteConnection? connection;
+
+// Loads data into the TabControl and initializes it
+private void LoadData(string connectionString, TabControl dataViewer)
+{
+try
+{
+InitializeConnection(connectionString);
+dataViewer.TabPages.Clear();
+dataViewer.ContextMenuStrip = null;
+
+if (connection == null) return;
+foreach (var table in GetTables(connection))
+{
+AddTableToTabControl(dataViewer, table);
+Console.WriteLine(table);
+}
+
+InitializeContextMenuToTabs(dataViewer);
+
+InitializeEvents(dataViewer);
+
+InitializeNewTabButton(dataViewer);
+}
+catch (Exception ex)
+{
+Console.WriteLine("Error loading data: " + ex.Message);
+}
+}
+
+private void InitializeEvents(TabControl tabControl)
+{
+// Detach existing event handlers before attaching new ones
+tabControl.MouseDoubleClick -= EditTabName;
+tabControl.KeyDown -= DataViewer_KeyDown;
+tabControl.Deselecting -= HandleTabDeselection;
+
+tabControl.Resize -= NewTabButton;
+//tabControl.ControlAdded -= NewTabButton;
+//tabControl.ControlRemoved -= NewTabButton;
+//tabControl.SizeChanged -= NewTabButton;
+
+
+// Attach necessary event handlers
+tabControl.MouseDoubleClick += EditTabName;
+tabControl.KeyDown += DataViewer_KeyDown;
+tabControl.Deselecting += HandleTabDeselection;
+
+tabControl.Resize += NewTabButton;
+//tabControl.ControlAdded += NewTabButton;
+//tabControl.ControlRemoved += NewTabButton;
+//tabControl.SizeChanged += NewTabButton;
+}
+
+private void NewTabButton(object? sender, EventArgs e)
+{
+if (sender is TabControl tabControl)
+InitializeNewTabButton(tabControl);
+}
+
+// Event handler for MouseDoubleClick
+private void EditTabName(object? sender, MouseEventArgs e)
+{
+if (sender is TabControl tabControl)
+StartTabEditing(tabControl);
+}
+
+// Event handler for KeyDown
+private static void DataViewer_KeyDown(object? sender, KeyEventArgs e)
+{
+if (sender is not TabControl dataViewer) return;
+// Handles Ctrl+S to trigger saving
+if (e.Control && e.KeyCode == Keys.S)
+{
+SaveDataInAllTabs(dataViewer);
+}
+}
+
+// Initializes the SQLite connection
+private void InitializeConnection(string connectionString)
+{
+connection?.Close();
+//connection ??= new SQLiteConnection(connectionString);
+if (connection == null || connection.State != ConnectionState.Open)
+{
+connection = new SQLiteConnection(connectionString);
+}
+connection.Open();
+}
+
+// Adds a table as a new tab with a DataGridView
+private TabPage? AddTableToTabControl(TabControl dataViewer, string table)
+{
+if (connection == null) return null;
+DataGridView dataGridView = CreateDataGridView();
+
+// If table does not exist yet, create one:
+EnsureTableExistance(table, connection);
+
+DataTable dataTable = LoadTableData(table, connection);
+SQLiteDataAdapter dataAdapter = GetDataAdapter(table, connection);
+
+var commandBuilder = new SQLiteCommandBuilder(dataAdapter);
+
+TableData tableData = new() { DataTable = dataTable, DataAdapter = dataAdapter };
+//var (dataTable, dataAdapter) = LoadTableDataWithCommands(table, connection);
+// CommandBuilder to automatically generate INSERT/UPDATE/DELETE commands
+
+dataGridView.DataSource = dataTable;
+dataGridView.CellValueChanged += (sender, e) => SaveTable(tableData);
+
+TabPage page = new()
+{
+Text = table,
+//Tag = dataTable,
+//Tag = new { DataTable = dataTable, DataAdapter = dataAdapter },
+Tag = tableData,
+};
+page.Controls.Add(dataGridView);
+//page.MouseDoubleClick += (sender, e) => StartTabEditing(dataViewer, page, page.Bounds);
+dataViewer.TabPages.Add(page);
+
+HideRowIDColumn(dataGridView, dataTable);
+
+return page;
+}
+
+private void InitializeContextMenuToTabs(TabControl tabControl)
+{
+if (connection == null) return;
+// Create the ContextMenuStrip
+var contextMenu = new ContextMenuStrip();
+var renameItem = new ToolStripMenuItem("Rename table");
+var closeItem = new ToolStripMenuItem("Delete table");
+var duplicateItem = new ToolStripMenuItem("Duplicate table");
+
+// Add items to the context menu
+contextMenu.Items.Add(renameItem);
+contextMenu.Items.Add(closeItem);
+contextMenu.Items.Add(duplicateItem);
+
+// Assign event handlers for menu items
+renameItem.Click += (s, e) => RenameTable(tabControl);
+closeItem.Click += (s, e) => DeleteTable(tabControl, connection);
+duplicateItem.Click += (s, e) => DuplicateTable(tabControl, connection);
+
+// Handle right-click on the tab buttons
+tabControl.MouseDown += (s, e) =>
+{
+if (e.Button == MouseButtons.Right)
+{
+// Determine the tab index under the mouse
+for (int i = 0; i < tabControl.TabCount; i++)
+{
+Rectangle tabRect = tabControl.GetTabRect(i);
+if (tabRect.Contains(e.Location))
+{
+// Set the selected tab and show the context menu
+tabControl.SelectedIndex = i;
+contextMenu.Show(tabControl, e.Location);
+break;
+}
+}
+}
+};
+}
+
+
+// Example action handlers for context menu items
+private void RenameTable(TabControl tabControl)
+{
+// Call the renaming function for the selected tab
+StartTabEditing(tabControl);
+}
+
+private void DeleteTable(TabControl tabControl, SQLiteConnection connection)
+{
+if (tabControl.SelectedTab == null)
+return;
+
+string tableName = tabControl.SelectedTab.Text;
+
+if (!AskConfirmation(tableName)) return;
+
+try
+{
+// Remove the table from SQLite
+using SQLiteCommand command = new($"DROP TABLE IF EXISTS \"{tableName}\";", connection);
+command.ExecuteNonQuery();
+
+// Remove the corresponding tab from the TabControl
+tabControl.TabPages.Remove(tabControl.SelectedTab);
+InitializeNewTabButton(tabControl);
+Console.WriteLine($"Table '{tableName}' deleted successfully.");
+}
+catch (Exception ex)
+{
+MessageBox.Show($"Failed to delete table: {ex.Message}", "Error");
+}
+}
+
+private static void DuplicateTable(TabControl tabControl, SQLiteConnection connection)
+{
+if (tabControl.SelectedTab == null)
+return;
+
+string originalTableName = tabControl.SelectedTab.Text;
+string newTableName = $"{originalTableName}_Copy";
+
+try
+{
+// Duplicate the table in SQLite
+using SQLiteCommand command = new(
+    $"CREATE TABLE \"{newTableName}\" AS SELECT * FROM \"{originalTableName}\";", connection);
+command.ExecuteNonQuery();
+
+// Add a new tab for the duplicated table
+TabPage newTab = new(newTableName);
+tabControl.TabPages.Add(newTab);
+Console.WriteLine($"Table '{newTableName}' duplicated successfully.");
+}
+catch (Exception ex)
+{
+MessageBox.Show($"Failed to duplicate table: {ex.Message}", "Error");
+}
+}
+
+private static void EnsureTableExistance(string tableName, SQLiteConnection connection)
+{
+try
+{
+// Query to check if the table exists
+//string checkTableQuery = $"SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = \"{tableName}\"";
+string checkTableQuery = "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = @TableName";
+
+int tableCount = connection.ExecuteScalar<int>(checkTableQuery, new { TableName = tableName });
+
+// If table does not exist, create it
+if (tableCount == 0)
+{
+string command = $"CREATE TABLE \"{tableName}\" (Column1 TEXT)";
+connection.Execute(command, connection);
+//Console.WriteLine($"Table '{tableName}' has been created.");
+}
+else
+{
+//Console.WriteLine($"Table '{tableName}' already exists.");
+}
+}
+catch (Exception ex)
+{
+Console.WriteLine($"Error ensuring table exists: {ex.Message}");
+}
+}
+
+//// Loads data from a table into a DataTable and sets up the necessary commands
+//private static (DataTable DataTable, SQLiteDataAdapter DataAdapter) LoadTableDataWithCommands(string table, SQLiteConnection connection)
+//{
+//    string query = $"SELECT rowid AS RowID, * FROM {table}";
+//    //string query = $"SELECT * FROM {table}";
+//    SQLiteDataAdapter dataAdapter = new(query, connection);
+
+//    // Create and configure the DataTable
+//    DataTable dataTable = new();
+//    dataAdapter.Fill(dataTable);
+
+//    // Set up commands using SQLiteCommandBuilder
+//    SQLiteCommandBuilder commandBuilder = new(dataAdapter);
+//    dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
+//    dataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
+//    dataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
+
+//    return (dataTable, dataAdapter);
+//}
+
+// Creates and returns a new DataGridView
+private static DataGridView CreateDataGridView()
+{
+return new DataGridView
+{
+Dock = DockStyle.Fill,
+};
+}
+
+// Loads data from a table into a DataTable
+private static DataTable LoadTableData(string table, SQLiteConnection connection)
+{
+string query = $"SELECT rowid AS RowID, * FROM \"{table}\"";
+SQLiteDataAdapter dataAdapter = new(query, connection);
+
+DataTable dataTable = new();
+dataAdapter.Fill(dataTable);
+return dataTable;
+}
+
+// Returns a new SQLiteDataAdapter for a table
+private static SQLiteDataAdapter GetDataAdapter(string table, SQLiteConnection connection)
+{
+string query = $"SELECT rowid AS RowID, * FROM \"{table}\"";
+//string query = $"SELECT * FROM {table}";
+
+return new SQLiteDataAdapter(query, connection);
+}
+
+// Hides the RowID column in the DataGridView
+private static void HideRowIDColumn(DataGridView dataGridView, DataTable dataTable)
+{
+try
+{
+if (dataTable.Columns.Contains("RowID"))
+dataGridView.Columns["RowID"].Visible = false;
+}
+catch (Exception ex)
+{
+Console.WriteLine("Error hiding RowID column: " + ex.Message);
+}
+}
+
+
+private Button? newTabButton;
+private void InitializeNewTabButton(TabControl dataViewer)
+{
+newTabButton?.Parent?.Controls.Remove(newTabButton);
+newTabButton?.Dispose();
+if (dataViewer.Parent is not Control parent) return;
+
+// Find the position where the new tab would appear (the last tab position)
+Point buttonLocation;
+if (dataViewer.TabCount > 0)
+{
+Rectangle lastTabRect = dataViewer.GetTabRect(dataViewer.TabCount - 1);
+buttonLocation = new Point(lastTabRect.X + lastTabRect.Width + dataViewer.Location.X, dataViewer.Location.Y);
+}
+else
+{
+// If no tabs are present, position the button at the start
+buttonLocation = new Point(dataViewer.Location.X, dataViewer.Location.Y);
+}
+
+// Create a new Button and set its properties
+newTabButton = new()
+{
+Text = "+", // You can customize the button text
+Location = buttonLocation,
+Size = new Size(dataViewer.ItemSize.Height, dataViewer.ItemSize.Height),
+FlatStyle = FlatStyle.Flat,
+BackColor = Color.LightGray,
+Font = new Font("Arial", 10, FontStyle.Bold),
+};
+
+// Handle the button click event to add a new tab when clicked
+newTabButton.Click += (sender, e) =>
+{
+dataViewer.SelectedTab = AddTableToTabControl(dataViewer, "New Table");
+StartTabEditing(dataViewer);
+parent.Controls.Remove(newTabButton);
+newTabButton.Dispose();
+InitializeNewTabButton(dataViewer);
+};
+
+// Add the button to the parent container (the container holding the TabControl)
+parent.Controls.Add(newTabButton); // Add the button in the same container as the TabControl
+newTabButton.BringToFront(); // Ensure it appears above other controls
+
+//return newTabButton;
+}
+
+//// Method to add a new tab (you can customize this logic)
+//private static TabPage AddTab(TabControl dataViewer)
+//{
+//    // This is where you handle creating the new tab
+//    TabPage newTab = new("New Table")
+//    {
+//        Tag = "newTable" // You can customize this further
+//    };
+//    dataViewer.TabPages.Add(newTab);
+//    return newTab;
+//}
+
+//// Handles adding a new page when the "+" tab is clicked
+//private static void AddPageHandler(object? sender, TabControlCancelEventArgs e)
+//{
+//    if (e.TabPage?.Tag?.ToString() == "pageAdder" && sender is TabControl dataViewer)
+//        StartTabEditing(dataViewer, e.TabPage, dataViewer.GetTabRect(e.TabPageIndex));
+//}
+
+// Starts editing the tab name by adding a TextBox
+private void StartTabEditing(TabControl tabControl)
+{
+//MouseEventArgs e = (MouseEventArgs)me;
+//if (e.Button == MouseButtons.Left) return;
+if (tabControl.SelectedTab is not TabPage tabPage || tabControl.Parent is not Control parent)
+return;
+
+Rectangle tabRect = tabControl.GetTabRect(tabControl.SelectedIndex);
+TextBox textBox = CreateTextBoxForEditing(tabControl, tabRect, tabControl.SelectedTab.Text);
+
+// Adjust position to align with the tab
+textBox.Location = parent.PointToClient(tabControl.PointToScreen(tabRect.Location));
+
+parent.Controls.Add(textBox);
+textBox.BringToFront();
+
+textBox.KeyDown += (sender, e) =>
+{
+if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape)
+{
+e.SuppressKeyPress = true;
+CommitRenameTab(tabPage, textBox.Text);
+parent.Controls.Remove(textBox);
+textBox.Dispose();
+InitializeNewTabButton(tabControl);
+}
+};
+
+textBox.LostFocus += (s, e) =>
+{
+CommitRenameTab(tabPage, textBox.Text);
+parent.Controls.Remove(textBox);
+textBox.Dispose();
+InitializeNewTabButton(tabControl);
+};
+
+textBox.Focus();
+textBox.SelectAll();
+
+// Ensure text is selected after rendering
+//Task.Delay(50).ContinueWith(_ => textBox.Invoke(() => { textBox.Focus(); textBox.SelectAll(); }));
+}
+
+// Creates and configures the TextBox for editing tab names
+private static TextBox CreateTextBoxForEditing(TabControl tabControl, Rectangle tabRect, string initialName)
+{
+return new TextBox
+{
+Text = initialName,
+TextAlign = HorizontalAlignment.Center,
+Multiline = true,
+BorderStyle = BorderStyle.None,
+Font = tabControl.Font,
+Location = tabControl.PointToScreen(tabRect.Location),
+Size = new Size(tabRect.Width, tabRect.Height),
+};
+}
+
+// Finishes editing the tab name and updates the TabPage
+private void CommitRenameTab(TabPage tabPage, string newName)
+{
+if (string.IsNullOrWhiteSpace(newName) || newName == tabPage.Text)
+return;
+
+string oldName = tabPage.Text;
+
+try
+{
+using SQLiteCommand command = new($"ALTER TABLE \"{oldName}\" RENAME TO \"{newName}\"", connection);
+command.ExecuteNonQuery();
+
+tabPage.Text = newName.Trim();
+
+//MessageBox.Show($"Table '{oldName}' has been renamed to '{newName}'", "Rename Successful");
+}
+catch (Exception ex)
+{
+Console.WriteLine($"Failed to rename table: {ex.Message}", "Rename Failed");
+}
+}
+
+// Retrieves table names from the database
+public static IEnumerable<string> GetTables(SQLiteConnection connection)
+{
+try
+{
+const string query = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
+return connection.Query<string>(query);
+}
+catch (Exception ex)
+{
+Console.WriteLine("Error retrieving table names: " + ex.Message);
+return [];
+}
+}
+
+public class TableData
+{
+    public DataTable? DataTable { get; set; }
+    public SQLiteDataAdapter? DataAdapter { get; set; }
+}
+
+// Saves data from all DataGrids in the TabControl
+private static void SaveDataInAllTabs(TabControl dataViewer)
+{
+    foreach (TabPage tab in dataViewer.TabPages)
+    {
+        if (tab.Tag is not TableData tableData || tableData.DataTable?.GetChanges() == null)
+            continue;
+        SaveTable(tableData);
+    }
+}
+
+// Save data from a DataTable to the database
+private static bool SaveTable(TableData tableData)
+{
+    if (tableData.DataTable == null || tableData.DataAdapter == null)
+        return false;
+    //MessageBox.Show("Single table saving not implemented yet");
+    try
+    {
+        // If the DataAdapter was properly initialized with the DataTable, we should just update it.
+        tableData.DataAdapter.Update(tableData.DataTable);
+        return true;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error saving data: " + ex.Message);
+        return false;
+    }
+}
+
+// Handles tab deselection and prompts for saving unsaved changes
+private static void HandleTabDeselection(object? sender, TabControlCancelEventArgs e)
+{
+    //if (e.TabPage == null) return;
+
+    //SQLiteDataAdapter dataAdapter = tag.DataAdapter as SQLiteDataAdapter;
+    //SQLiteDataAdapter dataAdapter = GetDataAdapter(e.TabPage.Text, connection);
+    if (e.TabPage?.Tag is not TableData tableData)
+        return;
+
+    if (tableData.DataTable?.GetChanges() == null)
+        return;
+
+    DialogResult result = MessageBox.Show("Do you want to save changes to this table?", "Save Data", MessageBoxButtons.YesNo);
+    if (result == DialogResult.Yes)
+    {
+        bool succeeded = SaveTable(tableData);
+        if (!succeeded)
+            e.Cancel = true;
+    }
+}
+
+private static void AskConfirmation(object? sender, KeyEventArgs e)
+{
+    if (e.KeyCode == Keys.Delete)
+    {
+        if (sender is not DataGridView grid) return;
+
+        var selectedRows = grid.SelectedRows;
+        int rowCount = selectedRows.Count;
+
+        // Check if any rows are selected
+        if (rowCount > 0 && AskConfirmation(rowCount + " row(s)"))
+        {
+            foreach (DataGridViewRow row in selectedRows)
+            {
+                if (!row.IsNewRow) grid.Rows.Remove(row);
+            }
+        }
+        e.Handled = true; // Prevent default delete handling
+    }
+}
+
+private static bool AskConfirmation(string deletionObject)
+{
+    DialogResult dialogResult = MessageBox.Show(
+        $"Are you sure you want to delete {deletionObject}?",
+        "Confirm choice!",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning
+    );
+    return dialogResult == DialogResult.Yes;
+}
+#endregion
+
+
+
+//// Adds a "new tab" button at the end of the TabControl
+//private static void AddNewTabPage(TabControl dataViewer)
+//{
+//    //TextBox textBox = CreateTextBoxForEditing(tabControl, tabRect);
+//    if (dataViewer.TabCount > 0)
+//        TabPage? lastTab = dataViewer.TabPages[dataViewer.TabCount-1];
+//    Rectangle textRect;
+//    if (lastTab == null)
+//    {
+//        textRect = new(dataViewer.Location, new(200, dataViewer.ItemSize.Height));
+//    }
+//    else
+//    {
+//        textRect = new(new Point(lastTab.Location.X + lastTab.Width, lastTab.Location.Y), new(200, lastTab.Height));
+//    }
+
+//    TextBox textBox = new()
+//    {
+//        Text = "Table name",
+//        TextAlign = HorizontalAlignment.Center,
+//        Multiline = true,
+//        BorderStyle = BorderStyle.None,
+//        //Font = tabControl.Font,
+//        //Location = dataViewer.TabPagesp[dataViewer.TabCount]..PointToScreen(tabRect.Location),
+//        Bounds = textRect,
+//    };
+
+//    Control? parent = dataViewer.Parent;
+//    parent?.Controls.Add(textBox);
+//    textBox.BringToFront();
+//    textBox.Focus();
+//    TabPage newPage = new()
+//    {
+//        Text = "         +         ",
+//        Tag = "pageAdder",
+//    };
+//    dataViewer.Selecting += AddPageHandler;
+//    dataViewer.TabPages.Add(newPage);
+//}
+
+//private static Array GetAllTables(SQLiteConnection connection)
+//{
+//    List<>
+
+//    string query = "SELECT name FROM sqlite_master" +
+//        "WHERE type='table'" +
+//        "AND name NOT LIKE 'sqlite_%';";
+
+//    try
+//    {
+
+//        DataTable table = GetDataTable(query);
+
+//        // Return all table names in the ArrayList
+
+//        foreach (DataRow row in table.Rows)
+//        {
+//            list.Add(row.ItemArray[0].ToString());
+//        }
+//    }
+//    catch (Exception e)
+//    {
+//        Console.WriteLine(e.Message);
+//    }
+//    return list;
+//}
+
+//public static DataTable GetDataTable(string sql)
+//{
+//    try
+//    {
+//        DataTable dt = new DataTable();
+//        using (var c = new SQLiteConnection(dbConnection))
+//        {
+//            c.Open();
+//            using (SQLiteCommand cmd = new SQLiteCommand(sql, c))
+//            {
+//                using (SQLiteDataReader rdr = cmd.ExecuteReader())
+//                {
+//                    dt.Load(rdr);
+//                    return dt;
+//                }
+//            }
+//        }
+//    }
+//    catch (Exception e)
+//    {
+//        Console.WriteLine(e.Message);
+//        return null;
+//    }
+//}
+
+//private void SaveButton_Click(object? sender, EventArgs e)
+//{
+//    try
+//    {
+//        if (dataAdapter == null || dataTable == null) return;
+
+//        // Update the database with changes made in the DataGridView
+//        dataAdapter.Update(dataTable);
+//        MessageBox.Show("Changes saved successfully!");
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show("Error saving data: " + ex.Message);
+//    }
+//}
+
+//private void Increment(object sender, EventArgs e)
+//{
+//    if (dataGridView4 == null || dataTable == null || connection == null || connection.State != ConnectionState.Open)
+//    {
+//        MessageBox.Show("Please load a database first.");
+//        return;
+//    }
+
+//    try
+//    {
+//        // Ensure at least one row is selected
+//        if (dataGridView4.SelectedRows.Count == 0)
+//        {
+//            MessageBox.Show("Please select one or more rows to increment.");
+//            return;
+//        }
+
+//        foreach (DataGridViewRow selectedRow in dataGridView4.SelectedRows)
+//        {
+//            // Get the primary key or unique identifier for the row
+//            if (selectedRow.Cells["Id"] != null && selectedRow.Cells["Age"] != null &&
+//                int.TryParse(selectedRow.Cells["Id"].Value?.ToString(), out int id) &&
+//                int.TryParse(selectedRow.Cells["Age"].Value?.ToString(), out int age))
+//            {
+//                // Increment the age value in the database
+//                string query = "UPDATE People SET Age = @NewAge WHERE Id = @Id";
+//                using (var command = new SQLiteCommand(query, connection))
+//                {
+//                    command.Parameters.AddWithValue("@NewAge", age + 1);
+//                    command.Parameters.AddWithValue("@Id", id);
+//                    command.ExecuteNonQuery();
+//                }
+//            }
+//        }
+
+//        // Refresh the DataGridView by reloading data from the database
+//        LoadData(connection.ConnectionString, dataGridView4);
+
+//        MessageBox.Show("Selected Ages incremented by 1 and saved to the database!");
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show("Error incrementing ages: " + ex.Message);
+//    }
+//}
+
+
+
+
+private SQLiteConnection? connection;
 
 private void LoadData(string connectionString, TabControl dataViewer)
 {
