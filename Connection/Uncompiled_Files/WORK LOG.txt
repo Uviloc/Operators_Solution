@@ -1,0 +1,119 @@
+Week 1:
+Mon: Researched basics of production and production terms
+Tue: Researched CasparCG, SDI signal
+Wed: Researched CasparCG
+Thu: Researched vMix and XPression
+Fri: Researched XPression
+
+Week 2:
+Mon: researched expression and started looking into code needed to play from a windows form
+Tue: researched windows forms in visual studio, and connected up some basic code to play a scene in XPression
+Wed: Worked on internship plan, work log, and internship coach
+Thu: recieved feedback on progress, created and improved basics of core code and features (custom button, )
+Fri: made custom buttons better, a lot of research into what was possible and make things less hardcoded
+
+Week 3:
+Mon: Broke the entire project, fixed the entire project, lots more generalization
+Tue: Worked on mid-term report
+Wed: Sadly a lot of failed attempts at creating dynamic properties, added ability to add multiple scene paths, improved functions to be easier to read and more robust
+Thu: Went to FC Twente stadium and looked around/helped with cleanup
+Fri: Lots of problems trying to fix case of having the assembly reference not existing
+
+Week 4:
+Mon: Finally fixed the assembly reference check, added default value within the list of scenes, checked out custom editors for collection, started checking out preview on hover
+Tue: Added material/value changes functions, Added working settings, refactored code
+Wed: Worked on mid-term report draft and presentation
+Thu: debugging and testing, feedback on progress, meeting with Herman at office, looked into making app modular, organised/expanded design document
+Fri: Figuring out the entire program structure
+
+Week 5:
+Mon: Bunch of research on editors. got simple thumbnail preview to work, created trello, thought more about button controls and variables
+Tue:
+Wed:
+Thu: Got EHF package working and understand the code
+Fri: Worked on EHF and made a lot of improvements. Did work on correcting xPression materials
+Sat: Went to Enfusion Dordrecht to help out from 12:00 till 3:30
+
+Week 6:
+Mon: Setup everything for EHF, made auto open file function and setting
+Tue: 
+Wed: Got a lot of the modular system working now, dynamic dll loading, export as dll or exe
+Thu: Went to Amersfoort to help out at EHF from 12:00 till 1:00
+Fri: 
+
+Week 7:
+Mon: 
+Tue: Improved dll loading, orginized all code, fixed stuff to be better in general
+Wed: Worked on making project nice, company outing/excursion
+Thu: Late, missed meds, went home
+Fri: Got preview to work, feedback from hylke, made plan for controls
+
+Week 8:
+Mon: Mid-term Presentation
+Tue: Really tried to get preview to not kill XPression, but its almost looking like its a feature to stop previews in my program
+Wed: Setup community post (not posted) to fix preview, organised Trello board
+Thu: Lots of layout and general program stuff, revamped module loader to be inside a custom form base
+Fri: Got a bunch of stuff working nicely. Implemented panel collapsing, resizing and dll loading refinements
+
+Week 9:
+Mon: Added tab control in main view, added initial database stuff
+Tue: 
+Wed: Developed plugin loading further, and got database working quite far
+Thu: Added scalable control, developed plugin loader to read .db files, got databases to be fully plugin compatible
+Fri: Added a huge amount of control to databases, got overwhelmed by all the code and databases stuff
+
+Week 10:
+Mon: Added a bunch of functionality to the database view such as adding, removing, name changes etc
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 11:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 12:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 13:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 14:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 15:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 16:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 17:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 

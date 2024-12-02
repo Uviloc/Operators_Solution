@@ -1,0 +1,245 @@
+														Working name: Operators Solution
+
+___________________________________________________________________Questions:________________________________________________________________________________________________
+Hylke:
+How can I get the live game up with preview
+Send Ross mail about xpTools having high memory and breaking the live view
+What is the distrubution of which graphics program is used for all current projects
+What is usually the go to program used for new projects
+
+Elsa:
+Pictures for presentation
+Setup for test/remaining questions
+
+____________________________________________________________________Feedback:________________________________________________________________________________________________
+------------ Week 7: -----------
+DONE	>	Is displaying the thumbnail of the scene good enough as a preview: already fixed before discussion
+WIP		>	How can I get the live game up with preview:
+DONE	>	Should the program still be in visual studio so editing is possible???? Like have a library dll file that enables these functions:
+				depends on what is easiest. doesnt matter if robust
+DONE	>	Am I allowed to just copy the dll of xpression into my project so they dont need to be loaded in with code: yes they are public
+DONE	>	Can I get the CasparCG project for Enfusion: on server under graphics folder
+DONE	>	Scott wanted icon for twitter to be for x in Enfusion: made in flash so no
+
+------------ Week 4: -----------
+DONE	>	GitHub eventually put it in the main repository but fine for now
+DONE	>	Dynamic reference loading: Great stuff
+DONE	>	Preview maybe not possible with XPression?: Check if preview marker can be accessed, otherwise check if preview channel can be setup as a temporary
+WIP		>	Settings: Setup what preview channel is used, setup what output channel is used
+WIP		>	When meeting with operator?: somewhere next week or maybe after
+DONE	>	Mid-term evaluation form: send it.
+WIP		>	Do you ever want a button that can play clips in different scenes: Possibly in the future
+DONE	>	xml editor: libreoffice & db browser
+
+DONE	>	Does each sport get one database or does it need to be split up further?: each sport one, then further into national etc
+WIP		>	Can the player pictures also be in the database instead of a folder reference, or would this not be ideal?: if you make it nice, yes
+DONE	>	Can I get a vMix project code, to see its functions and how they differ: not a recent working one
+
+
+Player pictures should be loaded dynamicly by the program. With a folder path to outside the program (check with Hylke if also good if picture is just in the database?)
+
+
+Firday Thomas will be here using XPression to make handball graphics packet
+Next week (Week 5) 2 days will be spend setting up the graphics packet into the software from Hylke
+
+
+
+------------ Week 2/3: -----------
+> Go to Enfusion on Sat 2 Nov
+> Go to Handball on Thu 7 Nov
+
+DONE	>	GitHub will be checked
+DONE	>	Will setup a meeting with one of the operators to check what they want
+DONE	>	Make functions so that the graphics program can be interchanged
+DONE	>	Make the design of the program better (better menu on the left side, maybe check other programs)
+WIP		>	set all other buttons offline when clicking on any button to online
+DONE	>	Make the process of adding a button easier then the current
+DONE	>	Contact Roy to setup a visit from Herman
+DONE	>	Office is not used (another xml software is used) 
+WIP		>	Excel as import
+
+> Check how best to implement a new button. Such as one button with multiple possible types or adding custom buttons
+
+______________________________________________________________Questions for Operator:________________________________________________________________________________________
+- What is your typical work setup while operating (monitors, open programs, audio, input devices)
+> One output screen with the live view, 1 screen laptop or monitor with the buttons, one multiview screen (xpression is in background)
+
+- What would you want in terms of preventing AND correcting wrong button presses
+>
+
+- Do you ever need to adjust the timer midway through a match
+> Yes, especially matches that stop regularly
+
+- What features would you like to see in an ideal scenario
+>
+
+- Is there any information you want to see while working in the program
+	(this can include things like the current time, a live view of the broadcast, clip information, game status?, etc)
+>
+
+- Do you have XPression or another tool open on the side and what do you use it for > could this be implemented in the program
+> 
+
+- Do you see any use for keyboard shortcuts to trigger certain scenes, or do other actions
+> Yes but if a program uses keyboard shortcuts, everything should be on keyboard
+
+- Would you like to have the window size change? if so, does it also need to scale the aspect ratio
+>
+
+- Are there any button presses where you want to have a confirmation to be prompted
+>
+
+- If there is an error (like a scene not found etc) in what way do you want to know about this. (popup, message somewhere on screen)
+>
+
+- While an animation is playing, do you ever need to interupt this/start playing a different scene.
+	How do you want this action to be handled: have the new scene be added in a queue or just interupt the previous scene
+>
+
+- (Did things ever go wrong for you and how did you respond to it.)
+>
+
+_______________________________________________________________Possible Additions:___________________________________________________________________________________________
+- LoadProject > having the XPression project open up when the application also opens.
+	(Have a seperate app for each show, or have all together but have tabs that open the project or have a button to open project)
+- Add indicator of event playing (like a progress fill bar across the button) for duration of scene. (Have button not able to be pressed?)
+
+_____________________________________________________________________Tasks:__________________________________________________________________________________________________
+XPression.net.dll seems to have moved in newer versions: nope it was always there, but the location isnt fixed so better as it is
+
+Icons:
+	for switch button: vertical rectangel with one half filled in
+
+
+------------ Current: -----------
+> Add on/off property to the buttons with 2 states. This then influences what action to take (show/hide)
+
+
+> Work out how to manage variables.
+	clip index		> should be per button (and maybe reset when another button is pressed)
+	scene object changes	> seperate connector component (benifits with having a different interface and showing its a general component)
+	scenes			> (now they keep creating a new scene, reseting the object changes and creating new ones constantly)
+> Put operator questions into google form so answers are nicely logged?
+> Maybe not reset all buttons when clicking on a different one, but have different functions for this?
+
+> Setup for scenedirectortrack getclips
+
+> In clipcollection class: scene director + track
+> Copy over track (dynamicly set track and scenedirector with xpression.net functions)
+
+
+------------ Research: -----------
+> set online/offline/preview
+> try again to set the click event function automaticly?
+> controls to examine: Timers, radio buttons, menu bar, checkboxes, combobox, visual output for preview?, xml interface and dropoff point, treeview
+> Research on other aids outside of example: preview image (when hovering over button), 
+> Research on data input, Excel/SQLite (how to import into program, how to save to database, how to edit in program)
+> How to add robustness to wrong names (make function that check how wrong the words are and set all to lowercase)??
+> Add duplicate, copy, paste buttons to clipCollection?
+> Add a name to the items in clipCollection
+
+
+
+------------ Design: -----------
+> Design overall program visuals and functions
+> Create a basic prototype or visual aid
+> Optimise most important code needed for connection between SQLite/Excel, C# and XPression
+> Create multitude of custom tools and properties required for common workflow
+
+
+------------ Test: -----------
+> Test basic version of this with Hylke and/or Operator
+> Implement feedback
+> Check memory, performance etc, stress test
+> 
+> Make a tutorial document that outlines the steps to follow for anybody to create a new packet
+	like making use of standerdised names where needed
+
+______________________________________________________________Design Requirements:____________________________________________________________________________________________
+- converts all data from file format into the code and can display this to XPression
+- Code is all compacted into simple to make functions, so that non programmers can setup a new packet in 1-2 hours
+- Fully robust code with no errors
+- Any spelling errors are addressed immidiatly and will not show up only when its button is pressed
+- Good user interface that can be understood instantly by any semi-professional
+- Redundancy in terms of being able to go back if a mistake is made (like advancing a fight too early)
+
+______________________________________________________________________Plan:___________________________________________________________________________________________________
+------------ Connections: -----------
+Excel document/SQLite .db file		>		Match data, player data, image files
+Program					>		Takes in data from document and puts this in program
+Program					>		Handles all button presses and sends data to XPression
+XPression				>		Executes scenes
+
+
+------------ Workflow: -----------
+Steps:	Task:
+1	Create new form with wanted buttons
+2	Choose what type of button type in proporties (on/off state, multistep button, etc)
+3	Assign scenes, actions, or any other functionality to the buttons in proporties
+4	Create datasheet (using a template) with the following data:
+		General Information on the sport/sponsers/etc, Matches, players with attached information including photo
+5	Test program
+
+
+
+
+------------ Project structure: -----------
+Main application > exe file
+Reference folder:
+	dll file with custom controls
+	dll file with custom functions
+
+	(optional) dll file with XPression functions
+	(optional) dll file with vMix functions
+	(optional) dll file with CasparCG functions
+
+	(optional) dll file of Enfusion package (form only)
+
+
+
+changes:
+possible graphics programs checked in main app, then put into as a possible function
+
+
+Problems with modular:
+1. If a graphics program needs different values like scene director, clip, etc. > solution: have the collection be able to be overridden and added to by different dll
+
+_______________________________________________________________Realistic Controls:____________________________________________________________________________________________
+------------ Functions: -----------
+Lock another control with normal checkbox but common function?
+Hide other buttons before showing same layer (only with different scene and same layer) > getOnline, the ones that are online can be on others are off
+
+
+------------ Controls: -----------
+- Show/Hide button (Set others in same group to hide first?) (clearIn, clearOut) (if show/hide is in button text, change this)
+- script button, a button that takes in a list of scenes(/clips) to play out in order whenever button is pressed
+	(This is essentially the current operator button except not playing multiple scenes and needs to be able to be edited in program)
+- Logic button, a button that takes in clips to play and is able to generate multiple buttons within itself that play out parts of the scene based on what clip is displayed
+	Also takes in what data it needs, and if its missing will not show up
+	Have timer variable for each clip (or based on clip length)
+
+- Timer module, connects to a widget (but can work independently), can have timeout button, etc.
+- Score module, a panel with buttons to keep score, connects to widget (but can work independently)
+- Material accessor: a color field that is the color of the material and if clicked on can change the color in xpression
+
+
+All buttons should have a variable list property: it takes in a material/object/WIDGET and changes it to be something else.
+	This should also be able to reference a datasheet/container/input field (for countdown/suspended)?
+
+
+------------ Left from EHF: -----------
+Load team in panel from dropdown field
+Suspend player
+
+API
+Database >
+	Have a function to hide certain players in a team when showing the team in the matchup
+
+
+------------ Left from Enfusion/8TKO: -----------
+-Match list (next/previous player in list etc)
+
+
+
+
+xpEngine.GetSceneCopyByName
