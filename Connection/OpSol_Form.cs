@@ -2,10 +2,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Threading.Channels;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using System.Reflection;
 using OperatorsSolution.Program;
-using OperatorsSolution.GraphicsProgramFunctions;
+//using OperatorsSolution.GraphicsProgramFunctions;
 using OperatorsSolution.Common;
 using System.Data.Common;
 using System.Data.SQLite;
@@ -499,13 +498,14 @@ namespace OperatorsSolution
             }
         }
 
-        private static void DuplicateTable(TabControl tabControl, SQLiteConnection connection)
+        private void DuplicateTable(TabControl tabControl, SQLiteConnection connection)
         {
             if (tabControl.SelectedTab == null)
                 return;
 
             string originalTableName = tabControl.SelectedTab.Text;
             string newTableName = $"{originalTableName}_Copy";
+                                                                                // If already existing up number????
 
             try
             {
@@ -517,6 +517,7 @@ namespace OperatorsSolution
                 // Add a new tab for the duplicated table
                 TabPage newTab = new(newTableName);
                 tabControl.TabPages.Add(newTab);
+                InitializeNewTabButton(tabControl);
                 Console.WriteLine($"Table '{newTableName}' duplicated successfully.");
             }
             catch (Exception ex)

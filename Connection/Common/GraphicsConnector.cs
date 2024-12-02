@@ -19,7 +19,7 @@ using vMix;
 #endif
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
-using OperatorsSolution.GraphicsProgramFunctions;
+//using OperatorsSolution.GraphicsProgramFunctions;
 using OperatorsSolution.Program;
 using OperatorsSolution.Controls;
 
