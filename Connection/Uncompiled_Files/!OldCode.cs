@@ -1,4 +1,300 @@
-﻿//WORKING CODE:
+﻿// NOT WORKING CODE:
+#region columns stuff temp region:
+private static void InitializeContextMenuForColumns(DataGridView dataGridView)
+{
+    // Create the ContextMenuStrip
+    var contextMenu = new ContextMenuStrip();
+    var renameItem = new ToolStripMenuItem("Rename column");
+    var deleteItem = new ToolStripMenuItem("Delete column");
+    var duplicateItem = new ToolStripMenuItem("Duplicate column");
+    var changeTypeItem = new ToolStripMenuItem("Change type");
+
+    // Add items to the context menu
+    contextMenu.Items.Add(renameItem);
+    contextMenu.Items.Add(deleteItem);
+    contextMenu.Items.Add(duplicateItem);
+    contextMenu.Items.Add(changeTypeItem);
+
+    // Assign event handlers for menu items
+    renameItem.Click += (s, e) => RenameColumn(dataGridView);
+    deleteItem.Click += (s, e) => DeleteColumn(dataGridView);
+    duplicateItem.Click += (s, e) => DuplicateColumn(dataGridView);
+    changeTypeItem.Click += (s, e) => ChangeColumnType(dataGridView);
+
+    // Handle right-click on the column headers
+    dataGridView.ColumnHeaderMouseClick += (s, e) =>
+    {
+        if (e.Button == MouseButtons.Right)
+        {
+            dataGridView.ClearSelection();
+            dataGridView.Columns[e.ColumnIndex].Selected = true;
+            contextMenu.Show(dataGridView, dataGridView.PointToClient(Cursor.Position));
+        }
+    };
+}
+
+// Rename Column
+private static void RenameColumn(DataGridView dataGridView)
+{
+    if (dataGridView.SelectedColumns.Count > 0)
+    {
+        var column = dataGridView.SelectedColumns[0];
+        var bounds = dataGridView.GetColumnDisplayRectangle(column.Index, true);
+
+        StartEditingWithTextBox(dataGridView, bounds, column.HeaderText, newName =>
+        {
+            if (!string.IsNullOrWhiteSpace(newName))
+                column.HeaderText = newName;
+        });
+    }
+}
+
+// Delete Column
+private static void DeleteColumn(DataGridView dataGridView)
+{
+    if (dataGridView.SelectedColumns.Count > 0)
+    {
+        var column = dataGridView.SelectedColumns[0];
+        if (AskConfirmation($"delete column '{column.HeaderText}'"))
+            dataGridView.Columns.Remove(column);
+    }
+}
+
+// Duplicate Column
+private static void DuplicateColumn(DataGridView dataGridView)
+{
+    if (dataGridView.SelectedColumns.Count > 0)
+    {
+        var column = dataGridView.SelectedColumns[0];
+        var newColumn = (DataGridViewColumn)column.Clone();
+        newColumn.HeaderText = $"{column.HeaderText}_Copy";
+        dataGridView.Columns.Add(newColumn);
+    }
+}
+
+// Change Column Type
+private static void ChangeColumnType(DataGridView dataGridView)
+{
+    if (dataGridView.SelectedColumns.Count > 0)
+    {
+        var column = dataGridView.SelectedColumns[0];
+        string[] types = { "Text", "Number", "Date", "Boolean" };
+        var bounds = dataGridView.GetColumnDisplayRectangle(column.Index, true);
+
+        PromptForSelection(dataGridView, bounds, types, selectedType =>
+        {
+            if (!string.IsNullOrWhiteSpace(selectedType))
+            {
+                // Create a new column based on the selected type
+                DataGridViewColumn? newColumn = selectedType switch
+                {
+                    "Text" => new()
+                    {
+                        HeaderText = column.HeaderText,
+                        Name = column.Name,
+                        Width = column.Width,
+                        DataPropertyName = column.DataPropertyName
+                    },
+                    "Number" => new()
+                    {
+                        HeaderText = column.HeaderText,
+                        Name = column.Name,
+                        Width = column.Width,
+                        DataPropertyName = column.DataPropertyName,
+                        ValueType = typeof(int)
+                    },
+                    "Date" => new()
+                    {
+                        HeaderText = column.HeaderText,
+                        Name = column.Name,
+                        Width = column.Width,
+                        DataPropertyName = column.DataPropertyName,
+                        ValueType = typeof(DateTime)
+                    },
+                    "Boolean" => new()
+                    {
+                        HeaderText = column.HeaderText,
+                        Name = column.Name,
+                        Width = column.Width,
+                        DataPropertyName = column.DataPropertyName
+                    },
+                    _ => null
+                };
+
+                if (newColumn != null)
+                {
+                    // Insert the new column at the same index as the old one
+                    int index = column.Index;
+                    dataGridView.Columns.Remove(column);
+                    dataGridView.Columns.Insert(index, newColumn);
+                }
+            }
+        });
+    }
+}
+
+
+
+private static void PromptForSelection(Control parent, Rectangle bounds, string[] options, Action<string> onCommit)
+{
+    ContextMenuStrip menu = new();
+    foreach (string option in options)
+    {
+        var menuItem = new ToolStripMenuItem(option);
+        menuItem.Click += (s, e) =>
+        {
+            menu.Hide();
+            menu.Dispose();
+            onCommit(option);
+        };
+        menu.Items.Add(menuItem);
+    }
+
+    menu.Show(parent, bounds.Location);
+}
+
+//private static void StartColumnEditing(DataGridView dataGridView, int columnIndex)
+//{
+//    var column = dataGridView.Columns[columnIndex];
+//    var bounds = dataGridView.GetColumnDisplayRectangle(columnIndex, true);
+
+//    StartEditingWithTextBox(dataGridView, bounds, column.HeaderText, newName =>
+//    {
+//        if (!string.IsNullOrWhiteSpace(newName))
+//            column.HeaderText = newName;
+//    });
+//}
+
+
+
+
+
+
+
+
+private Button? newColumnButton;
+private void InitializeNewColumnButton(DataGridView dataGridView, TabPage parent)
+{
+    newColumnButton?.Parent?.Controls.Remove(newColumnButton);
+    newColumnButton?.Dispose();
+
+    // Calculate button location (next to the last column)
+    Point buttonLocation;
+    if (dataGridView.Columns.Count > 0)
+    {
+        var lastColumn = dataGridView.Columns[dataGridView.Columns.Count - 1];
+        var rect = dataGridView.GetCellDisplayRectangle(lastColumn.Index, -1, false);
+        buttonLocation = new Point(rect.Right + dataGridView.Location.X, rect.Top + dataGridView.Location.Y);
+    }
+    else
+    {
+        buttonLocation = new Point(dataGridView.Location.X, dataGridView.Location.Y);
+    }
+
+    // Create the button
+    newColumnButton = new()
+    {
+        Text = "+",
+        Location = buttonLocation,
+        Size = new Size(30, dataGridView.ColumnHeadersHeight),
+        FlatStyle = FlatStyle.Flat,
+        BackColor = Color.LightGray,
+        Font = new Font("Arial", 10, FontStyle.Bold)
+    };
+
+    // Handle the click event
+    newColumnButton.Click += (s, e) =>
+    {
+        var newColumn = new DataGridViewTextBoxColumn { HeaderText = "New Column" };
+        dataGridView.Columns.Add(newColumn);
+        InitializeNewColumnButton(dataGridView, parent);
+    };
+
+    parent.Controls.Add(newColumnButton);
+    newColumnButton.BringToFront();
+}
+
+// Refresh position on resizing
+private void DataGridView_ColumnWidthChanged(object? sender, DataGridViewColumnEventArgs e)
+{
+    if (sender is DataGridView dataGridView && dataGridView.Parent is TabPage parent)
+        InitializeNewColumnButton(dataGridView, parent);
+}
+
+
+
+
+
+
+
+
+
+
+
+private static void StartEditingWithTextBox(Control parent, Rectangle bounds, string initialValue, Action<string> onCommit)
+{
+    // Create and configure the TextBox
+    TextBox textBox = new()
+    {
+        Text = initialValue,
+        TextAlign = HorizontalAlignment.Center,
+        Multiline = true,
+        BorderStyle = BorderStyle.None,
+        Font = parent.Font,
+        Location = parent.PointToClient(parent.PointToScreen(bounds.Location)),
+        //Location = parent.PointToScreen(bounds.Location),
+        //Location = new(parent.Location.X + bounds.Location.X, parent.Location.Y + bounds.Location.Y),
+        Size = new Size(bounds.Width, bounds.Height),
+    };
+
+    Console.WriteLine("TextBox: " + parent.PointToClient(textBox.Location));
+    Console.WriteLine("Parent: " + parent.PointToClient(parent.Location));
+    Console.WriteLine("Bounds: " + parent.PointToClient(bounds.Location));
+
+
+    // Adjust position to align with the tab
+    //textBox.Location = parent.PointToClient(parent.PointToScreen(bounds.Location));
+
+    parent.Controls.Add(textBox);
+    textBox.BringToFront();
+    textBox.Location = parent.PointToClient(textBox.Location);
+
+    // Handle events for committing or canceling changes
+    textBox.KeyDown += (sender, e) =>
+    {
+        if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape)
+        {
+            e.SuppressKeyPress = true;
+            parent.Controls.Remove(textBox);
+            textBox.Dispose();
+
+            if (e.KeyCode == Keys.Enter)
+                onCommit(textBox.Text.Trim());
+        }
+    };
+
+    textBox.LostFocus += (s, e) =>
+    {
+        parent.Controls.Remove(textBox);
+        textBox.Dispose();
+        onCommit(textBox.Text.Trim());
+    };
+
+    textBox.Focus();
+    textBox.SelectAll();
+}
+
+#endregion
+
+
+
+
+
+
+
+
+
+//WORKING CODE:
 #region >----------------- Database stuff: ---------------------
 private void OpenDatabase(object sender, TreeNodeMouseClickEventArgs e)
 {

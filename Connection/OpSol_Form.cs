@@ -13,6 +13,7 @@ using Console = System.Diagnostics.Debug;
 using System.Windows.Forms;
 using Dapper;
 using Emitter;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace OperatorsSolution
 {
@@ -327,6 +328,7 @@ namespace OperatorsSolution
                 }
 
                 InitializeContextMenuToTabs(dataViewer);
+                
 
                 InitializeEvents(dataViewer);
 
@@ -337,6 +339,12 @@ namespace OperatorsSolution
                 Console.WriteLine("Error loading data: " + ex.Message);
             }
         }
+
+
+
+
+
+
 
         private void InitializeEvents(TabControl tabControl)
         {
@@ -396,7 +404,15 @@ namespace OperatorsSolution
         private TabPage? AddTableToTabControl(TabControl dataViewer, string table)
         {
             if (connection == null) return null;
-            DataGridView dataGridView = CreateDataGridView();
+            //DataGridView dataGridView = CreateDataGridView();
+            DataGridView dataGridView = new()
+            {
+                Dock = DockStyle.Fill,
+                //AllowUserToOrderColumns = true, NOT POSSIBLE IN SQLite
+                AllowUserToResizeRows = false,
+                RowHeadersWidth = 50,
+                //AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+            };
 
             // If table does not exist yet, create one:
             EnsureTableExistance(table, connection);
@@ -406,9 +422,10 @@ namespace OperatorsSolution
 
             var commandBuilder = new SQLiteCommandBuilder(dataAdapter);
 
-            TableData tableData = new() { DataTable = dataTable, DataAdapter = dataAdapter };
+            TableData tableData = new() { TableName = table, DataTable = dataTable, DataAdapter = dataAdapter };
 
             dataGridView.DataSource = dataTable;
+            dataGridView.Tag = tableData;
             dataGridView.CellValueChanged += (sender, e) => SaveTable(tableData);
 
             TabPage page = new()
@@ -421,8 +438,53 @@ namespace OperatorsSolution
 
             HideRowIDColumn(dataGridView, dataTable);
 
+            dataGridView.ColumnHeaderCellChanged += (s, e) => InitializeNewColumnButton(dataGridView);
+            dataGridView.ColumnWidthChanged += (s, e) => InitializeNewColumnButton(dataGridView);
+            dataGridView.RowHeadersWidthChanged += (s, e) => InitializeNewColumnButton(dataGridView);
+
+            dataGridView.ColumnHeaderMouseDoubleClick += (s, e) =>
+            {
+                DataGridViewColumn headerColumn = dataGridView.Columns[e.ColumnIndex];
+                //Rectangle columnRect = headerColumn.;                                                     // Changing Column name is not possible
+                Rectangle columnRect = dataGridView.GetColumnDisplayRectangle(e.ColumnIndex, true);
+                columnRect.Height = dataGridView.ColumnHeadersHeight;
+
+
+                Console.WriteLine(e.Location + "   |   " + columnRect);
+
+                StartNameEditing(page, columnRect, headerColumn.HeaderText, newName =>
+                {
+                    if (!string.IsNullOrWhiteSpace(newName))
+                        headerColumn.HeaderText = newName;
+                    Console.WriteLine("Renaming Columns not supported yet");
+                });
+            };
+            InitializeNewColumnButton(dataGridView);
+
+
             return page;
         }
+
+
+        private Rectangle GetColumnHeaderBounds(DataGridView dataGridView, int columnIndex)
+        {
+            if (columnIndex < 0 || columnIndex >= dataGridView.Columns.Count)
+                throw new ArgumentOutOfRangeException(nameof(columnIndex), "Invalid column index.");
+
+            // Calculate X position by summing the widths of all preceding columns
+            int x = 0;
+            for (int i = 0; i < columnIndex; i++)
+            {
+                x += dataGridView.Columns[i].Width;
+            }
+
+            // Get the Y position and height of the header row
+            int y = 0; // Header is at the top of the DataGridView
+            int height = dataGridView.ColumnHeadersHeight;
+
+            return new Rectangle(x, y, dataGridView.Columns[columnIndex].Width, height);
+        }
+
 
         private void InitializeContextMenuToTabs(TabControl tabControl)
         {
@@ -526,6 +588,20 @@ namespace OperatorsSolution
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private static void EnsureTableExistance(string tableName, SQLiteConnection connection)
         {
             try
@@ -554,15 +630,6 @@ namespace OperatorsSolution
             }
         }
 
-        // Creates and returns a new DataGridView
-        private static DataGridView CreateDataGridView()
-        {
-            return new DataGridView
-            {
-                Dock = DockStyle.Fill,
-            };
-        }
-
         // Loads data from a table into a DataTable
         private static DataTable LoadTableData(string table, SQLiteConnection connection)
         {
@@ -588,14 +655,217 @@ namespace OperatorsSolution
         {
             try
             {
-                if (dataTable.Columns.Contains("RowID"))
-                    dataGridView.Columns["RowID"].Visible = false;
+                if (!dataTable.Columns.Contains("RowID"))
+                    return;
+                dataGridView.Columns["RowID"].Width = 0;
+                dataGridView.Columns["RowID"].Visible = false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error hiding RowID column: " + ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+        //private Button? newColumnButton;
+        private void InitializeNewColumnButton(DataGridView dataGridView)
+        {
+            if (dataGridView.Parent is not Control parent) return;
+            // Remove any existing "+ New Column" buttons to avoid duplication
+            foreach (Control control in dataGridView.Parent.Controls)
+            {
+                if (control is Button && control.Text == "+")
+                {
+                    dataGridView.Parent.Controls.Remove(control);
+                    control.Dispose();
+                }
+            }
+
+            Button newColumnButton;
+            
+            
+            Console.WriteLine(dataGridView.Columns[dataGridView.ColumnCount - 1].HeaderCell.ContentBounds);
+            Console.WriteLine(dataGridView.GetColumnDisplayRectangle(dataGridView.ColumnCount - 1, true));
+
+            //// Ensure the last column is visible and fully loaded before calculating its position
+            //dataGridView.PerformLayout(); // Ensures layout is updated
+
+            Point buttonLocation;
+            Rectangle lastColumn = dataGridView.GetColumnDisplayRectangle(dataGridView.ColumnCount - 1, false);
+            //Rectangle lastColumn = dataGridView.Columns[dataGridView.ColumnCount - 1].HeaderCell.ContentBounds;
+            buttonLocation = new Point(lastColumn.X + lastColumn.Width + dataGridView.Location.X, dataGridView.Location.Y);
+
+            Console.WriteLine(buttonLocation);
+
+            // Create a new Button and set its properties
+            newColumnButton = new()
+            {
+                Text = "+",
+                Location = buttonLocation,
+                Size = new Size(dataGridView.ColumnHeadersHeight, dataGridView.ColumnHeadersHeight),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.LightGray,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+            };
+
+            // Handle the button click event to add a new tab when clicked
+            newColumnButton.Click += (sender, e) =>
+            {
+                //dataViewer.SelectedTab = AddTableToTabControl(dataViewer, "New Table");
+                if (dataGridView.Tag is not TableData tableData || tableData.TableName == null || connection == null) return;
+                Console.WriteLine(tableData.TableName);
+                DataGridViewColumn? newColumn = AddColumnToDataGridViewAndDatabase(dataGridView, connection, tableData.TableName, "New Column");
+                if (newColumn == null) return;
+                Rectangle headerRect = dataGridView.GetColumnDisplayRectangle(dataGridView.ColumnCount - 1, true);
+                headerRect.Height = dataGridView.ColumnHeadersHeight;
+                StartNameEditing(parent, headerRect, dataGridView.Columns[dataGridView.ColumnCount - 1].HeaderText, newName =>
+                {
+                    if (!string.IsNullOrWhiteSpace(newName))
+                        newColumn.HeaderText = newName;
+                    Console.WriteLine("Renaming Columns not supported yet");
+                });
+                parent.Controls.Remove(newColumnButton);
+                newColumnButton.Dispose();
+                InitializeNewColumnButton(dataGridView);
+            };
+
+            // Add the button to the parent container (the container holding the TabControl)
+            parent.Controls.Add(newColumnButton);
+            newColumnButton.BringToFront();
+        }
+
+
+        private DataGridViewColumn? AddColumnToDataGridViewAndDatabase(DataGridView dataGridView, SQLiteConnection connection, string tableName, string columnName, string columnType = "TEXT")
+        {
+            try
+            {
+                // Step 1: Check for valid inputs
+                if (string.IsNullOrWhiteSpace(columnName))
+                    throw new ArgumentException("Column name cannot be empty or whitespace.");
+
+                if (dataGridView.Columns.Contains(columnName))
+                    throw new InvalidOperationException("Column already exists in the DataGridView.");
+
+                // Step 2: Add the column to the database
+                string sql = $"ALTER TABLE \"{tableName}\" ADD COLUMN \"{columnName}\" \"{columnType}\"";
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                // Step 3: Add the column to the DataGridView
+                var newColumn = new DataGridViewColumn
+                {
+                    HeaderText = columnName,
+                    Name = columnName,
+                    ValueType = Type.GetType("System.String") // Adjust based on columnType if needed
+                };
+
+                dataGridView.Columns.Add(newColumn);
+
+                Console.WriteLine($"Column '{columnName}' added successfully to both the database and DataGridView.");
+
+                return newColumn;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding column: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+
+
+        //StartNameEditing();
+        private static void StartNameEditing(Control parent, Rectangle bounds, string initialName, Action<string> onCommit)
+        {
+            TextBox textBox = new()
+            {
+                Text = initialName,
+                TextAlign = HorizontalAlignment.Center,
+                Multiline = true,
+                BorderStyle = BorderStyle.None,
+                Location = parent.PointToScreen(bounds.Location),
+                Size = new Size(bounds.Width, bounds.Height),
+            };
+
+            // Adjust position to align with the tab
+            textBox.Location = parent.PointToClient(parent.PointToScreen(bounds.Location));
+
+            parent.Controls.Add(textBox);
+            textBox.BringToFront();
+
+            textBox.KeyDown += (sender, e) =>
+            {
+                if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape)
+                {
+                    e.SuppressKeyPress = true;
+                    onCommit(textBox.Text.Trim());
+                    //CommitRenameTab(tabPage, textBox.Text);
+                    parent.Controls.Remove(textBox);
+                    textBox.Dispose();
+                }
+            };
+
+            textBox.LostFocus += (s, e) =>
+            {
+                onCommit(textBox.Text.Trim());
+                //CommitRenameTab(tabPage, textBox.Text);
+                parent.Controls.Remove(textBox);
+                textBox.Dispose();
+            };
+
+            textBox.Focus();
+            textBox.SelectAll();
+        }
+
+
+
+
+
+        //private static void RenameColumn(SQLiteConnection connection, string tableName, string oldColumnName, string newColumnName)
+        //{
+        //    try
+        //    {
+        //        // Create a new table with the updated column name
+        //        string tempTable = $"{tableName}_temp";
+        //        string command = "CREATE TABLE {tempTable} AS SELECT {string.Join(",", connection.Query<string>($"PRAGMA table_info({tableName})").Where(row => !row.Contains(oldColumnName))}, {newColumnName} AS {oldColumnName} FROM {tableName};";
+        //        connection.Execute(command);
+
+        //        // Drop the old table and rename the temp table
+        //        command = $"DROP TABLE {tableName};";
+        //        connection.Execute(command);
+        //        command = $"ALTER TABLE {tempTable} RENAME TO {tableName};";
+        //        connection.Execute(command);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error renaming column: {ex.Message}");
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         private Button? newTabButton;
@@ -621,7 +891,7 @@ namespace OperatorsSolution
             // Create a new Button and set its properties
             newTabButton = new()
             {
-                Text = "+", // You can customize the button text
+                Text = "+",
                 Location = buttonLocation,
                 Size = new Size(dataViewer.ItemSize.Height, dataViewer.ItemSize.Height),
                 FlatStyle = FlatStyle.Flat,
@@ -643,6 +913,20 @@ namespace OperatorsSolution
             parent.Controls.Add(newTabButton);
             newTabButton.BringToFront();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Starts editing the tab name by adding a TextBox
         private void StartTabEditing(TabControl tabControl)
@@ -686,7 +970,7 @@ namespace OperatorsSolution
         // Creates and configures the TextBox for editing tab names
         private static TextBox CreateTextBoxForEditing(TabControl tabControl, Rectangle tabRect, string initialName)
         {
-            return new TextBox
+            return new()
             {
                 Text = initialName,
                 TextAlign = HorizontalAlignment.Center,
@@ -719,23 +1003,35 @@ namespace OperatorsSolution
             }
         }
 
-        // Retrieves table names from the database
-        public static IEnumerable<string> GetTables(SQLiteConnection connection)
-        {
-            try
-            {
-                const string query = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
-                return connection.Query<string>(query);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error retrieving table names: " + ex.Message);
-                return [];
-            }
-        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public class TableData
         {
+            public string? TableName { get; set; }
             public DataTable? DataTable { get; set; }
             public SQLiteDataAdapter? DataAdapter { get; set; }
         }
@@ -786,6 +1082,49 @@ namespace OperatorsSolution
                     e.Cancel = true;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Retrieves table names from the database
+        public static IEnumerable<string> GetTables(SQLiteConnection connection)
+        {
+            try
+            {
+                const string query = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
+                return connection.Query<string>(query);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error retrieving table names: " + ex.Message);
+                return [];
+            }
+        }
+
 
         private static void AskConfirmation(object? sender, KeyEventArgs e)
         {

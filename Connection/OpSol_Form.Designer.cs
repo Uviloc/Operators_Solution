@@ -379,6 +379,9 @@ namespace OperatorsSolution
             // 
             // dataGridView4
             // 
+            dataGridView4.AllowUserToOrderColumns = true;
+            dataGridView4.AllowUserToResizeRows = false;
+            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView4.Dock = DockStyle.Fill;
             dataGridView4.Location = new Point(3, 3);

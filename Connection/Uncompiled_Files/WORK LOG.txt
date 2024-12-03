@@ -64,7 +64,7 @@ Fri: Added a huge amount of control to databases, got overwhelmed by all the cod
 
 Week 10:
 Mon: Added a bunch of functionality to the database view such as adding, removing, name changes etc
-Tue: 
+Tue: Got overwhelmed by all the code and functions. Tried adding more functions to database and viewer
 Wed: 
 Thu: 
 Fri: 

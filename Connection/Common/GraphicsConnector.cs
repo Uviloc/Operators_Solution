@@ -19,9 +19,9 @@ using vMix;
 #endif
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
-//using OperatorsSolution.GraphicsProgramFunctions;
 using OperatorsSolution.Program;
 using OperatorsSolution.Controls;
+using System.Reflection;
 
 namespace OperatorsSolution.Common
 {
@@ -31,6 +31,56 @@ namespace OperatorsSolution.Common
     /// </summary>
     internal class GraphicsConnector
     {
+        //public static void TryInvokeFunction(string assemblyPath, string namespaceName, string className, string methodName)
+        //{
+        //    try
+        //    {
+        //        // Load the assembly
+        //        Assembly assembly = Assembly.LoadFrom(assemblyPath);
+
+        //        // Find the type (class) within the namespace
+        //        Type type = assembly.GetType($"{namespaceName}.{className}");
+        //        if (type == null)
+        //        {
+        //            Console.WriteLine($"Class '{className}' in namespace '{namespaceName}' not found.");
+        //            return;
+        //        }
+
+        //        // Find the method inside the class
+        //        MethodInfo method = type.GetMethod(methodName);
+        //        if (method == null)
+        //        {
+        //            Console.WriteLine($"Method '{methodName}' not found in class '{className}'.");
+        //            return;
+        //        }
+
+        //        // Invoke the method (example without parameters)
+        //        object classInstance = Activator.CreateInstance(type);
+        //        method.Invoke(classInstance, null); // Pass parameters as needed
+        //    }
+        //    catch (FileNotFoundException)
+        //    {
+        //        Console.WriteLine($"Assembly '{assemblyPath}' not found.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error: {ex.Message}");
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Check to see if XPression is working (mostly used to check if XPression dongle with licence is present).
         /// </summary>
@@ -67,7 +117,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    XP_Functions.DisplayPreview(sender, previewBox);
+                    GraphicsProgramFunctions.XP_Functions.DisplayPreview(sender, previewBox);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif
@@ -108,7 +158,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    XP_Functions.RemovePreview(previewBox);
+                    GraphicsProgramFunctions.XP_Functions.RemovePreview(previewBox);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif
@@ -150,7 +200,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    XP_Functions.TriggerClip(operatorButton, clipIndex);
+                    GraphicsProgramFunctions.XP_Functions.TriggerClip(operatorButton, clipIndex);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif

@@ -64,6 +64,8 @@ namespace OperatorsSolution.Common
                             break;
 
                         case PluginType.Graphics_Program_Functions:
+                            if (Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase))
+                                LoadAssemblyPlugin(filePath);
                             break;
 
                         case PluginType.Visual_Styles:
