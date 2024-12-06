@@ -1,4 +1,67 @@
-﻿// NOT WORKING CODE:
+﻿//private void DisplayNodeButton(object? sender, TreeNodeMouseHoverEventArgs e)
+//{
+//    if (e.Node is not TreeNode node || sender is not TreeView treeView || treeView.Parent?.Controls is not ControlCollection controls) return;
+
+//    foreach (Control control in controls)
+//    {
+//        Console.WriteLine(control.Name);
+//        if (control.Name == "...")
+//        {
+//            treeView.Controls.Remove(control);
+//            control.Dispose();
+//        }
+//    }
+
+
+//    Button dotMenu = new()
+//    {
+//        Name = "...",
+//        //Location = node.Bounds.Location,
+//        Bounds = node.Bounds,
+//        Width = node.Bounds.Height,
+//        //Left = node.Bounds.Width + 100,
+//        //Anchor = AnchorStyles.Right,
+//        Left = treeView.Width - 100,
+//        Text = "...",
+//        TextAlign = ContentAlignment.MiddleCenter,
+//        ForeColor = Color.White,
+//        BackColor = Color.FromArgb(255, 0, 0, 0),
+//        FlatStyle = FlatStyle.Flat,
+//    };
+//    dotMenu.FlatAppearance.BorderSize = 0;
+//    node.TreeView.Parent?.Controls.Add(dotMenu);
+//    dotMenu.BringToFront();
+//}
+
+//private void RemoveNodeButtons(object? sender, MouseEventArgs e)
+//{
+//    if (sender is not TreeView treeView || treeView.Parent?.Controls is not ControlCollection controls) return;
+//    //TreeNode? newlyEnteredNode = treeView.GetNodeAt(e.Location);
+
+//    foreach (Control control in controls)
+//    {
+//        if (control.Text == "...")
+//        {
+//            treeView.Controls.Remove(control);
+//            control.Dispose();
+//        }
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// NOT WORKING CODE:
 #region columns stuff temp region:
 private static void InitializeContextMenuForColumns(DataGridView dataGridView)
 {

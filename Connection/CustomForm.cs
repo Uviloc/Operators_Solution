@@ -43,11 +43,11 @@ namespace OperatorsSolution
         [Browsable(true)]
         public TabControl? TabControl { get; set; }
 
-        // Data Viewer
-        [Category(".Operation")]
-        [Description("The TabControl that the databases can be loaded into.")]
-        [Browsable(true)]
-        public TabControl? DataViewer { get; set; }
+        //// Data Viewer
+        //[Category(".Operation")]
+        //[Description("The TabControl that the databases can be loaded into.")]
+        //[Browsable(true)]
+        //public TabControl? DataViewer { get; set; }
         #endregion
 
         // SHOULD MAYBE HAVE SETTINGS CONTROL HERE SO THAT EXTERNAL FORMS CAN USE THOSE FUNCTIONS EASILY

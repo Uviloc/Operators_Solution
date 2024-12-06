@@ -55,32 +55,29 @@ namespace OperatorsSolution.Common
             {
                 try
                 {
+                    Assembly? assembly;
                     // Handle each plugin type dynamically
                     switch (type)
                     {
                         case PluginType.Interfaces:
-                            if (Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase))
-                                LoadAssemblyPlugin(filePath, folder, operationTreeview);
+                            if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;
+                            if (!LoadAssemblyPlugin(filePath, out assembly)) break;
+                            LoadFormPlugin(assembly, filePath, folder, operationTreeview);
                             break;
 
                         case PluginType.Graphics_Program_Functions:
-                            if (Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase))
-                                LoadAssemblyPlugin(filePath);
+                            if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;
+                            if (!LoadAssemblyPlugin(filePath, out assembly)) break;
                             break;
 
                         case PluginType.Visual_Styles:
-                            if (Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase))
-                            {
-                                //LoadAssemblyPlugin(filePath);
-                            }
+                            if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;
+                            if (!LoadAssemblyPlugin(filePath, out assembly)) break;
                             break;
 
                         case PluginType.Databases:
-                            if (Path.GetExtension(filePath).Equals(".db", StringComparison.OrdinalIgnoreCase))
-                            {
-                                LoadDatabases(filePath, folder, databaseTreeview);
-                                Console.WriteLine($"[Plugin Loader] Database filePath detected: {filePath}");
-                            }
+                            if (!Path.GetExtension(filePath).Equals(".db", StringComparison.OrdinalIgnoreCase)) break;
+                            LoadDatabases(filePath, folder, databaseTreeview);
                             break;
 
                         default:
@@ -97,42 +94,50 @@ namespace OperatorsSolution.Common
         #endregion
 
         #region >----------------- Load Plugins: ---------------------
-        // ALL IN ONE FUNCTION???: CASE FOR DLL > LOAD AS ASSEMBLY, IF DB > RELATIVEPATH, IF DB OR FORM > INTO TREEVIEW, IF STYLE > INTO OPTIONS
-        private static void LoadDatabases(string file, string folder, TreeView treeviewExplorer)
+        private static bool LoadAssemblyPlugin(string file, out Assembly? assembly)
         {
-            string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
-            AddToTreeView(file, relativePath.Last().Replace(".db", ""), relativePath, treeviewExplorer.Nodes);
-        }
-
-        private static void LoadAssemblyPlugin(string file, string? folder = null, TreeView? treeviewExplorer = null)
-        {
+            assembly = null;
             try
             {
                 var context = new AssemblyLoadContext(file, isCollectible: true);
-                Assembly assembly = context.LoadFromAssemblyPath(file);
-
-                // Find all types in the assembly that implement plugins
-                foreach (Type type in assembly.GetTypes())
-                {
-                    if (!typeof(IFormPlugin).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) continue;
-
-                    // Create an instance of the plugin
-                    var typeInstance = Activator.CreateInstance(type);
-
-                    if (typeInstance is not IFormPlugin moduleForm) continue;
-
-
-
-
-                    if (treeviewExplorer == null || folder == null) continue;
-                    string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
-                    // Add the plugin form to the TreeView
-                    AddToTreeView(moduleForm, moduleForm.FormName, relativePath, treeviewExplorer.Nodes);
-                }
+                assembly = context.LoadFromAssemblyPath(file);
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"[Plugin Loader] Error loading assembly {file}: {ex.Message}", "Plugin Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private static void LoadDatabases(string file, string folder, TreeView treeviewExplorer)
+        {
+            string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
+            AddToTreeView(file, relativePath.Last().Replace(".db", ""), relativePath, treeviewExplorer.Nodes);
+            Console.WriteLine($"[Plugin Loader] Database filePath detected: {file}");
+        }
+
+        private static void LoadFormPlugin(Assembly? assembly, string file, string? folder = null, TreeView? treeviewExplorer = null)
+        {
+            if (assembly == null) return;
+            // Find all types in the assembly that implement plugins
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (!typeof(IFormPlugin).IsAssignableFrom(type) && type.IsInterface && type.IsAbstract) continue;
+
+                // Create an instance of the plugin
+                var typeInstance = Activator.CreateInstance(type);
+
+                if (typeInstance is not IFormPlugin moduleForm) continue;
+
+
+
+
+                if (treeviewExplorer == null || folder == null) continue;
+                string[] relativePath = Path.GetRelativePath(folder, file).Split('\\');
+                // Add the plugin form to the TreeView
+                AddToTreeView(moduleForm, moduleForm.FormName, relativePath, treeviewExplorer.Nodes);
+                Console.WriteLine($"[Plugin Loader] .dll filePath detected: {file}");
             }
         }
         #endregion
@@ -140,9 +145,6 @@ namespace OperatorsSolution.Common
         #region >----------------- AddToTreeView: ---------------------
         private static TreeNode AddToTreeView(object tag, string nodeName, string[] filePath, TreeNodeCollection nodes)
         {
-            // If no nodes are provided, use the root nodes
-            //nodes ??= treeviewExplorer?.Nodes;
-
             // Find an existing node at the current level
             TreeNode? node = nodes
                 .Cast<TreeNode>()

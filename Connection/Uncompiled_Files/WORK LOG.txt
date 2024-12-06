@@ -67,7 +67,7 @@ Mon: Added a bunch of functionality to the database view such as adding, removin
 Tue: Got overwhelmed by all the code and functions. Tried adding more functions to database and viewer
 Wed: 
 Thu: 
-Fri: 
+Fri: Added buttons next to form nodes for future settings, did some cleaning up of code
 
 Week 11:
 Mon: 

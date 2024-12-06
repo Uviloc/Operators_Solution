@@ -33,10 +33,6 @@ namespace OperatorsSolution
             defaultInstructionsOperation = new Label();
             innerPanelDatabaseTab = new TabPage();
             button4 = new Button();
-            dataViewer = new TabControl();
-            tabPage1 = new TabPage();
-            dataGridView4 = new DataGridView();
-            tabPage2 = new TabPage();
             button3 = new Button();
             defaultDatabaseInstructions = new Label();
             settingsTab = new TabPage();
@@ -50,9 +46,6 @@ namespace OperatorsSolution
             innerPanelTabs.SuspendLayout();
             innerPanelOperationTab.SuspendLayout();
             innerPanelDatabaseTab.SuspendLayout();
-            dataViewer.SuspendLayout();
-            tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
             controlPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -80,16 +73,18 @@ namespace OperatorsSolution
             operationTreeview.Size = new Size(609, 1264);
             operationTreeview.TabIndex = 6;
             operationTreeview.NodeMouseDoubleClick += OpenExternalForm;
+            operationTreeview.MouseMove += DisplayNodeButton;
             // 
             // databaseTreeview
             // 
             databaseTreeview.BackColor = Color.Black;
+            databaseTreeview.Dock = DockStyle.Fill;
             databaseTreeview.Font = new Font("Segoe UI", 14F);
             databaseTreeview.ForeColor = Color.White;
-            databaseTreeview.Location = new Point(9, 96);
+            databaseTreeview.Location = new Point(3, 3);
             databaseTreeview.MinimumSize = new Size(0, 10);
             databaseTreeview.Name = "databaseTreeview";
-            databaseTreeview.Size = new Size(597, 1062);
+            databaseTreeview.Size = new Size(603, 1258);
             databaseTreeview.TabIndex = 0;
             databaseTreeview.NodeMouseDoubleClick += OpenDatabase;
             // 
@@ -276,8 +271,7 @@ namespace OperatorsSolution
             CollapseControlPanel1.Text = "<";
             CollapseControlPanel1.UseVisualStyleBackColor = false;
             CollapseControlPanel1.Click += CollapseControlPanel;
-            CollapseControlPanel1.MouseEnter += ButtonEnter;
-            CollapseControlPanel1.MouseLeave += ButtonLeave;
+            CollapseControlPanel1.MouseEnter += ButtonHighlight;
             // 
             // mainLayoutTable
             // 
@@ -337,7 +331,6 @@ namespace OperatorsSolution
             // 
             innerPanelDatabaseTab.BackColor = Color.FromArgb(32, 32, 32);
             innerPanelDatabaseTab.Controls.Add(button4);
-            innerPanelDatabaseTab.Controls.Add(dataViewer);
             innerPanelDatabaseTab.Controls.Add(button3);
             innerPanelDatabaseTab.Controls.Add(defaultDatabaseInstructions);
             innerPanelDatabaseTab.Location = new Point(4, 34);
@@ -348,61 +341,16 @@ namespace OperatorsSolution
             // 
             // button4
             // 
-            button4.Location = new Point(1064, 1356);
+            button4.Location = new Point(1098, 1350);
             button4.Name = "button4";
             button4.Size = new Size(186, 45);
             button4.TabIndex = 7;
             button4.Text = "Increment score";
             button4.UseVisualStyleBackColor = true;
             // 
-            // dataViewer
-            // 
-            dataViewer.Appearance = TabAppearance.FlatButtons;
-            dataViewer.Controls.Add(tabPage1);
-            dataViewer.Controls.Add(tabPage2);
-            dataViewer.Location = new Point(87, 165);
-            dataViewer.Name = "dataViewer";
-            dataViewer.SelectedIndex = 0;
-            dataViewer.Size = new Size(1432, 1128);
-            dataViewer.TabIndex = 6;
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(dataGridView4);
-            tabPage1.Location = new Point(4, 37);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1424, 1087);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView4
-            // 
-            dataGridView4.AllowUserToOrderColumns = true;
-            dataGridView4.AllowUserToResizeRows = false;
-            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Dock = DockStyle.Fill;
-            dataGridView4.Location = new Point(3, 3);
-            dataGridView4.Name = "dataGridView4";
-            dataGridView4.RowHeadersWidth = 62;
-            dataGridView4.Size = new Size(1418, 1081);
-            dataGridView4.TabIndex = 2;
-            // 
-            // tabPage2
-            // 
-            tabPage2.Location = new Point(4, 37);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1424, 1087);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
             // button3
             // 
-            button3.Location = new Point(1381, 1383);
+            button3.Location = new Point(1415, 1377);
             button3.Name = "button3";
             button3.Size = new Size(112, 34);
             button3.TabIndex = 5;
@@ -411,9 +359,10 @@ namespace OperatorsSolution
             // 
             // defaultDatabaseInstructions
             // 
+            defaultDatabaseInstructions.Dock = DockStyle.Fill;
             defaultDatabaseInstructions.Location = new Point(0, 0);
             defaultDatabaseInstructions.Name = "defaultDatabaseInstructions";
-            defaultDatabaseInstructions.Size = new Size(175, 71);
+            defaultDatabaseInstructions.Size = new Size(1573, 1440);
             defaultDatabaseInstructions.TabIndex = 4;
             defaultDatabaseInstructions.Text = "Open a database on the left.";
             defaultDatabaseInstructions.TextAlign = ContentAlignment.MiddleCenter;
@@ -449,7 +398,6 @@ namespace OperatorsSolution
             ControlPanel = controlPanel;
             Controls.Add(mainLayoutTable);
             DatabaseTreeview = databaseTreeview;
-            DataViewer = dataViewer;
             ForeColor = Color.FromArgb(60, 60, 60);
             MinimumSize = new Size(1150, 500);
             Name = "OpSol_Form";
@@ -467,9 +415,6 @@ namespace OperatorsSolution
             innerPanelTabs.ResumeLayout(false);
             innerPanelOperationTab.ResumeLayout(false);
             innerPanelDatabaseTab.ResumeLayout(false);
-            dataViewer.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
             controlPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -503,10 +448,6 @@ namespace OperatorsSolution
         private TabPage innerPanelDatabaseTab;
         private TabPage settingsTab;
         private Label defaultDatabaseInstructions;
-        private TabControl dataViewer;
-        private TabPage tabPage1;
-        private DataGridView dataGridView4;
-        private TabPage tabPage2;
         private Button button3;
         private Button button4;
     }
