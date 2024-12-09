@@ -14,11 +14,13 @@ using System.Windows.Forms;
 using Dapper;
 using Emitter;
 using System.Xml.Linq;
+using OperatorsSolution.Controls;
 
 namespace OperatorsSolution
 {
     public partial class OpSol_Form : CustomForm
     {
+        #region >----------------- Main Process: ---------------------
         public OpSol_Form()
         {
             InitializeComponent();
@@ -31,6 +33,7 @@ namespace OperatorsSolution
             else
                 MessageBox.Show("Please set the OperationTreeview and DatabaseTreeview variables in the main form property window");
         }
+        #endregion
 
 
         #region >----------------- Collapse Control Panel: ---------------------
@@ -78,6 +81,7 @@ namespace OperatorsSolution
         }
         #endregion
 
+        #region >----------------- Highlight button hover: ---------------------
         private void ButtonHighlight(object? sender, EventArgs e)
         {
             if (sender is not Control control) return;
@@ -103,6 +107,7 @@ namespace OperatorsSolution
                 Math.Min(originalColor.B + 30, 255)
             );
         }
+        #endregion
 
         #region >----------------- OpenForm: ---------------------
         private void OpenExternalForm(object? sender, TreeNodeMouseClickEventArgs e)
@@ -155,7 +160,7 @@ namespace OperatorsSolution
             if (sender is not TreeView treeView) return;
 
             // Get the newly entered node:
-            if (treeView.GetNodeAt(e.Location) is not TreeNode newlyEnteredNode) return;
+            if (treeView.GetNodeAt(e.Location) is not TreeNode newlyEnteredNode || newlyEnteredNode.Nodes.Count > 0) return;
 
             // Get the button of the previous node:
             var tag = treeView.Tag;
@@ -196,11 +201,34 @@ namespace OperatorsSolution
         {
             if (sender is not Button button) return;
             if (button.Tag is not TreeNode node) return;
-
             if (node.Tag is not Common.IFormPlugin pluginForm) return;
-            Form form = pluginForm.GetForm();                                               // SWITCH OUT WITH .GetSettings
 
-            Console.WriteLine(form.Text);
+            // Create backdrop:
+            CustomPanel backPanel = new()
+            {
+                Size = this.Size,
+                BackColor = Color.FromArgb(100, 20, 20, 20),
+            };
+            this.Controls.Add(backPanel);
+            backPanel.BringToFront();
+
+            // Create a settings panel:
+            FormSettings settingsPopup = new()
+            {
+                Location = this.PointToClient(Cursor.Position),
+                LinkedForm = pluginForm,
+            };
+            settingsPopup.InitializeSettings();
+            this.Controls.Add(settingsPopup);
+            settingsPopup.BringToFront();
+
+            backPanel.MouseClick += (s, e) =>
+            {
+                settingsPopup.Hide();
+                backPanel.Hide();
+                settingsPopup.Dispose();
+                backPanel.Dispose();
+            };
         }
         #endregion
 
@@ -252,7 +280,7 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Open project file: ---------------------
-        private void OpenProject(object? sender, EventArgs e)
+        private void OpenProject(object? sender, EventArgs e)               // CASPAR NEEDS SERVER TO OPEN FIRST
         {
             string projectFilePath = Properties.Settings.Default.ProjectFile;
 
@@ -346,7 +374,7 @@ namespace OperatorsSolution
         }
         #endregion
 
-        #region >----------------- Tab stuff: ---------------------
+        #region >----------------- Control Tab stuff: ---------------------
         private void TabChange(object? sender, EventArgs e)
         {
             if (sender is not TabControl tabControl) return;

@@ -12,5 +12,25 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public class Material_Accessor : Button
     {
+        public Color Color { get; set; }
+
+        public Material_Accessor()
+        {
+            Click += OpenColorPanel;
+            Color = Color.AliceBlue;                // Switch to getting from database or similar persistant location
+        }
+
+        private void OpenColorPanel(object? sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new();
+            colorDialog.ShowDialog();
+            Color = colorDialog.Color;
+        }
+
+        protected override void OnPaint(PaintEventArgs pevent)
+        {
+            base.OnPaint(pevent);
+            BackColor = Color;
+        }
     }
 }

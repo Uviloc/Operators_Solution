@@ -9,6 +9,33 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Console = System.Diagnostics.Debug;
 
+
+
+
+
+
+
+
+
+
+
+
+/*
+ Some type of UI for having some clips be available when others are active
+Likely best with indentation in the ToString()
+ 
+ Have the buttons that are assigned to that clip be deactivated when the condition is false
+ 
+ 
+ 
+ 
+ 
+ */
+
+
+
+
+
 namespace OperatorsSolution.Controls
 {
     [ToolboxItem(true)]

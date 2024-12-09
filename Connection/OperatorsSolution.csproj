@@ -79,6 +79,7 @@
 
 	<ItemGroup>
 		<Folder Include="Forms\" />
+		<Folder Include="Modules\Interfaces\" />
 		<Folder Include="Program\DataSources\" />
 	</ItemGroup>
 

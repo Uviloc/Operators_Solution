@@ -12,7 +12,10 @@ namespace OperatorsSolution.Common
     public interface IFormPlugin
     {
         Form GetForm();
+        void SaveSettings();
         string FormName { get; }
+        GraphicsSoftware GraphicsSoftware { get; set; }
+        string? ProjectFile { get; set; }
     }
 
     public interface IStylePlugin

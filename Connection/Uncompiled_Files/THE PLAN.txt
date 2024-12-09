@@ -99,6 +99,15 @@ ______________________________________________________________Questions for Oper
 - (Did things ever go wrong for you and how did you respond to it.)
 >
 
+Do you mostly want to have one program on screen
+
+good indication for paused timer or displayed graphics:
+blinking, coloured border
+
+How much would a preview window change?
+
+
+
 _______________________________________________________________Possible Additions:___________________________________________________________________________________________
 - LoadProject > having the XPression project open up when the application also opens.
 	(Have a seperate app for each show, or have all together but have tabs that open the project or have a button to open project)

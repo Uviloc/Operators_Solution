@@ -70,7 +70,7 @@ Thu:
 Fri: Added buttons next to form nodes for future settings, did some cleaning up of code
 
 Week 11:
-Mon: 
+Mon: Separated settings per plugin (not fully working yet), progress on custom controls
 Tue: 
 Wed: 
 Thu: 
