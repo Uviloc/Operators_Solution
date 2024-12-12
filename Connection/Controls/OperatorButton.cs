@@ -8,187 +8,38 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Reflection;
 using OperatorsSolution.Common;
-using OperatorsSolution.GraphicsProgramFunctions;
+//using OperatorsSolution.GraphicsProgramFunctions;
 using Console = System.Diagnostics.Debug;
 
 
 namespace OperatorsSolution.Controls
 {
-    #region >----------------- ObjectChanges Collection Class: ---------------------
-    public class ObjectChange()
-    {
-        [Category("Object Change")]
-        public string? SceneObject { get; set; }
-
-        // SET LATER TO SOMETHING FROM DATA MANAGER
-        [Category("Object Change")]
-        public string? SetTo { get; set; }
-
-        public override string ToString()
-        {
-            if (string.IsNullOrWhiteSpace(SceneObject))
-            {
-                return "No clip set!";
-            }
-            else
-            {
-                return $"{SceneObject}";
-            }
-        }
-    }
-
-    //public class ObjectChangeCollection : Collection<ObjectChange>
-    //{
-    //    protected override void InsertItem(int index, ClipPath item)
-    //    {
-    //        // If there are already items in the collection, set the new item's Scene to the last item's Scene
-    //        if (Count > 0)
-    //        {
-    //            item.Scene ??= this.Last().Scene;
-
-
-    //            // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
-    //            if (item.Track == "StateTrack")
-    //            {
-    //                //item.Track = this.Last().Track ?? "StateTrack";
-    //                //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
-    //            }
-    //            if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
-    //            {
-    //                //item.SceneDirector = this.Last().SceneDirector;
-    //            }
-    //        }
-
-    //        base.InsertItem(index, item);
-    //    }
-    //}
-    #endregion
-
-    #region >----------------- ClipPath Collection Class: ---------------------
-    public class ClipPath()
-    {
-        //// ButtonText
-        //[Category(".Operation > Button"),
-        //Description("(OPTIONAL) What text the button will change to. Default: 'Show + Same as next [Clip]'."),
-        //DefaultValue("Show + Same as next [Clip]")]
-        //public string? ButtonText { get; set; } = "Show + Same as next [Clip]";
-
-
-        // Scene
-        [Category("Search"),
-        Description("Which scene this button will trigger.")]
-        public string? Scene { get; set; }
-
-        // Scene Director
-        [Category("Search"),
-        Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
-        DefaultValue("Same as [Scene]")]
-        public string? SceneDirector { get; set; } = "Same as [Scene]";
-
-        // Clip
-        [Category("Search"),
-        Description("Which clip in this scene will trigger.")]
-        public string? Clip { get; set; }
-
-        // Track
-        [Category("Search"),
-        Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
-        DefaultValue("StateTrack")]
-        public string? Track { get; set; } = "StateTrack";
-
-
-
-        // Channel
-        [Category("Output"),
-        Description("On what channel the clip will be displayed."),
-        DefaultValue(0)]
-        public int Channel { get; set; } = 0;
-
-        // Layer
-        [Category("Output"),
-        Description("On what layer the clip will be displayed."),
-        DefaultValue(0)]
-        public int Layer { get; set; } = 0;
-
-
-
-        //// Object Changes
-        //[Category("Changes"),
-        //Description("Texts in the scene that need to be changed.")]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        //public List<ObjectChange> ObjectChanges { get; set; } = [];
-
-
-        // Override to string for nameplate
-        public override string ToString()
-        {
-            if(string.IsNullOrWhiteSpace(Clip))
-            {
-                return "No clip set!";
-            } else
-            {
-                return $"{Clip}";
-            }
-        }
-    }
-
-    
-    public class ClipPathCollection : Collection<ClipPath>
-    {
-        protected override void InsertItem(int index, ClipPath item)
-        {
-            // If there are already items in the collection, set the new item's Scene to the last item's Scene
-            if (Count > 0) item.Scene ??= this.Last().Scene;
-
-            //if (Count > 0)
-            //{
-            //    item.Scene ??= this.Last().Scene;
-
-
-            //    // STILL CHANGES PREVIOUS ITEMS WHEN THEY WERE STATETRACK AND NEW ONE IS SET TO STATETRACK
-            //    if (item.Track == "StateTrack")
-            //    {
-            //        //item.Track = this.Last().Track ?? "StateTrack";
-            //        //item.Track = this.Last().Track != "StateTrack" && this.Last().Track != "" ? this.Last().Track : "StateTrack";
-            //    }
-            //    if (item.SceneDirector == null || item.SceneDirector == "Same as [Scene]")
-            //    {
-            //        //item.SceneDirector = this.Last().SceneDirector;
-            //    }
-            //}
-
-            base.InsertItem(index, item);
-        }
-    }
-    #endregion
-
-
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Button))]
-    public class OperatorButton : Button
+    public partial class OperatorButton : Button
     {
         #region >----------------- Add properties: ---------------------
-        // ClipPath
-        [Category(".Operation > Search")]
-        [Description("Add clips to be played here.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ClipPathCollection ClipPaths { get; set; } = [];
+        //// ClipPath
+        //[Category(".Operation > Search")]
+        //[Description("Add clips to be played here.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public ClipPathCollection ClipPaths { get; set; } = [];
 
-        // ScenePreview
-        [Category(".Operation > Search")]
-        [Description("The scene from which the preview is taken.")]
-        public string? Scene { get; set; }
+        //// ScenePreview
+        //[Category(".Operation > Search")]
+        //[Description("The scene from which the preview is taken.")]
+        //public string? Scene { get; set; }
 
-        // PreviewBox           TO BE MOVED TO PROJECT SETTINGS
+        // PreviewBox                                                        TO BE MOVED TO PROJECT SETTINGS
         [Category(".Operation > Search")]
         [Description("The PictureBox where the preview will be displayed.")]
         public PictureBox? PreviewBox { get; set; }
 
-        // ObjectChanges
-        [Category(".Operation > Scene Changes")]
-        [Description("A list of changes that are made to the scene before displaying.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<ObjectChange> ObjectChanges { get; set; } = [];
+        //// ObjectChanges
+        //[Category(".Operation > Scene Changes")]
+        //[Description("A list of changes that are made to the scene before displaying.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------

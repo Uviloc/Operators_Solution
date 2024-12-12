@@ -43,7 +43,7 @@ namespace OperatorsSolution.Controls
     public class Logic_Button : Control
     {
         private int buttonAmount = 3;
-        private readonly List<Button> buttons = [];
+        private readonly List<OperatorButton> buttons = [];
 
         [Category(".Operation > Layout")]
         [Description("The number of buttons to display.")]

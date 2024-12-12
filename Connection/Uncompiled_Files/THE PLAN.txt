@@ -7,6 +7,9 @@ Send Ross mail about xpTools having high memory and breaking the live view
 What is the distrubution of which graphics program is used for all current projects
 What is usually the go to program used for new projects
 
+!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll
+
+
 Elsa:
 Pictures for presentation
 Setup for test/remaining questions

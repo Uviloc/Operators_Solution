@@ -37,6 +37,7 @@ namespace TestModule
             operatorButton10 = new OperatorButton();
             operatorButton11 = new OperatorButton();
             textBox1 = new TextBox();
+            toggle_Button1 = new Toggle_Button();
             ((System.ComponentModel.ISupportInitialize)PreviewBox).BeginInit();
             SuspendLayout();
             // 
@@ -101,11 +102,26 @@ namespace TestModule
             textBox1.Size = new Size(174, 31);
             textBox1.TabIndex = 12;
             // 
+            // toggle_Button1
+            // 
+            toggle_Button1.ClipIn = null;
+            toggle_Button1.ClipOut = null;
+            toggle_Button1.Location = new Point(832, 724);
+            toggle_Button1.Name = "toggle_Button1";
+            toggle_Button1.PreviewBox = null;
+            toggle_Button1.Scene = null;
+            toggle_Button1.SceneName = null;
+            toggle_Button1.Size = new Size(300, 225);
+            toggle_Button1.TabIndex = 13;
+            toggle_Button1.Text = "toggle_Button1";
+            toggle_Button1.UseVisualStyleBackColor = false;
+            // 
             // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
+            Controls.Add(toggle_Button1);
             Controls.Add(textBox1);
             Controls.Add(operatorButton11);
             Controls.Add(operatorButton10);
@@ -138,5 +154,6 @@ namespace TestModule
         private OperatorButton operatorButton10;
         private OperatorButton operatorButton11;
         private TextBox textBox1;
+        private Toggle_Button toggle_Button1;
     }
 }

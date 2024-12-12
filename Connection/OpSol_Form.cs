@@ -304,8 +304,8 @@ namespace OperatorsSolution
         private void InitializeSettings()
         {
             // Graphics Software:
-            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));
-            GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;
+            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));                                   // DEPEND ON WHAT ASSEMBLIES ARE LOADED (ALL KEYS IN DICTIONARY) < NOPE
+            GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;                             // CHECK IF THIS EXISTS THEN, IF NOT GIVE ERROR WHEN OPENING THE FORM < NOPE
 
             // Project file:
             string projectFile = Properties.Settings.Default.ProjectFile;

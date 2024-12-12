@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution.Common
@@ -24,7 +25,7 @@ namespace OperatorsSolution.Common
         string StyleName { get; }
     }
 
-    public interface IGraphicFunctionsPlugin // ADD SOMETHING LIKE WHAT DLL FILES TO LOAD AS EXTRA FOR XPRESSION.NET AND LIB ETC
+    public interface IGraphicProgram
     {
         GraphicsSoftwareInfo GraphicsSoftwareInfo { get; }
 
@@ -53,7 +54,7 @@ namespace OperatorsSolution.Common
     public enum PluginType
     {
         Interfaces,
-        Graphics_Program_Functions,
+        //Graphics_Program_Functions,
         Databases,
         Visual_Styles
     }
@@ -75,6 +76,11 @@ namespace OperatorsSolution.Common
     //    };
     //}
     #endregion
+
+    //public class Assemblies
+    //{
+    //    public Dictionary<string, Assembly> GraphicsAssemblies { get; set; }
+    //}
 
     #region >----------------- Common Functions: ---------------------
     public class CommonFunctions

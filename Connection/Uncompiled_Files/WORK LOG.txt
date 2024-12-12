@@ -73,7 +73,7 @@ Week 11:
 Mon: Separated settings per plugin (not fully working yet), progress on custom controls
 Tue: 
 Wed: 
-Thu: 
+Thu: Got humbled a lot by my lack of skill, overwhelmed yet again, tried wrapping my head around the structure, attemped to get Caspar to work. Layed out control properties, reshuffled some stuff, started on custom controls
 Fri: 
 
 Week 12:
@@ -112,6 +112,13 @@ Thu:
 Fri: 
 
 Week 17:
+Mon: 
+Tue: 
+Wed: 
+Thu: 
+Fri: 
+
+Week 18:
 Mon: 
 Tue: 
 Wed: 

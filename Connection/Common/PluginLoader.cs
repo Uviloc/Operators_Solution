@@ -65,10 +65,10 @@ namespace OperatorsSolution.Common
                             LoadFormPlugin(assembly, filePath, folder, operationTreeview);
                             break;
 
-                        case PluginType.Graphics_Program_Functions:
-                            if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;
-                            if (!LoadAssemblyPlugin(filePath, out assembly)) break;
-                            break;
+                        //case PluginType.Graphics_Program_Functions:
+                        //    if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;
+                        //    if (!LoadAssemblyPlugin(filePath, out assembly)) break;
+                        //    break;
 
                         case PluginType.Visual_Styles:
                             if (!Path.GetExtension(filePath).Equals(".dll", StringComparison.OrdinalIgnoreCase)) break;

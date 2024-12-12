@@ -4,6 +4,12 @@ namespace OperatorsSolution
 {
     partial class OpSol_Form : CustomForm
     {
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
@@ -418,6 +424,7 @@ namespace OperatorsSolution
             controlPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
+        #endregion
 
         private Button button2;
         private TreeView operationTreeview;

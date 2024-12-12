@@ -117,7 +117,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XP_Functions.DisplayPreview(sender, previewBox);
+                    GraphicsProgramFunctions.XPression.DisplayPreview(sender, previewBox);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif
@@ -158,7 +158,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XP_Functions.RemovePreview(previewBox);
+                    GraphicsProgramFunctions.XPression.RemovePreview(previewBox);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif
@@ -200,7 +200,7 @@ namespace OperatorsSolution.Common
 #if HAS_XPRESSION   // If XPression reference exists, compile this code
                     // Check if Dongle is in computer
                     if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XP_Functions.TriggerClip(operatorButton, clipIndex);
+                    GraphicsProgramFunctions.XPression.TriggerClip(operatorButton, clipIndex);
 #else
                     MessageBox.Show("xpression.net.dll reference could not be found!");
 #endif
