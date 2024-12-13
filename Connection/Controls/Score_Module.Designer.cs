@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            button1 = new Button();
-            button2 = new Button();
-            label1 = new Label();
-            button3 = new Button();
-            button4 = new Button();
             button5 = new Button();
+            button4 = new Button();
+            button3 = new Button();
+            label1 = new Label();
+            button2 = new Button();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,23 +53,32 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Manual Score";
             // 
-            // button1
+            // button5
             // 
-            button1.Location = new Point(13, 76);
-            button1.Name = "button1";
-            button1.Size = new Size(119, 170);
-            button1.TabIndex = 0;
-            button1.Text = "+1 Team A";
-            button1.UseVisualStyleBackColor = true;
+            button5.Location = new Point(285, 406);
+            button5.Name = "button5";
+            button5.Size = new Size(174, 61);
+            button5.TabIndex = 3;
+            button5.Text = "Reset Score";
+            button5.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // button4
             // 
-            button2.Location = new Point(306, 76);
-            button2.Name = "button2";
-            button2.Size = new Size(119, 170);
-            button2.TabIndex = 0;
-            button2.Text = "+1 Team B";
-            button2.UseVisualStyleBackColor = true;
+            button4.Location = new Point(361, 265);
+            button4.Name = "button4";
+            button4.Size = new Size(64, 45);
+            button4.TabIndex = 2;
+            button4.Text = "-1";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(21, 265);
+            button3.Name = "button3";
+            button3.Size = new Size(64, 45);
+            button3.TabIndex = 2;
+            button3.Text = "-1";
+            button3.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -81,32 +90,23 @@
             label1.TabIndex = 1;
             label1.Text = "1 - 1";
             // 
-            // button3
+            // button2
             // 
-            button3.Location = new Point(21, 265);
-            button3.Name = "button3";
-            button3.Size = new Size(64, 45);
-            button3.TabIndex = 2;
-            button3.Text = "-1";
-            button3.UseVisualStyleBackColor = true;
+            button2.Location = new Point(306, 76);
+            button2.Name = "button2";
+            button2.Size = new Size(119, 170);
+            button2.TabIndex = 0;
+            button2.Text = "+1 Team B";
+            button2.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // button1
             // 
-            button4.Location = new Point(361, 265);
-            button4.Name = "button4";
-            button4.Size = new Size(64, 45);
-            button4.TabIndex = 2;
-            button4.Text = "-1";
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            button5.Location = new Point(285, 406);
-            button5.Name = "button5";
-            button5.Size = new Size(174, 61);
-            button5.TabIndex = 3;
-            button5.Text = "Reset Score";
-            button5.UseVisualStyleBackColor = true;
+            button1.Location = new Point(13, 76);
+            button1.Name = "button1";
+            button1.Size = new Size(119, 170);
+            button1.TabIndex = 0;
+            button1.Text = "+1 Team A";
+            button1.UseVisualStyleBackColor = true;
             // 
             // Score_Module
             // 
@@ -114,7 +114,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "Score_Module";
-            Size = new Size(535, 522);
+            Size = new Size(517, 512);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);

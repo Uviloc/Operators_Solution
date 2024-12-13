@@ -14,7 +14,7 @@ using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution.Controls
 {
-    [ToolboxItem(true)]
+    [ToolboxItem(false)]
     [ToolboxBitmap(typeof(Button))]
     public partial class OperatorButton : Button
     {
@@ -202,62 +202,8 @@ namespace OperatorsSolution.Controls
             Cursor = cursorDefault;
             Font = fontDefault;
             Text = "Show [Scene]";
-            Click += PlayScenes;
-            Enter += DisplayPreview;
-            Leave += RemovePreview;
             //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Size = new Size(200, 150);
-        }
-        #endregion
-
-
-        
-        #region >----------------- Functions: ---------------------
-
-        /*
-        Needs to play the scene in the graphics program
-        Needs to change the button text to the next clip
-        Needs 
-         */
-
-        private int index = 0;
-        public void PlayScenes(object? sender, EventArgs e)
-        {
-            // MOVE ELSEWHERE?????:
-            if (sender is OperatorButton button && button.ClipPaths != null)
-            {
-                // Warn and exit if there are no assigned scenes:
-                if (button.ClipPaths.Count == 0)
-                {
-                    CommonFunctions.ControlWarning(button, "Please add ClipPaths to the button: " + button.Text);
-                    return;
-                }
-
-
-                // Play the clip that this item is pointing to:
-                GraphicsConnector.TriggerClip(button, index);
-
-                if (index < button.ClipPaths.Count - 1)
-                {
-                    index++;
-                }
-                else
-                {
-                    index = 0;
-                }
-            }
-        }
-
-        public void DisplayPreview(object? sender, EventArgs e)
-        {
-            if (PreviewBox == null) return;
-            GraphicsConnector.DisplayPreview(sender, PreviewBox);
-        }
-
-        public void RemovePreview(object? sender, EventArgs e)
-        {
-            if (PreviewBox == null) return;
-            GraphicsConnector.RemovePreview(PreviewBox);
         }
         #endregion
     }

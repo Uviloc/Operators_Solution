@@ -1,4 +1,74 @@
-﻿//private void DisplayNodeButton(object? sender, TreeNodeMouseHoverEventArgs e)
+﻿//internal class ClipPathConverter2 : ExpandableObjectConverter
+
+public class ClipPathConverter : ExpandableObjectConverter
+{
+    public override bool GetStandardValuesSupported(ITypeDescriptorContext? context)
+    {
+        // Indicates that this property has a list of standard values
+        return true;
+    }
+
+    public override bool GetStandardValuesExclusive(ITypeDescriptorContext? context)
+    {
+        // Indicates that the property can only accept values from the list
+        return true;
+    }
+
+    public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
+    {
+        // Provide the list of standard values
+        var clipPaths = new[]
+        {
+            new ClipPath(),
+            new ClipPath()
+        };
+
+        return new StandardValuesCollection(clipPaths);
+    }
+
+    public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+    {
+        // Conversion support (optional, depending on your use case)
+        return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+    }
+
+    public override object? ConvertTo(ITypeDescriptorContext? context, System.Globalization.CultureInfo? culture, object? value, Type destinationType)
+    {
+        // Convert ClipPath to string for display in the dropdown
+        if (destinationType == typeof(string) && value is ClipPath clipPath)
+        {
+            return clipPath.Scene;
+        }
+
+        return base.ConvertTo(context, culture, value, destinationType);
+    }
+
+    public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
+    {
+        // Conversion support (optional, depending on your use case)
+        return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+    }
+
+    public override object? ConvertFrom(ITypeDescriptorContext? context, System.Globalization.CultureInfo? culture, object? value)
+    {
+        // Convert string back to ClipPath
+        if (value is string stringValue)
+        {
+            return new ClipPath { Scene = stringValue };
+        }
+
+        return base.ConvertFrom(context, culture, value);
+    }
+}
+
+
+
+
+
+
+
+
+//private void DisplayNodeButton(object? sender, TreeNodeMouseHoverEventArgs e)
 //{
 //    if (e.Node is not TreeNode node || sender is not TreeView treeView || treeView.Parent?.Controls is not ControlCollection controls) return;
 

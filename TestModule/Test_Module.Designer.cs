@@ -30,6 +30,10 @@ namespace TestModule
         /// </summary>
         private void InitializeComponent()
         {
+            OperatorsSolution.GraphicsProgramFunctions.ClipPath clipPath1 = new OperatorsSolution.GraphicsProgramFunctions.ClipPath();
+            OperatorsSolution.GraphicsProgramFunctions.ClipPath clipPath2 = new OperatorsSolution.GraphicsProgramFunctions.ClipPath();
+            OperatorsSolution.GraphicsProgramFunctions.Scene scene1 = new OperatorsSolution.GraphicsProgramFunctions.Scene();
+            OperatorsSolution.GraphicsProgramFunctions.Scene scene2 = new OperatorsSolution.GraphicsProgramFunctions.Scene();
             PreviewBox = new PictureBox();
             logic_Button3 = new Logic_Button();
             logic_Button4 = new Logic_Button();
@@ -38,6 +42,7 @@ namespace TestModule
             operatorButton11 = new OperatorButton();
             textBox1 = new TextBox();
             toggle_Button1 = new Toggle_Button();
+            script_Button1 = new Script_Button();
             ((System.ComponentModel.ISupportInitialize)PreviewBox).BeginInit();
             SuspendLayout();
             // 
@@ -51,76 +56,98 @@ namespace TestModule
             // 
             // logic_Button3
             // 
-            logic_Button3.Location = new Point(190, 116);
+            logic_Button3.Location = new Point(748, 425);
             logic_Button3.Name = "logic_Button3";
-            logic_Button3.Size = new Size(349, 286);
+            logic_Button3.Size = new Size(316, 225);
             logic_Button3.TabIndex = 10;
             logic_Button3.Text = "logic_Button3";
             // 
             // logic_Button4
             // 
-            logic_Button4.Location = new Point(569, 411);
+            logic_Button4.Location = new Point(1282, 22);
             logic_Button4.Name = "logic_Button4";
-            logic_Button4.Size = new Size(297, 223);
+            logic_Button4.Size = new Size(185, 147);
             logic_Button4.TabIndex = 10;
             logic_Button4.Text = "logic_Button3";
             // 
             // operatorButton9
             // 
-            operatorButton9.Location = new Point(616, 116);
+            operatorButton9.Location = new Point(1058, 22);
             operatorButton9.Name = "operatorButton9";
             operatorButton9.PreviewBox = null;
             operatorButton9.Scene = null;
-            operatorButton9.Size = new Size(250, 142);
+            operatorButton9.Size = new Size(191, 87);
             operatorButton9.TabIndex = 11;
             operatorButton9.UseVisualStyleBackColor = false;
             // 
             // operatorButton10
             // 
-            operatorButton10.Location = new Point(616, 255);
+            operatorButton10.Location = new Point(1058, 115);
             operatorButton10.Name = "operatorButton10";
             operatorButton10.PreviewBox = null;
             operatorButton10.Scene = null;
-            operatorButton10.Size = new Size(250, 136);
+            operatorButton10.Size = new Size(191, 65);
             operatorButton10.TabIndex = 11;
             operatorButton10.UseVisualStyleBackColor = false;
             // 
             // operatorButton11
             // 
-            operatorButton11.Location = new Point(190, 434);
+            operatorButton11.Location = new Point(50, 22);
             operatorButton11.Name = "operatorButton11";
             operatorButton11.PreviewBox = null;
             operatorButton11.Scene = null;
-            operatorButton11.Size = new Size(250, 200);
+            operatorButton11.Size = new Size(300, 223);
             operatorButton11.TabIndex = 11;
             operatorButton11.UseVisualStyleBackColor = false;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(952, 544);
+            textBox1.Location = new Point(1270, 214);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(174, 31);
             textBox1.TabIndex = 12;
             // 
             // toggle_Button1
             // 
-            toggle_Button1.ClipIn = null;
-            toggle_Button1.ClipOut = null;
-            toggle_Button1.Location = new Point(832, 724);
+            clipPath1.Clip = null;
+            clipPath1.Scene = "";
+            toggle_Button1.ClipIn = clipPath1;
+            clipPath2.Clip = null;
+            clipPath2.Scene = "";
+            toggle_Button1.ClipOut = clipPath2;
+            toggle_Button1.Location = new Point(50, 425);
             toggle_Button1.Name = "toggle_Button1";
             toggle_Button1.PreviewBox = null;
             toggle_Button1.Scene = null;
-            toggle_Button1.SceneName = null;
+            toggle_Button1.SceneName = "ThisScene";
             toggle_Button1.Size = new Size(300, 225);
             toggle_Button1.TabIndex = 13;
-            toggle_Button1.Text = "toggle_Button1";
+            toggle_Button1.Text = "[Show] ThisScene";
             toggle_Button1.UseVisualStyleBackColor = false;
+            // 
+            // script_Button1
+            // 
+            script_Button1.Location = new Point(418, 425);
+            script_Button1.Name = "script_Button1";
+            script_Button1.PreviewBox = null;
+            script_Button1.Scene = null;
+            scene1.PlayAllClipPathsAtOnce = false;
+            scene1.SceneName = null;
+            scene2.PlayAllClipPathsAtOnce = false;
+            scene2.SceneName = null;
+            script_Button1.Scenes.Add(scene1);
+            script_Button1.Scenes.Add(scene2);
+            script_Button1.Size = new Size(300, 225);
+            script_Button1.TabIndex = 14;
+            script_Button1.Text = "script_Button1";
+            script_Button1.UseVisualStyleBackColor = false;
             // 
             // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
+            Controls.Add(script_Button1);
             Controls.Add(toggle_Button1);
             Controls.Add(textBox1);
             Controls.Add(operatorButton11);
@@ -155,5 +182,6 @@ namespace TestModule
         private OperatorButton operatorButton11;
         private TextBox textBox1;
         private Toggle_Button toggle_Button1;
+        private Script_Button script_Button1;
     }
 }

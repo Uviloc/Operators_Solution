@@ -20,12 +20,6 @@ namespace OperatorsSolution.Controls
     partial class OperatorButton
     {
         #region >----------------- Add properties: ---------------------
-        // ClipPath
-        [Category(".Operation > Search")]
-        [Description("Add clips to be played here.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ClipPathCollection ClipPaths { get; set; } = [];
-
         // ScenePreview
         [Category(".Operation > Search")]
         [Description("The scene from which the preview is taken.")]
@@ -37,6 +31,15 @@ namespace OperatorsSolution.Controls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
+    }
+
+    partial class Script_Button
+    {
+        // Scenes
+        [Category(".Operation > Search")]
+        [Description("Add scenes to be played here.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<Scene> Scenes { get; set; } = [];
     }
 }
 
@@ -199,9 +202,20 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         [Category("Scene")]
         public string? SceneName { get; set; }
 
-        //// SET LATER TO SOMETHING FROM DATA MANAGER
-        //[Category("Object Change")]
-        //public string?  { get; set; }
+        // Object Changes
+        [Category("Scene")]
+        [Description("Texts in the scene that need to be changed.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<ObjectChange> ObjectChanges { get; set; } = [];
+
+        [Category("Clips")]
+        public bool PlayAllClipPathsAtOnce { get; set; }
+
+        // ClipPaths
+        [Category("Clips")]
+        [Description("Add clips to be played here.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ClipPathCollection ClipPaths { get; set; } = [];
 
         public override string ToString()
         {
@@ -411,40 +425,46 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)    // "PUBLIC STATIC XPSCENE", OR "OUT XPSCENE" then use this to call the same scene if it already exists
                                                                                         // xpEngine.GetSceneCopyByName
         {
-            clipIndex = 0;
-            // Set all needed variables to the assigned properties in the ClipPath
-            ClipPathCollection clipPath = operatorButton.ClipPaths;
-            if (clipPath == null || clipPath.Count == 0)
-            {
-                return;
-            }
+            //clipIndex = 0;
+            //// Set all needed variables to the assigned properties in the ClipPath
+            //ClipPathCollection clipPath = operatorButton.ClipPaths;
+            //if (clipPath == null || clipPath.Count == 0)
+            //{
+            //    return;
+            //}
+            ////string? scene = clipPath[clipIndex].Scene;
+            ////string? scene = operatorButton.Scene;
             //string? scene = clipPath[clipIndex].Scene;
-            //string? scene = operatorButton.Scene;
-            string? scene = clipPath[clipIndex].Scene;
-            string? clip = clipPath[clipIndex].Clip;
-            string? track = clipPath[clipIndex].Track;
-            string? sceneDirector = clipPath[clipIndex].SceneDirector;
-            int channel = clipPath[clipIndex].Channel;
-            int layer = clipPath[clipIndex].Layer;
+            //string? clip = clipPath[clipIndex].Clip;
+            //string? track = clipPath[clipIndex].Track;
+            //string? sceneDirector = clipPath[clipIndex].SceneDirector;
+            //int channel = clipPath[clipIndex].Channel;
+            //int layer = clipPath[clipIndex].Layer;
 
-            // Check if any of the fields are empty:
-            if (string.IsNullOrWhiteSpace(scene) ||
-                string.IsNullOrWhiteSpace(clip))
-            {
-                CommonFunctions.ControlWarning(operatorButton, "Warning: Scene on button: " + operatorButton.Text + " must be set!");
-                return;
-            }
+            //// Check if any of the fields are empty:
+            //if (string.IsNullOrWhiteSpace(scene) ||
+            //    string.IsNullOrWhiteSpace(clip))
+            //{
+            //    CommonFunctions.ControlWarning(operatorButton, "Warning: Scene on button: " + operatorButton.Text + " must be set!");
+            //    return;
+            //}
 
-            xpEngine XPression = new();
-            if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
-            {
-                SetAllSceneMaterials(SceneGraphic, operatorButton.ObjectChanges);
-                PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
-            }
-            else
-            {
-                CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
-            }
+            //xpEngine XPression = new();
+            //if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
+            //{
+            //    SetAllSceneMaterials(SceneGraphic, operatorButton.ObjectChanges);
+            //    PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
+            //}
+            //else
+            //{
+            //    CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
+            //}
+        }
+
+
+        public static void TriggerClip(object? sender, xpScene scene, xpSceneDirectorClip clip)
+        {
+
         }
         #endregion
     }

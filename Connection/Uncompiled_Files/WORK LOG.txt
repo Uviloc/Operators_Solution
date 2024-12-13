@@ -74,7 +74,7 @@ Mon: Separated settings per plugin (not fully working yet), progress on custom c
 Tue: 
 Wed: 
 Thu: Got humbled a lot by my lack of skill, overwhelmed yet again, tried wrapping my head around the structure, attemped to get Caspar to work. Layed out control properties, reshuffled some stuff, started on custom controls
-Fri: 
+Fri: Got back on track in terms of making progress. Added properties for new controls, made operatorbutton into the bass control class, made it so that TestModule.dll gets copied after a build
 
 Week 12:
 Mon: 
