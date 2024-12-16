@@ -14,7 +14,7 @@ namespace OperatorsSolution.Controls
 {
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Button))]
-    public class Toggle_Button : OperatorButton
+    public partial class Toggle_Button : OperatorButton
     {
         //[Browsable(false)]
         //[EditorBrowsable(EditorBrowsableState.Never)]
@@ -26,7 +26,7 @@ namespace OperatorsSolution.Controls
 
         // Scene Name
         [Category(".Operation > Search")]
-        [Description("The PictureBox where the preview will be displayed.")]
+        [Description("The name of the scene in the chosen graphics program.")]
         public string? SceneName
         {
             get => _sceneName;
@@ -39,19 +39,6 @@ namespace OperatorsSolution.Controls
                 }
             }
         }
-
-        // ClipPath in
-        [Category(".Operation > Search")]
-        [Description("The PictureBox where the preview will be displayed.")]                // CHANGE
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ClipPath? ClipIn { get; set; }
-
-        // ClipPath out
-        [Category(".Operation > Search")]
-        [Description("The PictureBox where the preview will be displayed.")]                // CHANGE
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ClipPath? ClipOut { get; set; }
-        
 
         // Text
         [Category(".Operation > Visuals")]

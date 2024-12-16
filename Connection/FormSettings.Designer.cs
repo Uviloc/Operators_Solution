@@ -36,6 +36,7 @@
             GraphicsSoftwareOption = new ComboBox();
             textBox3 = new TextBox();
             ToolTip = new ToolTip(components);
+            textBox8 = new TextBox();
             SuspendLayout();
             // 
             // settingsGraphicsProgram
@@ -102,11 +103,22 @@
             textBox3.TabIndex = 27;
             textBox3.Text = "Project file:";
             // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(7, 204);
+            textBox8.Name = "textBox8";
+            textBox8.ReadOnly = true;
+            textBox8.Size = new Size(200, 31);
+            textBox8.TabIndex = 30;
+            textBox8.Text = "Linked Database";
+            textBox8.TextChanged += textBox8_TextChanged;
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
+            Controls.Add(textBox8);
             Controls.Add(settingsGraphicsProgram);
             Controls.Add(button1);
             Controls.Add(button2);
@@ -114,7 +126,7 @@
             Controls.Add(GraphicsSoftwareOption);
             Controls.Add(textBox3);
             Name = "FormSettings";
-            Size = new Size(500, 191);
+            Size = new Size(500, 264);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -128,5 +140,6 @@
         private ComboBox GraphicsSoftwareOption;
         private TextBox textBox3;
         private ToolTip ToolTip;
+        private TextBox textBox8;
     }
 }

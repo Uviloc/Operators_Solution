@@ -115,6 +115,11 @@ namespace OperatorsSolution
                 UseShellExecute = true
             });
         }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         //public void HidePopupOnOutsideClick(object sender, MouseEventArgs e)

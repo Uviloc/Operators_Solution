@@ -18,7 +18,7 @@ using OperatorsSolution.Controls;
 
 namespace OperatorsSolution
 {
-    public partial class OpSol_Form : CustomForm
+    public partial class OpSol_Form : BaseForm
     {
         #region >----------------- Main Process: ---------------------
         public OpSol_Form()
@@ -154,7 +154,7 @@ namespace OperatorsSolution
         #endregion
 
         #region >----------------- Plugin Form Settings: ---------------------
-        private void DisplayNodeButton(object? sender, MouseEventArgs e)
+        private void DisplayNodeButton(object? sender, MouseEventArgs e)                                    // MAKE IN PLUGINLOADER FOR EACH NODE, AND ADD ENTER+LEAVE EVENT TO IT
         {
             //if (sender is not TreeView treeView || treeView.Parent?.Controls is not Control.ControlCollection controls) return;
             if (sender is not TreeView treeView) return;

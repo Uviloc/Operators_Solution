@@ -20,10 +20,49 @@ namespace OperatorsSolution.Controls
     partial class OperatorButton
     {
         #region >----------------- Add properties: ---------------------
-        // ScenePreview
+        //// ScenePreview
+        //[Category(".Operation > Search")]
+        //[Description("The scene from which the preview is taken.")]
+        //public string? SceneName { get; set; }                                                     //TO BE REMOVED
+        #endregion
+    }
+
+    partial class Script_Button
+    {
+        #region >----------------- Add properties: ---------------------
+        public partial class Scene
+        {
+            // ScenePreview
+            [Category(".Operation > Search")]
+            [Description("The scene from which the preview is taken.")]
+            public string? SceneName { get; set; }
+
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            public ClipPathCollection ClipPaths { get; set; } = [];
+
+            // ObjectChanges
+            [Category(".Operation > Scene Changes")]
+            [Description("A list of changes that are made to the scene before displaying.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            public List<ObjectChange> ObjectChanges { get; set; } = [];
+        }
+        #endregion
+    }
+
+    partial class Toggle_Button
+    {
+        #region >----------------- Add properties: ---------------------
+        // ClipPath in
         [Category(".Operation > Search")]
-        [Description("The scene from which the preview is taken.")]
-        public string? Scene { get; set; }
+        [Description("The clip for showing the scene.")]                // CHANGE
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public ClipPath? ClipIn { get; set; }
+
+        // ClipPath out
+        [Category(".Operation > Search")]
+        [Description("The clip for hiding the scene.")]                // CHANGE
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public ClipPath? ClipOut { get; set; }
 
         // ObjectChanges
         [Category(".Operation > Scene Changes")]
@@ -31,15 +70,6 @@ namespace OperatorsSolution.Controls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
-    }
-
-    partial class Script_Button
-    {
-        // Scenes
-        [Category(".Operation > Search")]
-        [Description("Add scenes to be played here.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<Scene> Scenes { get; set; } = [];
     }
 }
 
@@ -196,39 +226,39 @@ namespace OperatorsSolution.GraphicsProgramFunctions
     #endregion
 
     #region >----------------- Scenes Class: ---------------------
-    public class Scene                      // SHOULD KEEP INVENTORY OF SCENES SO DATACHANGES DONT GET LOST
-    {
-        private xpScene[]? Scenes { get; set; }
-        [Category("Scene")]
-        public string? SceneName { get; set; }
+    //public class Scene                      // SHOULD KEEP INVENTORY OF SCENES SO DATACHANGES DONT GET LOST
+    //{
+    //    private xpScene[]? Scenes { get; set; }
+    //    [Category("Scene")]
+    //    public string? SceneName { get; set; }
 
-        // Object Changes
-        [Category("Scene")]
-        [Description("Texts in the scene that need to be changed.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<ObjectChange> ObjectChanges { get; set; } = [];
+    //    // Object Changes
+    //    [Category("Scene")]
+    //    [Description("Texts in the scene that need to be changed.")]
+    //    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    //    public List<ObjectChange> ObjectChanges { get; set; } = [];
 
-        [Category("Clips")]
-        public bool PlayAllClipPathsAtOnce { get; set; }
+    //    [Category("Clips")]
+    //    public bool PlayAllClipPathsAtOnce { get; set; }
 
-        // ClipPaths
-        [Category("Clips")]
-        [Description("Add clips to be played here.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ClipPathCollection ClipPaths { get; set; } = [];
+    //    // ClipPaths
+    //    [Category("Clips")]
+    //    [Description("Add clips to be played here.")]
+    //    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    //    public ClipPathCollection ClipPaths { get; set; } = [];
 
-        public override string ToString()
-        {
-            if (string.IsNullOrWhiteSpace(SceneName))
-            {
-                return "No scene set!";
-            }
-            else
-            {
-                return $"{SceneName}";
-            }
-        }
-    }
+    //    public override string ToString()
+    //    {
+    //        if (string.IsNullOrWhiteSpace(SceneName))
+    //        {
+    //            return "No scene set!";
+    //        }
+    //        else
+    //        {
+    //            return $"{SceneName}";
+    //        }
+    //    }
+    //}
     #endregion
 
 
@@ -343,26 +373,26 @@ namespace OperatorsSolution.GraphicsProgramFunctions
         /// <param name = "previewBox">The PictureBox control element where the preview should be displayed.</param>
         public static void DisplayPreview(object? sender, PictureBox previewBox)
         {
-            if (sender is OperatorButton button && button.Scene != null)
-            {
-                string scene = button.Scene;
+            //if (sender is OperatorButton button && button.SceneName != null)
+            //{
+            //    string scene = button.SceneName;
 
-                xpEngine XPression = new();
-                if (XPression.GetSceneByName(scene, out xpScene sceneGraphic, true))
-                {
-                    int preveiwLocation = sceneGraphic.DefaultPreviewFrame;
-                    sceneGraphic.GetRenderedFrame(preveiwLocation, sceneGraphic.Width, sceneGraphic.Height, out imageOut);
-                    previewBox.SizeMode = PictureBoxSizeMode.Zoom;
-                    //RenderRawPixelsDirectly(previewBox, imageOut);
+            //    xpEngine XPression = new();
+            //    if (XPression.GetSceneByName(scene, out xpScene sceneGraphic, true))
+            //    {
+            //        int preveiwLocation = sceneGraphic.DefaultPreviewFrame;
+            //        sceneGraphic.GetRenderedFrame(preveiwLocation, sceneGraphic.Width, sceneGraphic.Height, out imageOut);
+            //        previewBox.SizeMode = PictureBoxSizeMode.Zoom;
+            //        //RenderRawPixelsDirectly(previewBox, imageOut);
 
-                    Bitmap image = ConvertToBitmap(imageOut);
-                    previewBox.Image = image;
-                }
-                else
-                {
-                    CommonFunctions.ControlWarning(button, "Warning: There is no Scene on button: " + button.Text + "!");
-                }
-            }
+            //        Bitmap image = ConvertToBitmap(imageOut);
+            //        previewBox.Image = image;
+            //    }
+            //    else
+            //    {
+            //        CommonFunctions.ControlWarning(button, "Warning: There is no Scene on button: " + button.Text + "!");
+            //    }
+            //}
         }
 
         /// <summary>

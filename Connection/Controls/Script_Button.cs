@@ -13,6 +13,16 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public partial class Script_Button : OperatorButton
     {
+        [Category(".Operation > Search")]
+        [Description("Add scenes to be played here.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<Scene> Scenes { get; set; } = [];
+
+        public partial class Scene
+        {
+            public bool PlayAllChildrenAtButtonPress { get; set; } = false;
+            public string? ButtonText { get; set; }
+        }
         #region >----------------- Add properties: ---------------------
 
         #endregion

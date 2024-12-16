@@ -30,9 +30,8 @@ namespace OperatorsSolution.Controls
         //[Description("The scene from which the preview is taken.")]
         //public string? Scene { get; set; }
 
-        // PreviewBox                                                        TO BE MOVED TO PROJECT SETTINGS
-        [Category(".Operation > Search")]
-        [Description("The PictureBox where the preview will be displayed.")]
+        // PreviewBox
+        [Browsable(false)]
         public PictureBox? PreviewBox { get; set; }
 
         //// ObjectChanges
@@ -204,6 +203,11 @@ namespace OperatorsSolution.Controls
             Text = "Show [Scene]";
             //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Size = new Size(200, 150);
+
+            if (FindForm() is CustomForm form)
+            {
+                PreviewBox = form.PreviewBox;
+            }
         }
         #endregion
     }

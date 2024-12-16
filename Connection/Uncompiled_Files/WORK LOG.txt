@@ -77,7 +77,7 @@ Thu: Got humbled a lot by my lack of skill, overwhelmed yet again, tried wrappin
 Fri: Got back on track in terms of making progress. Added properties for new controls, made operatorbutton into the bass control class, made it so that TestModule.dll gets copied after a build
 
 Week 12:
-Mon: 
+Mon: Got overwhelmed again by the controls, so I made a plan of action with what is needed and with what class structure. Continued work on custom controls
 Tue: 
 Wed: 
 Thu: 

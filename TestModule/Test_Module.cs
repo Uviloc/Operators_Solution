@@ -10,17 +10,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OperatorsSolution.Common.PluginLoader;
 using static OperatorsSolution.OpSol_Form;
+using static OperatorsSolution.CustomForm;
 using static OperatorsSolution.Common.CommonFunctions;
 using Console = System.Diagnostics.Debug;
+using OperatorsSolution;
 
 namespace TestModule
 {
-    public partial class Test_Module : Form, IFormPlugin
+    public partial class Test_Module : CustomForm, IFormPlugin
     {
         public string FormName => "FormNameShort";
 
         public GraphicsSoftware GraphicsSoftware { get; set; }
         public string? ProjectFile { get; set; }
+        
         public Form GetForm()
         {
             return this;

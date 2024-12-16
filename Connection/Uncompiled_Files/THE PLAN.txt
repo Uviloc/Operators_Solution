@@ -2,12 +2,15 @@
 
 ___________________________________________________________________Questions:________________________________________________________________________________________________
 Hylke:
+Are there any planned games where I can test the program in January
 How can I get the live game up with preview
 Send Ross mail about xpTools having high memory and breaking the live view
 What is the distrubution of which graphics program is used for all current projects
-What is usually the go to program used for new projects
+How do I get the CasparCG project to run
 
-!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll
+
+DONE	>	What is usually the go to program used for new projects: xPression
+DONE	>	!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll: 2nd option
 
 
 Elsa:
@@ -15,6 +18,14 @@ Pictures for presentation
 Setup for test/remaining questions
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
+------------ Week 12: -----------
+		>	Are there any planned games where I can test the program in January:
+		>	How can I get the live game up with preview:
+		>	Send Ross mail about xpTools having high memory and breaking the live view:
+		>	What is the distrubution of which graphics program is used for all current projects:
+DONE	>	What is usually the go to program used for new projects: xPression
+DONE	>	!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll: 2nd option
+
 ------------ Week 7: -----------
 DONE	>	Is displaying the thumbnail of the scene good enough as a preview: already fixed before discussion
 WIP		>	How can I get the live game up with preview:
