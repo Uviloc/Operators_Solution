@@ -8,22 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static OperatorsSolution.Common.PluginLoader;
-using static OperatorsSolution.OpSol_Form;
-using static OperatorsSolution.CustomForm;
-using static OperatorsSolution.Common.CommonFunctions;
 using Console = System.Diagnostics.Debug;
 using OperatorsSolution;
+using System.Configuration;
 
 namespace TestModule
 {
     public partial class Test_Module : CustomForm, IFormPlugin
     {
-        public string FormName => "FormNameShort";
+        public string FormName => "Some other name just to see";
+        public ApplicationSettingsBase ApplicationSettings => Settings.Default;
 
-        public GraphicsSoftware GraphicsSoftware { get; set; }
-        public string? ProjectFile { get; set; }
-        
+        //public GraphicsSoftwareInfo? GraphicsSoftwareInfo { get; set; }                 //REMOVE
+        //public string? ProjectFile { get; set; }                 //REMOVE
+
         public Form GetForm()
         {
             return this;
@@ -33,20 +31,20 @@ namespace TestModule
         public Test_Module()
         {
             InitializeComponent();
-            InitializeSettings();
+            //InitializeSettings();
         }
 
-        public void InitializeSettings()
-        {
-            GraphicsSoftware = GUID.Settings.Default.GraphicsProgram;
-            ProjectFile = GUID.Settings.Default.ProjectFile;
-        }
+        //public void InitializeSettings()
+        //{
+        //    //GraphicsSoftwareInfo = Settings.Default.GraphicsSoftwareInfo;
+        //    //ProjectFile = Settings.Default.ProjectFile;
+        //}
 
-        public void SaveSettings()
-        {
-            GUID.Settings.Default.GraphicsProgram = GraphicsSoftware;
-            GUID.Settings.Default.ProjectFile = ProjectFile;
-            GUID.Settings.Default.Save();
-        }
+        //public void SaveSettings()
+        //{
+        //    //Settings.Default.GraphicsSoftwareInfo = GraphicsSoftwareInfo;
+        //    //Settings.Default.ProjectFile = ProjectFile;
+        //    Settings.Default.Save();
+        //}
     }
 }

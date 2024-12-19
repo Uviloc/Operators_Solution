@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Console = System.Diagnostics.Debug;
+using System.Configuration;
+using System.Xml.Serialization;
 
 namespace OperatorsSolution.Common
 {
@@ -13,10 +15,11 @@ namespace OperatorsSolution.Common
     public interface IFormPlugin
     {
         Form GetForm();
-        void SaveSettings();
+        //void SaveSettings();
         string FormName { get; }
-        GraphicsSoftware GraphicsSoftware { get; set; }
-        string? ProjectFile { get; set; }
+        //GraphicsSoftwareInfo GraphicsSoftware { get; set; }
+        //string? ProjectFile { get; set; }
+        ApplicationSettingsBase ApplicationSettings { get; }
     }
 
     public interface IStylePlugin
@@ -28,26 +31,96 @@ namespace OperatorsSolution.Common
     public interface IGraphicProgram
     {
         GraphicsSoftwareInfo GraphicsSoftwareInfo { get; }
-
+        
         static abstract void DisplayPreview(object? sender, PictureBox previewBox);
         static abstract void RemovePreview(PictureBox previewBox);
         static abstract void TriggerClip(OperatorButton operatorButton, int clipIndex);
+
+
+        //static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
+        //static void Register(GraphicsSoftwareInfo graphicsSoftwareInfo)
+        //{
+        //    Console.WriteLine("Registered");
+        //    if (!ExistingGraphicsSoftware.Contains(graphicsSoftwareInfo))
+        //        ExistingGraphicsSoftware.Add(graphicsSoftwareInfo);
+        //}
     }
     #endregion
 
     #region >----------------- Types and Graphics Software: ---------------------
-    public enum GraphicsSoftware
+    //public enum GraphicsSoftware
+    //{
+    //    XPression,
+    //    CasparCG,
+    //    vMix
+    //}
+
+    //[Serializable]
+    //public class GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+    //{
+    //    public string GraphicsSoftwareClassName { get; set; } = graphicsSoftwareClass;
+    //    public string GraphicsProgramName { get; set; } = graphicsSoftwareName;
+    //    public string FileExtension { get; set; } = fileExtension;
+
+    //    public override string ToString() => GraphicsProgramName;
+    //}
+
+    [Serializable]
+    public class GraphicsSoftwareInfo
     {
-        XPression,
-        CasparCG,
-        vMix
+        // Parameterless constructor for XML serialization
+        public GraphicsSoftwareInfo() { }
+
+        public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+        {
+            GraphicsSoftwareClassName = graphicsSoftwareClass;
+            GraphicsProgramName = graphicsSoftwareName;
+            FileExtension = fileExtension;
+        }
+
+        [XmlElement]
+        public string? GraphicsSoftwareClassName { get; set; }
+
+        [XmlElement]
+        public string? GraphicsProgramName { get; set; }
+
+        [XmlElement]
+        public string? FileExtension { get; set; }
+
+        public override string ToString() => GraphicsProgramName ?? string.Empty;
     }
 
-    public class GraphicsSoftwareInfo(GraphicsSoftware graphicsSoftware, string graphicsProgramName, string fileExtension)
+    public static class GraphicsSoftwareRegistry
     {
-        public GraphicsSoftware GraphicsSoftware { get; set; } = graphicsSoftware;
-        public string GraphicsProgramName { get; set; } = graphicsProgramName;
-        public string FileExtension { get; set; } = fileExtension;
+        // This list will store all GraphicsSoftwareInfo objects from classes implementing IGraphicProgram
+        public static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
+
+        public static void InitializeGraphicsPrograms()
+        {
+            // Get all types that implement IGraphicProgram
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(IGraphicProgram).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
+
+            foreach (var type in types)
+            {
+                // Ensure the type is instantiated (if necessary)
+                var instance = Activator.CreateInstance(type);
+
+                // Get the GraphicsSoftwareInfo property from the class
+                //GraphicsSoftwareInfo graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo");
+                GraphicsSoftwareInfo? graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) as GraphicsSoftwareInfo;
+                //if (type is not IGraphicProgram graphicsProgram)
+                //    return;
+
+                //GraphicsSoftwareInfo softwareInfo = graphicsProgram.GraphicsSoftwareInfo;
+
+                if (graphicsSoftwareInfoProperty != null && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
+                {
+                    ExistingGraphicsSoftware.Add(graphicsSoftwareInfoProperty);
+                }
+            }
+        }
     }
 
 
@@ -107,6 +180,34 @@ namespace OperatorsSolution.Common
         //    }
         //    return controls;
         //}
+
+        #region >----------------- Highlight button hover: ---------------------
+        public static void ButtonHighlight(object? sender, EventArgs e)
+        {
+            if (sender is not Control control) return;
+            Color originalColor = control.BackColor;
+
+            void mouseLeaveHandler(object? s, EventArgs args)
+            {
+                control.BackColor = originalColor;
+
+                // Unsubscribe after handling the event
+                if (s is Control ctrl)
+                {
+                    ctrl.MouseLeave -= mouseLeaveHandler;
+                }
+            }
+
+            control.MouseLeave += mouseLeaveHandler;
+
+            // Change the background color
+            control.BackColor = Color.FromArgb(
+                Math.Min(originalColor.R + 30, 255),
+                Math.Min(originalColor.G + 30, 255),
+                Math.Min(originalColor.B + 30, 255)
+            );
+        }
+        #endregion
     }
     #endregion
 

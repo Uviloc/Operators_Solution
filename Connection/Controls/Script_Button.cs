@@ -66,7 +66,7 @@ namespace OperatorsSolution.Controls
         public void DisplayPreview(object? sender, EventArgs e)
         {
             if (PreviewBox == null) return;
-            GraphicsConnector.DisplayPreview(sender, PreviewBox);
+            //GraphicsConnector.DisplayPreview(sender, PreviewBox);
         }
 
         public void RemovePreview(object? sender, EventArgs e)

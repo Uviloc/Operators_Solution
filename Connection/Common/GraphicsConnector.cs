@@ -22,6 +22,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using OperatorsSolution.Program;
 using OperatorsSolution.Controls;
 using System.Reflection;
+using System.Configuration;
 
 namespace OperatorsSolution.Common
 {
@@ -73,7 +74,10 @@ namespace OperatorsSolution.Common
 
 
 
+        public static void TestFunc(Control something)
+        {
 
+        }
 
 
 
@@ -108,39 +112,62 @@ namespace OperatorsSolution.Common
         /// </summary>
         /// <param name = "sender">The button with the scene information on it.</param>
         /// <param name = "previewBox">The PictureBox control element where the preview should be displayed.</param>
-        public static void DisplayPreview(object? sender, PictureBox previewBox)
+        public static void DisplayPreview(Control sender, PictureBox previewBox)
         {
-            switch (Properties.Settings.Default.GraphicsSoftware)
-            {
-                // XPRESSION:
-                case GraphicsSoftware.XPression:
-#if HAS_XPRESSION   // If XPression reference exists, compile this code
-                    // Check if Dongle is in computer
-                    if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XPression.DisplayPreview(sender, previewBox);
-#else
-                    MessageBox.Show("xpression.net.dll reference could not be found!");
-#endif
-                    break;
+            if (sender.FindForm() is not IFormPlugin parentForm)
+                return;
+            ApplicationSettingsBase settings = parentForm.ApplicationSettings;
 
-                // CASPARCG:
-                case GraphicsSoftware.CasparCG:
-#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
-                    CasparCG_Functions.DisplayPreview(sender, previewBox);
-#else
-                    MessageBox.Show("CasparCG.dll reference could not be found!");
-#endif
-                    break;
+            if (settings["GraphicsSoftwareInfo"] is not GraphicsSoftwareInfo info)
+                return;
+            // USE THIS BELOW FOR GETTING THE CORRECT CLASSES FROM THE CLASS NAME STRING
+            //public IGraphicProgram? ResolveGraphicsSoftwareClass()
+            //{
+            //    var type = Type.GetType(GraphicsSoftwareClassName);
+            //    return type != null ? Activator.CreateInstance(type) as IGraphicProgram : null;
+            //}
 
-                // VMIX:
-                case GraphicsSoftware.vMix:
-#if HAS_VMIX        // If vMix reference exists, compile this code
-                    VMIX_Functions.DisplayPreview(sender, previewBox);
-#else
-                    MessageBox.Show("vMix.dll reference could not be found!");
-#endif
-                    break;
-            }
+
+
+
+
+            //switch (info.GraphicsSoftwareClassName)
+            //{
+            //    case 
+            //}
+
+
+            //            switch (Properties.Settings.Default.GraphicsSoftware)
+            //            {
+            //                // XPRESSION:
+            //                case XPression:
+            //#if HAS_XPRESSION   // If XPression reference exists, compile this code
+            //                    // Check if Dongle is in computer
+            //                    if (!IsXPressionDonglePresent()) return;
+            //                    Graphics_Program_Functions.XPression.DisplayPreview(sender, previewBox);
+            //#else
+            //                    MessageBox.Show("xpression.net.dll reference could not be found!");
+            //#endif
+            //                    break;
+
+            //                // CASPARCG:
+            //                case GraphicsSoftware.CasparCG:
+            //#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
+            //                    CasparCG_Functions.DisplayPreview(sender, previewBox);
+            //#else
+            //                    MessageBox.Show("CasparCG.dll reference could not be found!");
+            //#endif
+            //                    break;
+
+            //                // VMIX:
+            //                case GraphicsSoftware.vMix:
+            //#if HAS_VMIX        // If vMix reference exists, compile this code
+            //                    VMIX_Functions.DisplayPreview(sender, previewBox);
+            //#else
+            //                    MessageBox.Show("vMix.dll reference could not be found!");
+            //#endif
+            //                    break;
+            //}
         }
         #endregion
 
@@ -151,37 +178,37 @@ namespace OperatorsSolution.Common
         /// <param name = "previewBox">The PictureBox control element where the preview should be removed.</param>
         public static void RemovePreview(PictureBox previewBox)
         {
-            switch (Properties.Settings.Default.GraphicsSoftware)
-            {
-                // XPRESSION:
-                case GraphicsSoftware.XPression:
-#if HAS_XPRESSION   // If XPression reference exists, compile this code
-                    // Check if Dongle is in computer
-                    if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XPression.RemovePreview(previewBox);
-#else
-                    MessageBox.Show("xpression.net.dll reference could not be found!");
-#endif
-                    break;
+//            switch (Properties.Settings.Default.GraphicsSoftware)
+//            {
+//                // XPRESSION:
+//                case GraphicsSoftware.XPression:
+//#if HAS_XPRESSION   // If XPression reference exists, compile this code
+//                    // Check if Dongle is in computer
+//                    if (!IsXPressionDonglePresent()) return;
+//                    Graphics_Program_Functions.XPression.RemovePreview(previewBox);
+//#else
+//                    MessageBox.Show("xpression.net.dll reference could not be found!");
+//#endif
+//                    break;
 
-                // CASPARCG:
-                case GraphicsSoftware.CasparCG:
-#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
-                    CasparCG_Functions.RemovePreview(sender, previewBox);
-#else
-                    MessageBox.Show("CasparCG.dll reference could not be found!");
-#endif
-                    break;
+//                // CASPARCG:
+//                case GraphicsSoftware.CasparCG:
+//#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
+//                    CasparCG_Functions.RemovePreview(sender, previewBox);
+//#else
+//                    MessageBox.Show("CasparCG.dll reference could not be found!");
+//#endif
+//                    break;
 
-                // VMIX:
-                case GraphicsSoftware.vMix:
-#if HAS_VMIX        // If vMix reference exists, compile this code
-                    VMIX_Functions.RemovePreview(sender, previewBox);
-#else
-                    MessageBox.Show("vMix.dll reference could not be found!");
-#endif
-                    break;
-            }
+//                // VMIX:
+//                case GraphicsSoftware.vMix:
+//#if HAS_VMIX        // If vMix reference exists, compile this code
+//                    VMIX_Functions.RemovePreview(sender, previewBox);
+//#else
+//                    MessageBox.Show("vMix.dll reference could not be found!");
+//#endif
+//                    break;
+//            }
         }
         #endregion
 
@@ -193,37 +220,37 @@ namespace OperatorsSolution.Common
         /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
         {
-            switch (Properties.Settings.Default.GraphicsSoftware)
-            {
-                // XPRESSION:
-                case GraphicsSoftware.XPression:
-#if HAS_XPRESSION   // If XPression reference exists, compile this code
-                    // Check if Dongle is in computer
-                    if (!IsXPressionDonglePresent()) return;
-                    GraphicsProgramFunctions.XPression.TriggerClip(operatorButton, clipIndex);
-#else
-                    MessageBox.Show("xpression.net.dll reference could not be found!");
-#endif
-                    break;
+//            switch (Properties.Settings.Default.GraphicsSoftware)
+//            {
+//                // XPRESSION:
+//                case GraphicsSoftware.XPression:
+//#if HAS_XPRESSION   // If XPression reference exists, compile this code
+//                    // Check if Dongle is in computer
+//                    if (!IsXPressionDonglePresent()) return;
+//                    Graphics_Program_Functions.XPression.TriggerClip(operatorButton, clipIndex);
+//#else
+//                    MessageBox.Show("xpression.net.dll reference could not be found!");
+//#endif
+//                    break;
 
-                // CASPARCG:
-                case GraphicsSoftware.CasparCG:
-#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
-                    CasparCG_Functions.RemovePreview(sender, previewBox);
-#else
-                    MessageBox.Show("CasparCG.dll reference could not be found!");
-#endif
-                    break;
+//                // CASPARCG:
+//                case GraphicsSoftware.CasparCG:
+//#if HAS_CASPARCG   // If CasparCG reference exists, compile this code
+//                    CasparCG_Functions.RemovePreview(sender, previewBox);
+//#else
+//                    MessageBox.Show("CasparCG.dll reference could not be found!");
+//#endif
+//                    break;
 
-                // VMIX:
-                case GraphicsSoftware.vMix:
-#if HAS_VMIX        // If vMix reference exists, compile this code
-                    VMIX_Functions.RemovePreview(sender, previewBox);
-#else
-                    MessageBox.Show("vMix.dll reference could not be found!");
-#endif
-                    break;
-            }
+//                // VMIX:
+//                case GraphicsSoftware.vMix:
+//#if HAS_VMIX        // If vMix reference exists, compile this code
+//                    VMIX_Functions.RemovePreview(sender, previewBox);
+//#else
+//                    MessageBox.Show("vMix.dll reference could not be found!");
+//#endif
+//                    break;
+//            }
         }
         #endregion
 

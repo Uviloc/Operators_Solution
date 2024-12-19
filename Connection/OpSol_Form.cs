@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Threading.Channels;
 using System.Reflection;
 using OperatorsSolution.Program;
-//using OperatorsSolution.GraphicsProgramFunctions;
 using OperatorsSolution.Common;
 using System.Data.Common;
 using System.Data.SQLite;
@@ -25,6 +24,7 @@ namespace OperatorsSolution
         {
             InitializeComponent();
             InitializeSettings();
+            GraphicsSoftwareRegistry.InitializeGraphicsPrograms();
             InitializeCollapseControlPanelTimer();
             HideTabBar();
 
@@ -78,34 +78,6 @@ namespace OperatorsSolution
                 controlPanelAnimationTimer.Stop();
                 ScaleFormToFitPanel(ContentsPanel);
             }
-        }
-        #endregion
-
-        #region >----------------- Highlight button hover: ---------------------
-        private void ButtonHighlight(object? sender, EventArgs e)
-        {
-            if (sender is not Control control) return;
-            Color originalColor = control.BackColor;
-
-            void mouseLeaveHandler(object? s, EventArgs args)
-            {
-                control.BackColor = originalColor;
-
-                // Unsubscribe after handling the event
-                if (s is Control ctrl)
-                {
-                    ctrl.MouseLeave -= mouseLeaveHandler;
-                }
-            }
-
-            control.MouseLeave += mouseLeaveHandler;
-
-            // Change the background color
-            control.BackColor = Color.FromArgb(
-                Math.Min(originalColor.R + 30, 255),
-                Math.Min(originalColor.G + 30, 255),
-                Math.Min(originalColor.B + 30, 255)
-            );
         }
         #endregion
 
@@ -189,7 +161,7 @@ namespace OperatorsSolution
                 Tag = newlyEnteredNode,
             };
             dotMenu.FlatAppearance.BorderSize = 0;
-            dotMenu.MouseEnter += ButtonHighlight;
+            dotMenu.MouseEnter += CommonFunctions.ButtonHighlight;
             dotMenu.Click += OpenFormSettings;
             treeView.Parent?.Controls.Add(dotMenu);
             treeView.Tag = dotMenu;
@@ -304,7 +276,7 @@ namespace OperatorsSolution
         private void InitializeSettings()
         {
             // Graphics Software:
-            GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));                                   // DEPEND ON WHAT ASSEMBLIES ARE LOADED (ALL KEYS IN DICTIONARY) < NOPE
+            //GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));                                   // DEPEND ON WHAT ASSEMBLIES ARE LOADED (ALL KEYS IN DICTIONARY) < NOPE
             GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;                             // CHECK IF THIS EXISTS THEN, IF NOT GIVE ERROR WHEN OPENING THE FORM < NOPE
 
             // Project file:
@@ -320,11 +292,11 @@ namespace OperatorsSolution
         private void SaveGraphicsSoftwareOption(object sender, EventArgs e)
         {
             // Set the 'graphicsSoftware' setting to the selected ComboBox item
-            if (GraphicsSoftwareOption.SelectedItem is not null and GraphicsSoftware selectedSoftware)
-            {
-                Properties.Settings.Default.GraphicsSoftware = selectedSoftware;
-                Properties.Settings.Default.Save();
-            }
+            //if (GraphicsSoftwareOption.SelectedItem is not null and GraphicsSoftware selectedSoftware)
+            //{
+            //    //Properties.Settings.Default.GraphicsSoftware = selectedSoftware;
+            //    Properties.Settings.Default.Save();
+            //}
         }
 
         private void ProjectSelection(object sender, EventArgs e)
@@ -333,18 +305,18 @@ namespace OperatorsSolution
 
             OpenFileDialog openFileDialog = new();
 
-            switch (Properties.Settings.Default.GraphicsSoftware)
-            {
-                case GraphicsSoftware.XPression:
-                    openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";                // SHOULD NOT DEPEND ON THIS, HAVE THIS INFO IN ENUM?
-                    break;
-                case GraphicsSoftware.CasparCG:
-                    //openFileDialog.Filter = "CasparCG files (*.;*.)";
-                    break;
-                case GraphicsSoftware.vMix:
-                    //openFileDialog.Filter = "vMix files (*.;*.)";
-                    break;
-            }
+            //switch (Properties.Settings.Default.GraphicsSoftware)
+            //{
+            //    case GraphicsSoftware.XPression:
+            //        openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";                // SHOULD NOT DEPEND ON THIS, HAVE THIS INFO IN ENUM?
+            //        break;
+            //    case GraphicsSoftware.CasparCG:
+            //        //openFileDialog.Filter = "CasparCG files (*.;*.)";
+            //        break;
+            //    case GraphicsSoftware.vMix:
+            //        //openFileDialog.Filter = "vMix files (*.;*.)";
+            //        break;
+            //}
 
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)

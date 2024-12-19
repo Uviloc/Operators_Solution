@@ -29,9 +29,9 @@ namespace OperatorsSolution.Properties
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public GraphicsSoftware GraphicsSoftware {
+        public GraphicsSoftwareInfo GraphicsSoftware {
             get {
-                return ((GraphicsSoftware)(this["GraphicsSoftware"]));
+                return ((GraphicsSoftwareInfo)(this["GraphicsSoftware"]));
             }
             set {
                 this["GraphicsSoftware"] = value;

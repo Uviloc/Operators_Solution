@@ -79,8 +79,8 @@ Fri: Got back on track in terms of making progress. Added properties for new con
 Week 12:
 Mon: Got overwhelmed again by the controls, so I made a plan of action with what is needed and with what class structure. Continued work on custom controls
 Tue: 
-Wed: 
-Thu: 
+Wed: Office was unexpectedly closed so spend quite some time for nothing
+Thu: Huge amount of work. Worked on settings, worked on getting graphics software functions working
 Fri: 
 
 Week 13:

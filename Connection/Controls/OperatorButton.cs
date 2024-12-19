@@ -8,7 +8,7 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Reflection;
 using OperatorsSolution.Common;
-//using OperatorsSolution.GraphicsProgramFunctions;
+//using OperatorsSolution.Graphics_Program_Functions;
 using Console = System.Diagnostics.Debug;
 
 

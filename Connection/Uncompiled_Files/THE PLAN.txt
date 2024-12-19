@@ -8,6 +8,8 @@ Send Ross mail about xpTools having high memory and breaking the live view
 What is the distrubution of which graphics program is used for all current projects
 How do I get the CasparCG project to run
 
+Schedule on when office is open??
+
 
 DONE	>	What is usually the go to program used for new projects: xPression
 DONE	>	!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll: 2nd option

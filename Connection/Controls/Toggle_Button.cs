@@ -1,5 +1,5 @@
 ﻿using OperatorsSolution.Common;
-using OperatorsSolution.GraphicsProgramFunctions;
+//using OperatorsSolution.Graphics_Program_Functions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,8 +34,10 @@ namespace OperatorsSolution.Controls
             {
                 if (_sceneName != value) // Avoid unnecessary updates
                 {
+                    if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
+                        base.Text = "[Show] " + (value ?? "");
+                    
                     _sceneName = value;
-                    base.Text = "[Show] " + (_sceneName ?? "");
                 }
             }
         }
@@ -46,17 +48,15 @@ namespace OperatorsSolution.Controls
         [DefaultValue(typeof(string), "[Show] SceneName")]
         public new string Text
         {
-            get => base.Text;
+            get => base.Text[7..];
             set
             {
-                if (value.Contains("toggle_Button") || value == "[Show] SceneName")
-                {
-                    base.Text = "[Show] " + (_sceneName ?? ""); // Use SceneName if available
-                }
+                bool getNameFromScene = value.Contains("toggle_Button") || value.Contains("SceneName") || string.IsNullOrWhiteSpace(value);
+
+                if (value.StartsWith("[Show] ") || value.StartsWith("[Hide] "))
+                    base.Text = getNameFromScene ? (_sceneName ?? "") : value;
                 else
-                {
-                    base.Text = value;
-                }
+                    base.Text = getNameFromScene ? "[Show] " + (_sceneName ?? "") : "[Show] " + value;
             }
         }
         #endregion
@@ -67,7 +67,6 @@ namespace OperatorsSolution.Controls
             Click += ToggleScene;
             Enter += DisplayPreview;
             Leave += RemovePreview;
-            //Text = "[Show] " + SceneName;
         }
 
         #region >----------------- Functions: ---------------------
@@ -78,7 +77,7 @@ namespace OperatorsSolution.Controls
                 return;
 
             // Warn and exit if there are no assigned scenes:
-            if (button.ClipIn == null || button.ClipOut == null)
+            if (button.ClipIn == null || button.ClipOut == null)                                                    // MUST BE IN XPRESSION STUFF
             {
                 CommonFunctions.ControlWarning(button, "Please add Clips to the button: " + button.Text);
                 return;
@@ -87,13 +86,15 @@ namespace OperatorsSolution.Controls
             if (!buttonIsOn)
             {
                 //GraphicsConnector.TriggerClip(SceneName, ClipIn);
-                button.Text = "[Hide] " + SceneName;
+                //Form? parentForm = this.FindForm();
+                //Console.WriteLine(parentForm?.Name);
+                button.Text = "[Hide] " + button.Text;
                 buttonIsOn = true;
             }
             else
             {
                 //GraphicsConnector.TriggerClip(SceneName, ClipOut);
-                button.Text = "[Show] " + SceneName;
+                button.Text = "[Show] " + button.Text;
                 buttonIsOn = false;
             }
         }
@@ -101,7 +102,7 @@ namespace OperatorsSolution.Controls
         public void DisplayPreview(object? sender, EventArgs e)
         {
             if (PreviewBox == null) return;
-            GraphicsConnector.DisplayPreview(sender, PreviewBox);
+            //GraphicsConnector.DisplayPreview(sender, PreviewBox);
         }
 
         public void RemovePreview(object? sender, EventArgs e)

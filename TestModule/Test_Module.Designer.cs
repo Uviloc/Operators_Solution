@@ -31,8 +31,6 @@ namespace TestModule
         /// </summary>
         private void InitializeComponent()
         {
-            OperatorsSolution.GraphicsProgramFunctions.ClipPath clipPath1 = new OperatorsSolution.GraphicsProgramFunctions.ClipPath();
-            OperatorsSolution.GraphicsProgramFunctions.ClipPath clipPath2 = new OperatorsSolution.GraphicsProgramFunctions.ClipPath();
             previewBox = new PictureBox();
             logic_Button3 = new Logic_Button();
             logic_Button4 = new Logic_Button();
@@ -40,14 +38,14 @@ namespace TestModule
             operatorButton10 = new OperatorButton();
             operatorButton11 = new OperatorButton();
             textBox1 = new TextBox();
-            toggle_Button1 = new Toggle_Button();
             script_Button1 = new Script_Button();
+            toggle_Button1 = new Toggle_Button();
             ((System.ComponentModel.ISupportInitialize)previewBox).BeginInit();
             SuspendLayout();
             // 
             // previewBox
             // 
-            previewBox.Location = new Point(30, 693);
+            previewBox.Location = new Point(12, 693);
             previewBox.Name = "previewBox";
             previewBox.Size = new Size(653, 389);
             previewBox.TabIndex = 9;
@@ -55,7 +53,7 @@ namespace TestModule
             // 
             // logic_Button3
             // 
-            logic_Button3.Location = new Point(748, 425);
+            logic_Button3.Location = new Point(684, 104);
             logic_Button3.Name = "logic_Button3";
             logic_Button3.Size = new Size(316, 225);
             logic_Button3.TabIndex = 10;
@@ -63,15 +61,15 @@ namespace TestModule
             // 
             // logic_Button4
             // 
-            logic_Button4.Location = new Point(1282, 22);
+            logic_Button4.Location = new Point(1246, 859);
             logic_Button4.Name = "logic_Button4";
-            logic_Button4.Size = new Size(185, 147);
+            logic_Button4.Size = new Size(221, 223);
             logic_Button4.TabIndex = 10;
             logic_Button4.Text = "logic_Button3";
             // 
             // operatorButton9
             // 
-            operatorButton9.Location = new Point(1058, 22);
+            operatorButton9.Location = new Point(1003, 859);
             operatorButton9.Name = "operatorButton9";
             operatorButton9.PreviewBox = null;
             operatorButton9.Size = new Size(191, 87);
@@ -80,7 +78,7 @@ namespace TestModule
             // 
             // operatorButton10
             // 
-            operatorButton10.Location = new Point(1058, 115);
+            operatorButton10.Location = new Point(1003, 1017);
             operatorButton10.Name = "operatorButton10";
             operatorButton10.PreviewBox = null;
             operatorButton10.Size = new Size(191, 65);
@@ -89,7 +87,7 @@ namespace TestModule
             // 
             // operatorButton11
             // 
-            operatorButton11.Location = new Point(50, 22);
+            operatorButton11.Location = new Point(684, 859);
             operatorButton11.Name = "operatorButton11";
             operatorButton11.PreviewBox = null;
             operatorButton11.Size = new Size(300, 223);
@@ -98,31 +96,14 @@ namespace TestModule
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(1270, 214);
+            textBox1.Location = new Point(82, 39);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(174, 31);
             textBox1.TabIndex = 12;
             // 
-            // toggle_Button1
-            // 
-            clipPath1.Clip = null;
-            clipPath1.Scene = "";
-            toggle_Button1.ClipIn = clipPath1;
-            clipPath2.Clip = null;
-            clipPath2.Scene = "";
-            toggle_Button1.ClipOut = clipPath2;
-            toggle_Button1.Location = new Point(50, 425);
-            toggle_Button1.Name = "toggle_Button1";
-            toggle_Button1.PreviewBox = null;
-            toggle_Button1.SceneName = "ThisScene";
-            toggle_Button1.Size = new Size(300, 225);
-            toggle_Button1.TabIndex = 13;
-            toggle_Button1.Text = "[Show] ThisScene";
-            toggle_Button1.UseVisualStyleBackColor = false;
-            // 
             // script_Button1
             // 
-            script_Button1.Location = new Point(418, 425);
+            script_Button1.Location = new Point(348, 104);
             script_Button1.Name = "script_Button1";
             script_Button1.PreviewBox = null;
             script_Button1.Size = new Size(300, 225);
@@ -130,13 +111,36 @@ namespace TestModule
             script_Button1.Text = "script_Button1";
             script_Button1.UseVisualStyleBackColor = false;
             // 
+            // toggle_Button1
+            // 
+            toggle_Button1.ClipIn.Channel = 1;
+            toggle_Button1.ClipIn.Clip = "in";
+            toggle_Button1.ClipIn.Layer = 1;
+            toggle_Button1.ClipIn.Scene = "UpcomingEvents";
+            toggle_Button1.ClipIn.SceneDirector = "SceneDirector1";
+            toggle_Button1.ClipIn.Track = "Track1";
+            toggle_Button1.ClipOut.Channel = 1;
+            toggle_Button1.ClipOut.Clip = "out";
+            toggle_Button1.ClipOut.Layer = 1;
+            toggle_Button1.ClipOut.Scene = "UpcomingEvents";
+            toggle_Button1.ClipOut.SceneDirector = "SceneDirector1";
+            toggle_Button1.ClipOut.Track = "Track1";
+            toggle_Button1.Location = new Point(12, 316);
+            toggle_Button1.Name = "toggle_Button1";
+            toggle_Button1.PreviewBox = null;
+            toggle_Button1.SceneName = "UpcomingEvents";
+            toggle_Button1.Size = new Size(300, 225);
+            toggle_Button1.TabIndex = 15;
+            toggle_Button1.Text = "UpcomingEvents";
+            toggle_Button1.UseVisualStyleBackColor = false;
+            // 
             // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
-            Controls.Add(script_Button1);
             Controls.Add(toggle_Button1);
+            Controls.Add(script_Button1);
             Controls.Add(textBox1);
             Controls.Add(operatorButton11);
             Controls.Add(operatorButton10);
@@ -169,7 +173,7 @@ namespace TestModule
         private OperatorButton operatorButton10;
         private OperatorButton operatorButton11;
         private TextBox textBox1;
-        private Toggle_Button toggle_Button1;
         private Script_Button script_Button1;
+        private Toggle_Button toggle_Button1;
     }
 }

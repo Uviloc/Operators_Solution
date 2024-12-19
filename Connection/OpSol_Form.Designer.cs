@@ -277,7 +277,6 @@ namespace OperatorsSolution
             CollapseControlPanel1.Text = "<";
             CollapseControlPanel1.UseVisualStyleBackColor = false;
             CollapseControlPanel1.Click += CollapseControlPanel;
-            CollapseControlPanel1.MouseEnter += ButtonHighlight;
             // 
             // mainLayoutTable
             // 

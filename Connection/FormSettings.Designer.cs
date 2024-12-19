@@ -111,7 +111,6 @@
             textBox8.Size = new Size(200, 31);
             textBox8.TabIndex = 30;
             textBox8.Text = "Linked Database";
-            textBox8.TextChanged += textBox8_TextChanged;
             // 
             // FormSettings
             // 

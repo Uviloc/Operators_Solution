@@ -3,7 +3,6 @@ using XPression;
 using System;
 using System.Collections.Generic;
 using System.Threading.Channels;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using OperatorsSolution.Common;
 using OperatorsSolution.Controls;
 using System.Reflection;
@@ -13,17 +12,13 @@ using System.Reflection.Emit;
 using Console = System.Diagnostics.Debug;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using OperatorsSolution.GraphicsProgramFunctions;
+using OperatorsSolution.Graphics_Program_Functions;
 
 namespace OperatorsSolution.Controls
 {
     partial class OperatorButton
     {
         #region >----------------- Add properties: ---------------------
-        //// ScenePreview
-        //[Category(".Operation > Search")]
-        //[Description("The scene from which the preview is taken.")]
-        //public string? SceneName { get; set; }                                                     //TO BE REMOVED
         #endregion
     }
 
@@ -54,15 +49,17 @@ namespace OperatorsSolution.Controls
         #region >----------------- Add properties: ---------------------
         // ClipPath in
         [Category(".Operation > Search")]
-        [Description("The clip for showing the scene.")]                // CHANGE
+        [Description("The clip for showing the scene.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ClipPath? ClipIn { get; set; }
+        public ClipPath ClipIn { get; set; } = new();
 
         // ClipPath out
         [Category(".Operation > Search")]
-        [Description("The clip for hiding the scene.")]                // CHANGE
+        [Description("The clip for hiding the scene.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ClipPath? ClipOut { get; set; }
+        public ClipPath ClipOut { get; set; } = new();
 
         // ObjectChanges
         [Category(".Operation > Scene Changes")]
@@ -74,7 +71,7 @@ namespace OperatorsSolution.Controls
 }
 
 
-namespace OperatorsSolution.GraphicsProgramFunctions
+namespace OperatorsSolution.Graphics_Program_Functions
 {
     #region >----------------- ObjectChanges Class: ---------------------
     public class ObjectChange
@@ -267,7 +264,7 @@ namespace OperatorsSolution.GraphicsProgramFunctions
     /// </summary>
     internal class XPression : IGraphicProgram
     {
-        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new(GraphicsSoftware.XPression, "XPression", "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp");
+        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new("XPression", "xPression", "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp");
 
         #region >----------------- XPression play scene: ---------------------
         /// <summary>

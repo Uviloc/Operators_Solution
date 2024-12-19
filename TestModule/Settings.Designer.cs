@@ -10,7 +10,7 @@
 
 using OperatorsSolution.Common;
 
-namespace TestModule.GUID {
+namespace TestModule {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -28,12 +28,12 @@ namespace TestModule.GUID {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public GraphicsSoftware GraphicsProgram {
+        public GraphicsSoftwareInfo GraphicsSoftwareInfo {
             get {
-                return ((GraphicsSoftware)(this["GraphicsProgram"]));
+                return ((GraphicsSoftwareInfo)(this["GraphicsSoftwareInfo"]));
             }
             set {
-                this["GraphicsProgram"] = value;
+                this["GraphicsSoftwareInfo"] = value;
             }
         }
         
