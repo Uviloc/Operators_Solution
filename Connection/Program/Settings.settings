@@ -1,11 +1,8 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Operators_Solution.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OperatorsSolution.Program" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GraphicsSoftware" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ProjectFile" Type="System.String" Scope="User">
+    <Setting Name="Test" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

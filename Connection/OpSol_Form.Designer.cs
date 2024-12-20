@@ -14,23 +14,17 @@ namespace OperatorsSolution
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpSol_Form));
-            button2 = new Button();
             operationTreeview = new TreeView();
             databaseTreeview = new TreeView();
             controlPanelTabs = new TabControl();
             Operation = new TabPage();
             DataBase = new TabPage();
             Settings = new TabPage();
-            settingsGraphicsProgram = new TextBox();
-            button1 = new Button();
             textBox2 = new TextBox();
-            ProjectFile = new TextBox();
             textBox5 = new TextBox();
-            GraphicsSoftwareOption = new ComboBox();
             textBox6 = new TextBox();
             textBox8 = new TextBox();
             textBox4 = new TextBox();
-            textBox3 = new TextBox();
             textBox7 = new TextBox();
             CollapseControlPanel1 = new Button();
             mainLayoutTable = new TableLayoutPanel();
@@ -44,6 +38,7 @@ namespace OperatorsSolution
             settingsTab = new TabPage();
             controlPanel = new Panel();
             ToolTip = new ToolTip(components);
+            textBox1 = new TextBox();
             controlPanelTabs.SuspendLayout();
             Operation.SuspendLayout();
             DataBase.SuspendLayout();
@@ -54,18 +49,6 @@ namespace OperatorsSolution
             innerPanelDatabaseTab.SuspendLayout();
             controlPanel.SuspendLayout();
             SuspendLayout();
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.White;
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(16, 138);
-            button2.Name = "button2";
-            button2.Size = new Size(200, 34);
-            button2.TabIndex = 5;
-            button2.Text = "Open project";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += OpenProject;
             // 
             // operationTreeview
             // 
@@ -138,17 +121,11 @@ namespace OperatorsSolution
             // 
             Settings.AutoScroll = true;
             Settings.BackColor = Color.FromArgb(60, 60, 60);
-            Settings.Controls.Add(settingsGraphicsProgram);
-            Settings.Controls.Add(button1);
             Settings.Controls.Add(textBox2);
-            Settings.Controls.Add(button2);
-            Settings.Controls.Add(ProjectFile);
             Settings.Controls.Add(textBox5);
-            Settings.Controls.Add(GraphicsSoftwareOption);
             Settings.Controls.Add(textBox6);
             Settings.Controls.Add(textBox8);
             Settings.Controls.Add(textBox4);
-            Settings.Controls.Add(textBox3);
             Settings.Controls.Add(textBox7);
             Settings.ForeColor = Color.White;
             Settings.Location = new Point(4, 204);
@@ -156,26 +133,6 @@ namespace OperatorsSolution
             Settings.Size = new Size(609, 1264);
             Settings.TabIndex = 2;
             Settings.Text = "         Settings         ";
-            // 
-            // settingsGraphicsProgram
-            // 
-            settingsGraphicsProgram.Location = new Point(16, 25);
-            settingsGraphicsProgram.Multiline = true;
-            settingsGraphicsProgram.Name = "settingsGraphicsProgram";
-            settingsGraphicsProgram.ReadOnly = true;
-            settingsGraphicsProgram.Size = new Size(165, 33);
-            settingsGraphicsProgram.TabIndex = 11;
-            settingsGraphicsProgram.Text = "Graphics Program:";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(458, 101);
-            button1.Name = "button1";
-            button1.Size = new Size(35, 31);
-            button1.TabIndex = 15;
-            button1.Text = "X";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += RemoveProjectFileRef;
             // 
             // textBox2
             // 
@@ -187,16 +144,6 @@ namespace OperatorsSolution
             textBox2.TabIndex = 12;
             textBox2.Text = resources.GetString("textBox2.Text");
             // 
-            // ProjectFile
-            // 
-            ProjectFile.Location = new Point(180, 101);
-            ProjectFile.Name = "ProjectFile";
-            ProjectFile.PlaceholderText = "Select project file";
-            ProjectFile.ReadOnly = true;
-            ProjectFile.Size = new Size(283, 31);
-            ProjectFile.TabIndex = 14;
-            ProjectFile.Click += ProjectSelection;
-            // 
             // textBox5
             // 
             textBox5.Location = new Point(16, 223);
@@ -205,17 +152,6 @@ namespace OperatorsSolution
             textBox5.Size = new Size(165, 31);
             textBox5.TabIndex = 13;
             textBox5.Text = "Preview on hover";
-            // 
-            // GraphicsSoftwareOption
-            // 
-            GraphicsSoftwareOption.FormattingEnabled = true;
-            GraphicsSoftwareOption.Items.AddRange(new object[] { "1", "2", "3" });
-            GraphicsSoftwareOption.Location = new Point(180, 25);
-            GraphicsSoftwareOption.Name = "GraphicsSoftwareOption";
-            GraphicsSoftwareOption.Size = new Size(182, 33);
-            GraphicsSoftwareOption.TabIndex = 9;
-            GraphicsSoftwareOption.Text = "Graphics Program";
-            GraphicsSoftwareOption.SelectionChangeCommitted += SaveGraphicsSoftwareOption;
             // 
             // textBox6
             // 
@@ -242,15 +178,6 @@ namespace OperatorsSolution
             textBox4.Size = new Size(216, 31);
             textBox4.TabIndex = 13;
             textBox4.Text = "Open project automaticly";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(16, 101);
-            textBox3.Name = "textBox3";
-            textBox3.ReadOnly = true;
-            textBox3.Size = new Size(165, 31);
-            textBox3.TabIndex = 13;
-            textBox3.Text = "Project file:";
             // 
             // textBox7
             // 
@@ -393,6 +320,14 @@ namespace OperatorsSolution
             controlPanel.Size = new Size(617, 1472);
             controlPanel.TabIndex = 17;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(649, -5);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(150, 31);
+            textBox1.TabIndex = 1;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
             // OpSol_Form
             // 
             AllowDrop = true;
@@ -401,6 +336,7 @@ namespace OperatorsSolution
             ClientSize = new Size(2258, 1505);
             ContentsPanel = innerPanelTabs;
             ControlPanel = controlPanel;
+            Controls.Add(textBox1);
             Controls.Add(mainLayoutTable);
             DatabaseTreeview = databaseTreeview;
             ForeColor = Color.FromArgb(60, 60, 60);
@@ -422,10 +358,10 @@ namespace OperatorsSolution
             innerPanelDatabaseTab.ResumeLayout(false);
             controlPanel.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
-        #endregion
 
-        private Button button2;
+        #endregion
         private TreeView operationTreeview;
         private Button CollapseControlPanel1;
         private System.ComponentModel.IContainer components;
@@ -435,12 +371,6 @@ namespace OperatorsSolution
         private TabPage DataBase;
         private TabPage Settings;
         private Panel controlPanel;
-        private Button button1;
-        private TextBox ProjectFile;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox settingsGraphicsProgram;
-        private ComboBox GraphicsSoftwareOption;
         private TreeView databaseTreeview;
         private ToolTip ToolTip;
         private TextBox textBox5;
@@ -456,5 +386,7 @@ namespace OperatorsSolution
         private Label defaultDatabaseInstructions;
         private Button button3;
         private Button button4;
+        private TextBox textBox2;
+        private TextBox textBox1;
     }
 }

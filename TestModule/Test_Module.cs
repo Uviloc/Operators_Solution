@@ -12,9 +12,9 @@ using Console = System.Diagnostics.Debug;
 using OperatorsSolution;
 using System.Configuration;
 
-namespace TestModule
+namespace TestModule2
 {
-    public partial class Test_Module : CustomForm, IFormPlugin
+    public partial class Test_Module2 : CustomForm, IFormPlugin
     {
         public string FormName => "Some other name just to see";
         public ApplicationSettingsBase ApplicationSettings => Settings.Default;
@@ -28,7 +28,7 @@ namespace TestModule
         }
 
 
-        public Test_Module()
+        public Test_Module2()
         {
             InitializeComponent();
             //InitializeSettings();

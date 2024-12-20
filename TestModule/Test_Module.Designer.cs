@@ -1,9 +1,9 @@
 ﻿using OperatorsSolution;
 using OperatorsSolution.Controls;
 
-namespace TestModule
+namespace TestModule2
 {
-    partial class Test_Module : CustomForm
+    partial class Test_Module2 : CustomForm
     {
         /// <summary>
         /// Required designer variable.
@@ -134,7 +134,7 @@ namespace TestModule
             toggle_Button1.Text = "UpcomingEvents";
             toggle_Button1.UseVisualStyleBackColor = false;
             // 
-            // Test_Module
+            // Test_Module2
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -148,8 +148,8 @@ namespace TestModule
             Controls.Add(logic_Button4);
             Controls.Add(logic_Button3);
             Controls.Add(previewBox);
-            Name = "Test_Module";
-            Text = "Test_Module";
+            Name = "Test_Module2";
+            Text = "Test_Module2";
             ((System.ComponentModel.ISupportInitialize)previewBox).EndInit();
             ResumeLayout(false);
             PerformLayout();

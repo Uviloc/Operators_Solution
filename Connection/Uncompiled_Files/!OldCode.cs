@@ -1,4 +1,121 @@
-﻿//internal class ClipPathConverter2 : ExpandableObjectConverter
+﻿//#region >----------------- Open project file: ---------------------
+//private void OpenProject(object? sender, EventArgs e)                                                               // CASPAR NEEDS SERVER TO OPEN FIRST
+//{
+//    string projectFilePath = Properties.Settings.Default.ProjectFile;
+
+//    if (string.IsNullOrWhiteSpace(projectFilePath))
+//    {
+//        MessageBox.Show("There was no selected project. (Project settings>Project file)");
+//        return;
+//    }
+
+//    //string fileName = projectFilePath.Split('\\').Last();
+
+//    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+//    {
+//        FileName = projectFilePath,
+//        UseShellExecute = true
+//    });
+//}
+//#endregion
+
+//#region >----------------- Settings: ---------------------
+//private void InitializeSettings()
+//{
+//    // Graphics Software:
+//    //GraphicsSoftwareOption.DataSource = Enum.GetValues(typeof(GraphicsSoftware));                                 // DEPEND ON WHAT ASSEMBLIES ARE LOADED (ALL KEYS IN DICTIONARY) < NOPE
+//    GraphicsSoftwareOption.SelectedItem = Properties.Settings.Default.GraphicsSoftware;                             // CHECK IF THIS EXISTS THEN, IF NOT GIVE ERROR WHEN OPENING THE FORM < NOPE
+
+//    // Project file:
+//    string projectFile = Properties.Settings.Default.ProjectFile;
+//    if (!string.IsNullOrWhiteSpace(projectFile))
+//    {
+//        string projectName = projectFile.Split('\\').Last();
+//        ProjectFile.Text = projectName;
+//        ToolTip.SetToolTip(ProjectFile, projectFile);
+//    }
+//}
+
+//private void SaveGraphicsSoftwareOption(object sender, EventArgs e)
+//{
+//    // Set the 'graphicsSoftware' setting to the selected ComboBox item
+//    //if (GraphicsSoftwareOption.SelectedItem is not null and GraphicsSoftware selectedSoftware)
+//    //{
+//    //    //Properties.Settings.Default.GraphicsSoftware = selectedSoftware;
+//    //    Properties.Settings.Default.Save();
+//    //}
+//}
+
+//private void ProjectSelection(object sender, EventArgs e)
+//{
+//    if (sender is not TextBox textBox) return;
+
+//    OpenFileDialog openFileDialog = new();
+
+//    //switch (Properties.Settings.Default.GraphicsSoftware)
+//    //{
+//    //    case GraphicsSoftware.XPression:
+//    //        openFileDialog.Filter = "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp";                // SHOULD NOT DEPEND ON THIS, HAVE THIS INFO IN ENUM?
+//    //        break;
+//    //    case GraphicsSoftware.CasparCG:
+//    //        //openFileDialog.Filter = "CasparCG files (*.;*.)";
+//    //        break;
+//    //    case GraphicsSoftware.vMix:
+//    //        //openFileDialog.Filter = "vMix files (*.;*.)";
+//    //        break;
+//    //}
+
+//    DialogResult result = openFileDialog.ShowDialog();
+//    if (result == DialogResult.OK)
+//    {
+//        string file = openFileDialog.FileName;
+//        try
+//        {
+//            string projectName = file.Split('\\').Last();
+//            textBox.Text = projectName;
+//            ToolTip.SetToolTip(ProjectFile, file);
+//            Properties.Settings.Default.ProjectFile = file;
+//            Properties.Settings.Default.Save();
+//        }
+//        catch (Exception ex)
+//        {
+//            MessageBox.Show("Failed setting project file: " + ex);
+//        }
+//    }
+//}
+
+//private void RemoveProjectFileRef(object sender, EventArgs e)
+//{
+//    ProjectFile.Text = null;
+//    ToolTip.SetToolTip(ProjectFile, "");
+//    Properties.Settings.Default.ProjectFile = string.Empty;
+//    Properties.Settings.Default.Save();
+//}
+//#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//internal class ClipPathConverter2 : ExpandableObjectConverter
 
 public class ClipPathConverter : ExpandableObjectConverter
 {

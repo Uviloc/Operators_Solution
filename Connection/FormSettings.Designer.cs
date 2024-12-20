@@ -84,6 +84,8 @@
             // 
             // GraphicsSoftwareOption
             // 
+            GraphicsSoftwareOption.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            GraphicsSoftwareOption.AutoCompleteSource = AutoCompleteSource.ListItems;
             GraphicsSoftwareOption.FormattingEnabled = true;
             GraphicsSoftwareOption.Items.AddRange(new object[] { "1", "2", "3" });
             GraphicsSoftwareOption.Location = new Point(171, 12);
@@ -91,7 +93,6 @@
             GraphicsSoftwareOption.Size = new Size(182, 33);
             GraphicsSoftwareOption.TabIndex = 24;
             GraphicsSoftwareOption.Text = "Graphics Program";
-            GraphicsSoftwareOption.SelectionChangeCommitted += SaveGraphicsSoftwareOption;
             // 
             // textBox3
             // 

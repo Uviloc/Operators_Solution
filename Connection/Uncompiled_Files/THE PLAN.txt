@@ -21,6 +21,22 @@ Setup for test/remaining questions
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
 ------------ Week 12: -----------
+Overall feedback:
+In regards to databases. Dont make it complicated, just make it so that the user can add a database with predetermined tables and columns.
+Adding rows to the database would be a concern if the table is very long as this would take time to get to the bottom.
+A search function would be best, idealy with some input redundancy to also check names with some character difference.
+Would be cool to have a procedural form to edit the databases. Rejected by me.
+Have the fields in the database be correct for the type of data, So int would be like a domainupdown menu, or countries a list with options from another database (Use suggestAppend for the combobox)
+
+Overall very happy and commented on how I am making the best use of the internship out of anybody.
+
+Login information will be send for contacting Ross. if not through community, they can maybe go through with calling
+
+Deadline is set for program to be done for testing on January 12, Hylke will plan testers to be there
+
+
+
+
 		>	Are there any planned games where I can test the program in January:
 		>	How can I get the live game up with preview:
 		>	Send Ross mail about xpTools having high memory and breaking the live view:

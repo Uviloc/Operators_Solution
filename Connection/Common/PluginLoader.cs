@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing.Design;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace OperatorsSolution.Common
 {
     public class PluginLoader
     {
+        private static readonly HashSet<string> LoadedNamespaces = new();
+
         #region >----------------- Main Process: ---------------------
         public static void LoadPlugins(TreeView operationTreeview, TreeView databaseTreeview)
         {
@@ -101,6 +104,15 @@ namespace OperatorsSolution.Common
             {
                 var context = new AssemblyLoadContext(file, isCollectible: true);
                 assembly = context.LoadFromAssemblyPath(file);
+
+                // Check for duplicate namespaces
+                if (!CheckForDuplicateNamespaces(assembly, file))
+                {
+                    // Duplicate namespace found, do not load this assembly
+                    assembly = null;
+                    return false;
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -130,7 +142,8 @@ namespace OperatorsSolution.Common
 
                 if (typeInstance is not IFormPlugin moduleForm) continue;
 
-
+                // Set custom settings provider for the plugin
+                SetPluginSettingsProvider(file, moduleForm);
 
 
                 if (treeviewExplorer == null || folder == null) continue;
@@ -141,6 +154,100 @@ namespace OperatorsSolution.Common
             }
         }
         #endregion
+
+
+        //private static void SetPluginSettingsProvider(string pluginFilePath, IFormPlugin moduleForm)
+        //{
+        //    // Define the plugin settings file path (e.g., based on the plugin's name)
+        //    string pluginSettingsFilePath = Path.Combine(Path.GetDirectoryName(pluginFilePath), $"{moduleForm.FormName}_pluginSettings.config");
+
+        //    // Check if the settings file exists for the plugin, if not create it
+        //    if (!File.Exists(pluginSettingsFilePath))
+        //    {
+        //        File.Create(pluginSettingsFilePath).Dispose();
+        //    }
+
+        //    // Set the custom settings provider for this plugin
+        //    var pluginProvider = new PluginSettingsProvider(pluginSettingsFilePath);
+            
+        //    settings.Providers.Clear();
+        //    settings.Providers.Add(pluginProvider);
+        //}
+
+        private static void SetPluginSettingsProvider(string pluginFilePath, IFormPlugin moduleForm)
+        {
+            string? appDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (appDirectory == null)
+                return;
+
+            // Define the plugin settings file path
+            string pluginSettingsFilePath = Path.Combine(appDirectory, $"{moduleForm.FormName}_pluginSettings.config");
+
+            Console.WriteLine(pluginSettingsFilePath);
+
+            // Check if the settings file exists for the plugin, if not create it
+            if (!File.Exists(pluginSettingsFilePath))
+            {
+                File.Create(pluginSettingsFilePath).Dispose();
+            }
+
+            // Create the custom settings provider for the plugin
+            var pluginProvider = new PluginSettingsProvider(pluginSettingsFilePath);
+
+
+            ApplicationSettingsBase settings = moduleForm.ApplicationSettings;
+            // Apply the provider to the settings for this plugin
+            foreach (SettingsProperty property in settings.Properties)
+            {
+                property.Provider = pluginProvider;
+            }
+
+            settings.Providers.Clear();
+            settings.Providers.Add(pluginProvider);
+            settings.Reload();
+        }
+
+        #region >----------------- Check Duplicate Namespaces: ---------------------
+        private static bool CheckForDuplicateNamespaces(Assembly assembly, string filePath)
+        {
+            try
+            {
+                var namespacesInAssembly = new HashSet<string>();
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (type.Namespace == null) continue; // Ignore types with no namespace
+
+                    namespacesInAssembly.Add(type.Namespace);
+                }
+
+                foreach (var ns in namespacesInAssembly)
+                {
+                    if (LoadedNamespaces.Contains(ns))
+                    {
+                        // Log a warning and return false (indicating a duplicate was found)
+                        MessageBox.Show($"[Plugin Loader] Duplicate namespace detected:\n{ns} in file: {filePath}.\nPlease change the namespace in this plugin to avoid conflicts.",
+                            "Plugin Load Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+
+                // No duplicates, add namespaces to the loaded list
+                foreach (var ns in namespacesInAssembly)
+                {
+                    LoadedNamespaces.Add(ns);
+                }
+
+                return true; // No duplicates found
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"[Plugin Loader] Error checking namespaces in {filePath}: {ex.Message}",
+                    "Namespace Check Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        #endregion
+
 
         #region >----------------- AddToTreeView: ---------------------
         private static TreeNode AddToTreeView(object tag, string nodeName, string[] filePath, TreeNodeCollection nodes)

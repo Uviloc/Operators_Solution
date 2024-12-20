@@ -80,7 +80,7 @@ Week 12:
 Mon: Got overwhelmed again by the controls, so I made a plan of action with what is needed and with what class structure. Continued work on custom controls
 Tue: 
 Wed: Office was unexpectedly closed so spend quite some time for nothing
-Thu: Huge amount of work. Worked on settings, worked on getting graphics software functions working
+Thu: Huge amount of work. Worked on settings, worked on getting graphics software functions working, got feedback from Hylke
 Fri: 
 
 Week 13:

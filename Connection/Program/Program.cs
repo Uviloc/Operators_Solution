@@ -1,4 +1,8 @@
+using OperatorsSolution.Common;
+using System.Configuration;
 using System.Reflection;
+using System.Windows.Forms;
+using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution.Program
 {
@@ -10,6 +14,25 @@ namespace OperatorsSolution.Program
         [STAThread]
         static void Main()
         {
+            // Specify the location of the user.config file
+            string appDirectory = Application.StartupPath; // Application directory
+            string userConfigFile = Path.Combine(appDirectory, "user.config");
+
+            // Set the custom settings provider to use this file
+            SetCustomSettingsProvider(userConfigFile);
+
+
+
+
+
+            //// Define the file path for the settings file
+            //string settingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.config");
+
+            //// Ensure that the settings use the custom provider
+            //Properties.Settings.Default.Providers.Clear();  // Clear the existing providers
+            //var customProvider = new CustomSettingsProvider(settingsFilePath);
+            //Properties.Settings.Default.Providers.Add(CustomSettingsProvider);  // Add the custom provider
+
             //AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
@@ -25,20 +48,23 @@ namespace OperatorsSolution.Program
             Application.Run(new OpSol_Form());
         }
 
-        //private static Assembly? CurrentDomain_AssemblyResolve(object? sender, ResolveEventArgs args)
-        //{
-        //    // Define the custom folder to load from
-        //    string customFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomLibraries");
+        private static void SetCustomSettingsProvider(string configFilePath)
+        {
+            string? appDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (appDirectory == null)
+                return;
 
-        //    // Try loading the assembly
-        //    string assemblyPath = Path.Combine(customFolder, new AssemblyName(args.Name).Name + ".dll");
+            string settingsFilePath = Path.Combine(appDirectory, "user.config");
+            Console.WriteLine(settingsFilePath);
 
-        //    if (File.Exists(assemblyPath))
-        //    {
-        //        return Assembly.LoadFrom(assemblyPath);  // Load the assembly from the custom path
-        //    }
 
-        //    return null;  // If the assembly isn't found, return null (let .NET handle it normally)
-        //}
+            // Check if the settings file exists, if not, create it
+            if (!File.Exists(settingsFilePath))
+            {
+                File.Create(settingsFilePath).Dispose();  // Create and immediately dispose of the file stream
+            }
+            // Dynamically add the custom settings provider to Settings.Default
+            var customProvider = new CustomSettingsProvider(settingsFilePath);
+        }
     }
 }

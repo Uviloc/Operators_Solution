@@ -65,7 +65,88 @@ namespace OperatorsSolution.Common
     //    public override string ToString() => GraphicsProgramName;
     //}
 
+    //[Serializable]
+    //public class GraphicsSoftwareInfo
+    //{
+    //    // Parameterless constructor for XML serialization
+    //    public GraphicsSoftwareInfo() { }
+
+    //    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+    //    {
+    //        GraphicsSoftwareClassName = graphicsSoftwareClass;
+    //        GraphicsProgramName = graphicsSoftwareName;
+    //        FileExtension = fileExtension;
+    //    }
+
+    //    [XmlElement]
+    //    public string? GraphicsSoftwareClassName { get; set; }
+
+    //    [XmlElement]
+    //    public string? GraphicsProgramName { get; set; }
+
+    //    [XmlElement]
+    //    public string? FileExtension { get; set; }
+
+    //    public override string ToString() => GraphicsProgramName ?? string.Empty;
+
+    //    public override bool Equals(object? obj)
+    //    {
+    //        if (obj is not GraphicsSoftwareInfo other)
+    //            return false;
+
+    //        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
+    //               GraphicsProgramName == other.GraphicsProgramName &&
+    //               FileExtension == other.FileExtension;
+    //    }
+
+    //    public override int GetHashCode()
+    //    {
+    //        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
+    //    }
+    //}
+
+    //[Serializable]
+    //[XmlRoot("GraphicsSoftwareInfo")]
+    //public class GraphicsSoftwareInfo
+    //{
+    //    // Parameterless constructor for XML serialization
+    //    public GraphicsSoftwareInfo() { }
+
+    //    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+    //    {
+    //        GraphicsSoftwareClassName = graphicsSoftwareClass;
+    //        GraphicsProgramName = graphicsSoftwareName;
+    //        FileExtension = fileExtension;
+    //    }
+
+    //    [XmlElement]
+    //    public string? GraphicsSoftwareClassName { get; set; }
+
+    //    [XmlElement]
+    //    public string? GraphicsProgramName { get; set; }
+
+    //    [XmlElement]
+    //    public string? FileExtension { get; set; }
+
+    //    public override string ToString() => GraphicsProgramName ?? string.Empty;
+
+    //    public override bool Equals(object? obj)
+    //    {
+    //        if (obj is not GraphicsSoftwareInfo other)
+    //            return false;
+
+    //        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
+    //               GraphicsProgramName == other.GraphicsProgramName &&
+    //               FileExtension == other.FileExtension;
+    //    }
+
+    //    public override int GetHashCode()
+    //    {
+    //        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
+    //    }
+    //}
     [Serializable]
+    [XmlRoot("GraphicsSoftwareInfo")]
     public class GraphicsSoftwareInfo
     {
         // Parameterless constructor for XML serialization
@@ -89,6 +170,8 @@ namespace OperatorsSolution.Common
 
         public override string ToString() => GraphicsProgramName ?? string.Empty;
     }
+
+
 
     public static class GraphicsSoftwareRegistry
     {
