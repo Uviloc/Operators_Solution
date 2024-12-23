@@ -1,5 +1,8 @@
 ﻿using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 using Console = System.Diagnostics.Debug;
 
@@ -33,10 +36,8 @@ namespace OperatorsSolution.Common
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection properties)
         {
             var propertyValues = new SettingsPropertyValueCollection();
-
             foreach (SettingsProperty property in properties)
             {
-                Console.WriteLine(property.PropertyType);
                 var value = ReadSettingFromFile(property.Name, property.PropertyType);
                 var propertyValue = new SettingsPropertyValue(property)
                 {
@@ -48,6 +49,7 @@ namespace OperatorsSolution.Common
 
             return propertyValues;
         }
+
 
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection propertyValues)
         {
@@ -63,28 +65,37 @@ namespace OperatorsSolution.Common
                 return null;
 
 
-            var lines = File.ReadAllLines(_pluginSettingsFilePath);
+            var text = File.ReadAllText(_pluginSettingsFilePath);
 
-            foreach (var line in lines)
-            {
-                var parts = line.Split(new[] { '=' }, 2, StringSplitOptions.None);
-                if (parts.Length == 2 && parts[0].Trim() == key)
-                {
-                    var value = parts[1].Trim();
+            //text.
 
-                    // If the type is a string, just return the value
-                    if (type == typeof(string))
-                    {
-                        return value;
-                    }
+            //foreach (var line in lines)
+            //{
+            //    //if (!line.StartsWith("<"))
+            //    //{
+            //    //    Type type = line.Split("=");
+            //    //}
 
-                    // If the value looks like XML (check if it starts with '<'), assume it needs deserialization
-                    if (value.StartsWith("<"))
-                    {
-                        return DeserializeXml(value, type);
-                    }
-                }
-            }
+
+
+            //    var parts = line.Split(new[] { '=' }, 2, StringSplitOptions.None);
+            //    if (parts.Length == 2 && parts[0].Trim() == key)
+            //    {
+            //        var value = parts[1].Trim();
+
+            //        // If the type is a string, just return the value
+            //        if (type == typeof(string))
+            //        {
+            //            return value;
+            //        }
+
+            //        // If the value looks like XML (check if it starts with '<'), assume it needs deserialization
+            //        if (value.StartsWith("<"))
+            //        {
+            //            return DeserializeXml(value, type);
+            //        }
+            //    }
+            //}
 
             return null;
         }
@@ -93,10 +104,8 @@ namespace OperatorsSolution.Common
         private object? DeserializeXml(string xmlContent, Type type)
         {
             var serializer = new XmlSerializer(type);
-            using (var reader = new StringReader(xmlContent))
-            {
-                return serializer.Deserialize(reader);
-            }
+            using var reader = new StringReader(xmlContent);
+            return serializer.Deserialize(reader);
         }
 
 

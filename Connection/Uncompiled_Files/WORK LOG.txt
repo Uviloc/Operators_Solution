@@ -81,10 +81,10 @@ Mon: Got overwhelmed again by the controls, so I made a plan of action with what
 Tue: 
 Wed: Office was unexpectedly closed so spend quite some time for nothing
 Thu: Huge amount of work. Worked on settings, worked on getting graphics software functions working, got feedback from Hylke
-Fri: 
+Fri: Huge amount of problems with settings putting into the program folder
 
 Week 13:
-Mon: 
+Mon: Extra day. Worked on seperating settings, Progress on custom controls
 Tue: 
 Wed: 
 Thu: 

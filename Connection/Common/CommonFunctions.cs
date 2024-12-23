@@ -34,7 +34,7 @@ namespace OperatorsSolution.Common
         
         static abstract void DisplayPreview(object? sender, PictureBox previewBox);
         static abstract void RemovePreview(PictureBox previewBox);
-        static abstract void TriggerClip(OperatorButton operatorButton, int clipIndex);
+        static abstract void ToggleClip(object sender, bool isOn);
 
 
         //static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
@@ -177,6 +177,7 @@ namespace OperatorsSolution.Common
     {
         // This list will store all GraphicsSoftwareInfo objects from classes implementing IGraphicProgram
         public static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
+        public static readonly Dictionary<string, object> ClassInstances = [];
 
         public static void InitializeGraphicsPrograms()
         {
@@ -187,24 +188,45 @@ namespace OperatorsSolution.Common
 
             foreach (var type in types)
             {
-                // Ensure the type is instantiated (if necessary)
+                //// Ensure the type is instantiated (if necessary)
+                //var instance = Activator.CreateInstance(type);
+
+                //// Get the GraphicsSoftwareInfo property from the class
+                ////GraphicsSoftwareInfo graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo");
+                //GraphicsSoftwareInfo? graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) as GraphicsSoftwareInfo;
+                ////if (type is not IGraphicProgram graphicsProgram)
+                ////    return;
+
+                ////GraphicsSoftwareInfo softwareInfo = graphicsProgram.GraphicsSoftwareInfo;
+
+                //if (graphicsSoftwareInfoProperty != null && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
+                //{
+                //    ExistingGraphicsSoftware.Add(graphicsSoftwareInfoProperty);
+                //}
+
+                // Create and cache an instance if it doesn't exist
+                if (type.FullName is not string fullTypeName || ClassInstances.ContainsKey(fullTypeName))
+                    continue;
+
                 var instance = Activator.CreateInstance(type);
+                if (instance == null)
+                    continue;
 
                 // Get the GraphicsSoftwareInfo property from the class
-                //GraphicsSoftwareInfo graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo");
-                GraphicsSoftwareInfo? graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) as GraphicsSoftwareInfo;
-                //if (type is not IGraphicProgram graphicsProgram)
-                //    return;
-
-                //GraphicsSoftwareInfo softwareInfo = graphicsProgram.GraphicsSoftwareInfo;
-
-                if (graphicsSoftwareInfoProperty != null && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
-                {
+                ClassInstances[fullTypeName] = instance;
+                if (type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) is GraphicsSoftwareInfo graphicsSoftwareInfoProperty && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
                     ExistingGraphicsSoftware.Add(graphicsSoftwareInfoProperty);
-                }
             }
         }
+
+        public static object? GetInstance(string className)
+        {
+            ClassInstances.TryGetValue(className, out var instance);
+            return instance;
+        }
     }
+
+    
 
 
     public enum PluginType
@@ -239,7 +261,7 @@ namespace OperatorsSolution.Common
     //}
 
     #region >----------------- Common Functions: ---------------------
-    public class CommonFunctions
+    public static class CommonFunctions
     {
         /// <summary>
         /// Common function to trigger a message box and highlight the control at fault.
@@ -289,6 +311,78 @@ namespace OperatorsSolution.Common
                 Math.Min(originalColor.G + 30, 255),
                 Math.Min(originalColor.B + 30, 255)
             );
+        }
+        #endregion
+
+        #region >----------------- Trigger Method from String: ---------------------
+        public static object? TriggerMethodBasedOnString(this string className, string methodName, object[] parameters)
+        {
+            Type? classType = Type.GetType(className);
+            if (classType == null)
+            {
+                Console.WriteLine($"Class '{className}' not found.");
+                return null;
+            }
+
+            // Check for an existing instance in the registry
+            object? classInstance = GraphicsSoftwareRegistry.GetInstance(className);
+            if (classInstance == null)
+            {
+                Console.WriteLine($"No existing instance for '{className}'. Creating a new one.");
+                classInstance = Activator.CreateInstance(classType);
+                if (classInstance != null)
+                {
+                    GraphicsSoftwareRegistry.ClassInstances[className] = classInstance; // Cache the new instance
+                }
+            }
+
+            if (classInstance == null)
+            {
+                Console.WriteLine($"Could not create an instance of '{className}'.");
+                return null;
+            }
+
+            Type[] parameterTypes = parameters.Select(p => p.GetType()).ToArray();
+
+            // Find the best-matching method
+            MethodInfo? methodInfo = classType.GetMethods()
+                .Where(m => m.Name == methodName)
+                .FirstOrDefault(m =>
+                {
+                    var methodParams = m.GetParameters();
+                    if (methodParams.Length != parameters.Length) return false;
+
+                    // Ensure all parameter types are compatible
+                    for (int i = 0; i < methodParams.Length; i++)
+                    {
+                        var paramType = methodParams[i].ParameterType;
+
+                        // Check if the provided argument type can be assigned to the method parameter type
+                        if (parameters[i] != null && !paramType.IsAssignableFrom(parameters[i].GetType()))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+            if (methodInfo == null)
+            {
+                Console.WriteLine($"Method '{methodName}' not found in class '{className}'.");
+                return null;
+            }
+
+            // Invoke the method
+            try
+            {
+                object? result = methodInfo.Invoke(classInstance, parameters);
+                return result;
+            }
+            catch (TargetInvocationException ex)
+            {
+                Console.WriteLine($"Error during method invocation: {ex.InnerException?.Message}");
+                return null;
+            }
         }
         #endregion
     }

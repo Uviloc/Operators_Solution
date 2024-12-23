@@ -31,8 +31,8 @@ namespace TestModule2
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Test_Module2));
             previewBox = new PictureBox();
-            logic_Button3 = new Logic_Button();
             logic_Button4 = new Logic_Button();
             operatorButton9 = new OperatorButton();
             operatorButton10 = new OperatorButton();
@@ -40,6 +40,13 @@ namespace TestModule2
             textBox1 = new TextBox();
             script_Button1 = new Script_Button();
             toggle_Button1 = new Toggle_Button();
+            operatorButton12 = new OperatorButton();
+            operatorButton13 = new OperatorButton();
+            operatorButton14 = new OperatorButton();
+            operatorButton15 = new OperatorButton();
+            operatorButton16 = new OperatorButton();
+            operatorButton17 = new OperatorButton();
+            operatorButton18 = new OperatorButton();
             ((System.ComponentModel.ISupportInitialize)previewBox).BeginInit();
             SuspendLayout();
             // 
@@ -50,14 +57,6 @@ namespace TestModule2
             previewBox.Size = new Size(653, 389);
             previewBox.TabIndex = 9;
             previewBox.TabStop = false;
-            // 
-            // logic_Button3
-            // 
-            logic_Button3.Location = new Point(684, 104);
-            logic_Button3.Name = "logic_Button3";
-            logic_Button3.Size = new Size(316, 225);
-            logic_Button3.TabIndex = 10;
-            logic_Button3.Text = "logic_Button3";
             // 
             // logic_Button4
             // 
@@ -134,6 +133,69 @@ namespace TestModule2
             toggle_Button1.Text = "UpcomingEvents";
             toggle_Button1.UseVisualStyleBackColor = false;
             // 
+            // operatorButton12
+            // 
+            operatorButton12.Location = new Point(0, 0);
+            operatorButton12.Name = "operatorButton12";
+            operatorButton12.PreviewBox = null;
+            operatorButton12.Size = new Size(200, 150);
+            operatorButton12.TabIndex = 0;
+            operatorButton12.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton13
+            // 
+            operatorButton13.Location = new Point(0, 0);
+            operatorButton13.Name = "operatorButton13";
+            operatorButton13.PreviewBox = null;
+            operatorButton13.Size = new Size(200, 150);
+            operatorButton13.TabIndex = 0;
+            operatorButton13.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton14
+            // 
+            operatorButton14.Location = new Point(0, 0);
+            operatorButton14.Name = "operatorButton14";
+            operatorButton14.PreviewBox = null;
+            operatorButton14.Size = new Size(200, 150);
+            operatorButton14.TabIndex = 0;
+            operatorButton14.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton15
+            // 
+            operatorButton15.Location = new Point(0, 0);
+            operatorButton15.Name = "operatorButton15";
+            operatorButton15.PreviewBox = null;
+            operatorButton15.Size = new Size(200, 150);
+            operatorButton15.TabIndex = 0;
+            operatorButton15.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton16
+            // 
+            operatorButton16.Location = new Point(0, 0);
+            operatorButton16.Name = "operatorButton16";
+            operatorButton16.PreviewBox = null;
+            operatorButton16.Size = new Size(200, 150);
+            operatorButton16.TabIndex = 0;
+            operatorButton16.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton17
+            // 
+            operatorButton17.Location = new Point(0, 0);
+            operatorButton17.Name = "operatorButton17";
+            operatorButton17.PreviewBox = null;
+            operatorButton17.Size = new Size(200, 150);
+            operatorButton17.TabIndex = 0;
+            operatorButton17.UseVisualStyleBackColor = false;
+            // 
+            // operatorButton18
+            // 
+            operatorButton18.Location = new Point(0, 0);
+            operatorButton18.Name = "operatorButton18";
+            operatorButton18.PreviewBox = null;
+            operatorButton18.Size = new Size(200, 150);
+            operatorButton18.TabIndex = 0;
+            operatorButton18.UseVisualStyleBackColor = false;
+            // 
             // Test_Module2
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -146,7 +208,6 @@ namespace TestModule2
             Controls.Add(operatorButton10);
             Controls.Add(operatorButton9);
             Controls.Add(logic_Button4);
-            Controls.Add(logic_Button3);
             Controls.Add(previewBox);
             Name = "Test_Module2";
             Text = "Test_Module2";
@@ -167,7 +228,6 @@ namespace TestModule2
         private OperatorButton operatorButton7;
         private OperatorButton operatorButton8;
         private Logic_Button logic_Button2;
-        private Logic_Button logic_Button3;
         private Logic_Button logic_Button4;
         private OperatorButton operatorButton9;
         private OperatorButton operatorButton10;
@@ -175,5 +235,12 @@ namespace TestModule2
         private TextBox textBox1;
         private Script_Button script_Button1;
         private Toggle_Button toggle_Button1;
+        private OperatorButton operatorButton12;
+        private OperatorButton operatorButton13;
+        private OperatorButton operatorButton14;
+        private OperatorButton operatorButton15;
+        private OperatorButton operatorButton16;
+        private OperatorButton operatorButton17;
+        private OperatorButton operatorButton18;
     }
 }

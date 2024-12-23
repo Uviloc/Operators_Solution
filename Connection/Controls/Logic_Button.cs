@@ -42,50 +42,161 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public class Logic_Button : Control
     {
-        private int buttonAmount = 3;
-        private readonly List<OperatorButton> buttons = [];
+        private List<OperatorButton> _buttons;
 
+        //Buttons;
         [Category(".Operation > Layout")]
         [Description("The number of buttons to display.")]
-        [DefaultValue(3)]
-        public int ButtonAmount
-        {
-            get => buttonAmount;
+        public List<OperatorButton> Buttons {
+            get => _buttons;
             set
             {
-                if (value != buttonAmount && value >= 1)
+                if (value.Count != _buttons.Count && value.Count >= 1)
                 {
-                    buttonAmount = value;
+                    _buttons = value;
                     UpdateButtons();
                 }
             }
         }
 
+        //[Category(".Operation > Layout")]
+        //[Description("The number of buttons to display.")]
+        //[DefaultValue(3)]
+        //public int ButtonAmount
+        //{
+        //    get => buttonAmount;
+        //    set
+        //    {
+        //        if (value != buttonAmount && value >= 1)
+        //        {
+        //            buttonAmount = value;
+        //            UpdateButtons();
+        //        }
+        //    }
+        //}
+
         public Logic_Button()
         {
+            _buttons =
+            [
+                new OperatorButton(),
+                new OperatorButton(),
+                new OperatorButton()
+            ];
             UpdateButtons();
         }
 
+        //private void UpdateButtons()
+        //{
+        //    // Remove existing buttons
+        //    foreach (var button in _buttons)
+        //    {
+        //        Controls.Remove(button);
+        //        button.Dispose();
+        //    }
+
+        //    _buttons.Clear();
+
+        //    // Create new buttons
+        //    for (int i = 0; i < _buttons.Count; i++)
+        //    {
+        //        var button = new OperatorButton
+        //        {
+        //            Text = $"Button {i + 1}",
+        //            Parent = this // Automatically adds to Controls
+        //        };
+        //        _buttons.Add(button);
+        //    }
+
+        //    PerformLayout(); // Trigger layout recalculation
+        //}
+
+        //protected override void OnResize(EventArgs e)
+        //{
+        //    base.OnResize(e);
+        //    PerformLayout(); // Trigger layout recalculation on resize
+        //}
+
+        //protected override void OnLayout(LayoutEventArgs levent)
+        //{
+        //    base.OnLayout(levent);
+
+        //    // Layout logic
+        //    int width = ClientSize.Width;
+        //    int height = ClientSize.Height;
+
+        //    if (Buttons.Count == 0)
+        //    {
+        //        return;
+        //    }
+        //    else if (Buttons.Count == 1)
+        //    {
+        //        // Single button fills the entire control
+        //        Buttons[0].SetBounds(0, 0, width, height);
+        //    }
+        //    else if (Buttons.Count == 2)
+        //    {
+        //        // Two buttons split vertically
+        //        Buttons[0].SetBounds(0, 0, width, height / 2);
+        //        Buttons[1].SetBounds(0, height / 2, width, height / 2);
+        //    }
+        //    else if (Buttons.Count == 3)
+        //    {
+        //        // One large button on top and two buttons side-by-side at the bottom
+        //        int halfHeight = height / 2;
+        //        int bottomHeight = height - halfHeight;
+
+        //        Buttons[0].SetBounds(0, 0, width, halfHeight);
+        //        Buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
+        //        Buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
+        //    }
+        //    else if (Buttons.Count == 4)
+        //    {
+        //        // One large button on top and two buttons side-by-side at the bottom
+        //        int halfHeight = height / 2;
+        //        int bottomHeight = height - halfHeight;
+
+        //        int thirdWidth = width / 3;
+
+        //        Buttons[0].SetBounds(0, 0, width, halfHeight);
+        //        Buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
+        //        Buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
+        //        Buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
+        //    }
+        //    else
+        //    {
+        //        // Default fallback: evenly distribute buttons
+        //        int buttonHeight = height / Buttons.Count;
+        //        for (int i = 0; i < Buttons.Count; i++)
+        //        {
+        //            Buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
+        //        }
+        //    }
+        //}
+
+        private int _buttonCount = 3;
+
         private void UpdateButtons()
         {
-            // Remove existing buttons
-            foreach (var button in buttons)
+            // Remove existing buttons from the form
+            foreach (var button in _buttons)
             {
                 Controls.Remove(button);
                 button.Dispose();
             }
 
-            buttons.Clear();
+            // Clear the buttons list
+            _buttons.Clear();
 
-            // Create new buttons
-            for (int i = 0; i < buttonAmount; i++)
+            // Create new buttons based on the current size of _buttons
+            for (int i = 0; i < _buttonCount; i++) // Use a separate count property for button amount
             {
                 var button = new OperatorButton
                 {
                     Text = $"Button {i + 1}",
                     Parent = this // Automatically adds to Controls
                 };
-                buttons.Add(button);
+                _buttons.Add(button);
             }
 
             PerformLayout(); // Trigger layout recalculation
@@ -101,58 +212,56 @@ namespace OperatorsSolution.Controls
         {
             base.OnLayout(levent);
 
-            // Layout logic
             int width = ClientSize.Width;
             int height = ClientSize.Height;
 
-            if (buttons.Count == 0)
-            {
-                return;
-            }
-            else if (buttons.Count == 1)
+            if (_buttons.Count == 0) return;
+
+            if (_buttons.Count == 1)
             {
                 // Single button fills the entire control
-                buttons[0].SetBounds(0, 0, width, height);
+                _buttons[0].SetBounds(0, 0, width, height);
             }
-            else if (buttons.Count == 2)
+            else if (_buttons.Count == 2)
             {
                 // Two buttons split vertically
-                buttons[0].SetBounds(0, 0, width, height / 2);
-                buttons[1].SetBounds(0, height / 2, width, height / 2);
+                _buttons[0].SetBounds(0, 0, width, height / 2);
+                _buttons[1].SetBounds(0, height / 2, width, height / 2);
             }
-            else if (buttons.Count == 3)
+            else if (_buttons.Count == 3)
             {
                 // One large button on top and two buttons side-by-side at the bottom
                 int halfHeight = height / 2;
                 int bottomHeight = height - halfHeight;
 
-                buttons[0].SetBounds(0, 0, width, halfHeight);
-                buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
-                buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
+                _buttons[0].SetBounds(0, 0, width, halfHeight);
+                _buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
+                _buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
             }
-            else if (buttons.Count == 4)
+            else if (_buttons.Count == 4)
             {
-                // One large button on top and two buttons side-by-side at the bottom
+                // One large button on top and three buttons side-by-side at the bottom
                 int halfHeight = height / 2;
                 int bottomHeight = height - halfHeight;
 
                 int thirdWidth = width / 3;
 
-                buttons[0].SetBounds(0, 0, width, halfHeight);
-                buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
-                buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
-                buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
+                _buttons[0].SetBounds(0, 0, width, halfHeight);
+                _buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
+                _buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
+                _buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
             }
             else
             {
                 // Default fallback: evenly distribute buttons
-                int buttonHeight = height / buttons.Count;
-                for (int i = 0; i < buttons.Count; i++)
+                int buttonHeight = height / _buttons.Count;
+                for (int i = 0; i < _buttons.Count; i++)
                 {
-                    buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
+                    _buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
                 }
             }
         }
+
     }
 }
 

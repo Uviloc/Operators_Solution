@@ -49,14 +49,14 @@ namespace OperatorsSolution.Controls
         #region >----------------- Add properties: ---------------------
         // ClipPath in
         [Category(".Operation > Search")]
-        [Description("The clip for showing the scene.")]
+        [Description("The clipPath for showing the scene.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ClipPath ClipIn { get; set; } = new();
 
         // ClipPath out
         [Category(".Operation > Search")]
-        [Description("The clip for hiding the scene.")]
+        [Description("The clipPath for hiding the scene.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ClipPath ClipOut { get; set; } = new();
@@ -87,7 +87,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
         {
             if (string.IsNullOrWhiteSpace(SceneObject))
             {
-                return "No clip set!";
+                return "No clipPath set!";
             }
             else
             {
@@ -140,18 +140,18 @@ namespace OperatorsSolution.Graphics_Program_Functions
 
         // Scene Director
         [Category("Search"),
-        Description("(OPTIONAL) What scene director the clip is located in. Default: Same as [Scene]"),
+        Description("(OPTIONAL) What scene director the clipPath is located in. Default: Same as [Scene]"),
         DefaultValue("Same as [Scene]")]
         public string? SceneDirector { get; set; } = "Same as [Scene]";
 
         // Clip
         [Category("Search"),
-        Description("Which clip in this scene will trigger.")]
+        Description("Which clipPath in this scene will trigger.")]
         public string? Clip { get; set; }
 
         // Track
         [Category("Search"),
-        Description("(OPTIONAL) Which clip track the clip is in. Default: 'StateTrack'."),
+        Description("(OPTIONAL) Which clipPath track the clipPath is in. Default: 'StateTrack'."),
         DefaultValue("StateTrack")]
         public string? Track { get; set; } = "StateTrack";
 
@@ -159,15 +159,18 @@ namespace OperatorsSolution.Graphics_Program_Functions
 
         // Channel
         [Category("Output"),
-        Description("On what channel the clip will be displayed."),
+        Description("On what channel the clipPath will be displayed."),
         DefaultValue(0)]
         public int Channel { get; set; } = 0;
 
         // Layer
         [Category("Output"),
-        Description("On what layer the clip will be displayed."),
+        Description("On what layer the clipPath will be displayed."),
         DefaultValue(0)]
         public int Layer { get; set; } = 0;
+
+
+        public xpScene? SavedScene;
 
 
 
@@ -183,7 +186,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
         {
             if (string.IsNullOrWhiteSpace(Clip))
             {
-                return "No clip set!";
+                return "No clipPath set!";
             }
             else
             {
@@ -264,18 +267,43 @@ namespace OperatorsSolution.Graphics_Program_Functions
     /// </summary>
     internal class XPression : IGraphicProgram
     {
-        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new("XPression", "xPression", "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp");
+        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new("OperatorsSolutions.Graphics_Program_Functions.XPression", "xPression", "XPression files (*.xpf;*.xpp)|*.xpf;*.xpp");
+
+        public static xpEngine? XpEngine;
+
+        /// <summary>
+        /// Sets the xpEngine if XPression is working (mostly used to check if XPression dongle with licence is present).
+        /// </summary>
+        /// /// <returns>The xpEngine if succsesfull, null if the XPression dongel is not present.</returns>
+        public static xpEngine? CheckForDongle()
+        {
+            try
+            {
+                XpEngine ??= new();
+                return XpEngine;
+            }
+            catch
+            {
+                MessageBox.Show("XPression Dongle is not connected. Features are disabled.");
+            }
+            return null;
+        }
+
+        
+
+
+
 
         #region >----------------- XPression play scene: ---------------------
         /// <summary>
         /// Plays out the scene in XPression when this project is open in XPression.
         /// </summary>
-        /// <param name = "scene">The xpScene in which the clip is located in.</param>
+        /// <param name = "scene">The xpScene in which the clipPath is located in.</param>
         /// <param name = "sceneDirectorName">The name of the scene director.</param>
-        /// <param name = "clip">The name of the clip that needs to be played.</param>
-        /// <param name = "channel">The channel on which the clip needs to play.</param>
-        /// <param name="layer">The layer on which the clip needs to play.</param>
-        /// <returns>true if succsesfull, false if the clip could not be found</returns>
+        /// <param name = "clip">The name of the clipPath that needs to be played.</param>
+        /// <param name = "channel">The channel on which the clipPath needs to play.</param>
+        /// <param name="layer">The layer on which the clipPath needs to play.</param>
+        /// <returns>true if succsesfull, false if the clipPath could not be found</returns>
         public static bool PlaySceneState(xpScene scene, string? sceneDirectorName, string clip, string? track, int channel = 0, int layer = 0)
         {
             // Set to be a default of the same name as its scene if it was not filled in
@@ -405,7 +433,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
         /// <summary>
         /// Plays out the scene in XPression when this project is open in XPression.
         /// </summary>
-        /// <param name = "scene">The xpScene in which the clip is located in.</param>
+        /// <param name = "scene">The xpScene in which the clipPath is located in.</param>
         /// <returns>true if succsesfull, false if the defaultFrame could not be found</returns>
         public static bool GetThumbnail(xpScene scene, out xpImage? image)
         {
@@ -445,10 +473,10 @@ namespace OperatorsSolution.Graphics_Program_Functions
 
         #region >----------------- Trigger clip: ---------------------
         /// <summary>
-        /// Plays out the clip at clipIndex given in the operatorButton in XPression.
+        /// Plays out the clipPath at clipIndex given in the operatorButton in XPression.
         /// </summary>
-        /// <param name = "operatorButton">The button control that has the clip path list.</param>
-        /// <param name = "clipIndex">Which clip to trigger in the clip path list.</param>
+        /// <param name = "operatorButton">The button control that has the clipPath path list.</param>
+        /// <param name = "clipIndex">Which clipPath to trigger in the clipPath path list.</param>
         public static void TriggerClip(OperatorButton operatorButton, int clipIndex)    // "PUBLIC STATIC XPSCENE", OR "OUT XPSCENE" then use this to call the same scene if it already exists
                                                                                         // xpEngine.GetSceneCopyByName
         {
@@ -462,7 +490,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
             ////string? scene = clipPath[clipIndex].Scene;
             ////string? scene = operatorButton.Scene;
             //string? scene = clipPath[clipIndex].Scene;
-            //string? clip = clipPath[clipIndex].Clip;
+            //string? clipPath = clipPath[clipIndex].Clip;
             //string? track = clipPath[clipIndex].Track;
             //string? sceneDirector = clipPath[clipIndex].SceneDirector;
             //int channel = clipPath[clipIndex].Channel;
@@ -470,7 +498,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
 
             //// Check if any of the fields are empty:
             //if (string.IsNullOrWhiteSpace(scene) ||
-            //    string.IsNullOrWhiteSpace(clip))
+            //    string.IsNullOrWhiteSpace(clipPath))
             //{
             //    CommonFunctions.ControlWarning(operatorButton, "Warning: Scene on button: " + operatorButton.Text + " must be set!");
             //    return;
@@ -479,19 +507,93 @@ namespace OperatorsSolution.Graphics_Program_Functions
             //xpEngine XPression = new();
             //if (XPression.GetSceneByName(scene, out xpScene SceneGraphic, true))
             //{
-            //    SetAllSceneMaterials(SceneGraphic, operatorButton.ObjectChanges);
-            //    PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
+            //    //SetAllSceneMaterials(SceneGraphic, operatorButton.ObjectChanges);
+            //    PlaySceneState(SceneGraphic, sceneDirector, clipPath, track, channel, layer);
             //}
             //else
             //{
-            //    CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clip + " on button: " + operatorButton.Text + " could not be found!");
+            //    CommonFunctions.ControlWarning(operatorButton, "Warning: " + scene + ">" + track + ">" + clipPath + " on button: " + operatorButton.Text + " could not be found!");
             //}
         }
 
 
-        public static void TriggerClip(object? sender, xpScene scene, xpSceneDirectorClip clip)
+        public static void PlayScriptClip(object? sender, int index)
         {
+            if (sender is not Script_Button button)
+                return;
 
+            // Warn and exit if there are no assigned scenes:
+            if (button.Scenes.Count == 0)
+            {
+                CommonFunctions.ControlWarning(button, "Please add Clips to the button: " + button.Text);
+                return;
+            }
+
+
+            //SOMEHOW MAKE IT SO THAT INDEX COUNTS CLIPS INSIDE SCENES THEN THE NEXT SCENE
+
+
+            //ClipPath clipPath = button.Scenes[index].ClipPaths
+        }
+
+        public static void ToggleClip(object sender, bool isOn)
+        {
+            if (sender is not Toggle_Button button)
+                return;
+
+            // Warn and exit if there are no assigned scenes:
+            if (button.ClipIn is not ClipPath clipIn || button.ClipOut is not ClipPath clipOut)
+            {
+                CommonFunctions.ControlWarning(button, "Please add Clips to the button: " + button.Text);
+                return;
+            }
+
+            ClipPath clip = isOn ? clipIn : clipOut;
+
+            TriggerClip(sender, clip, button.ObjectChanges);
+        }
+
+
+        private static void TriggerClip(object sender, ClipPath clipPath, List<ObjectChange> objectChanges)
+        {
+            if (CheckForDongle() is not xpEngine xpEngine)
+                return;
+
+            if (sender is not OperatorButton control)
+                return;
+
+            
+            string? scene = clipPath.Scene;
+            string? clip = clipPath.Clip;
+            string? track = clipPath.Track;
+            string? sceneDirector = clipPath.SceneDirector;
+            int channel = clipPath.Channel;
+            int layer = clipPath.Layer;
+
+            // Check if any of the fields are empty:
+            if (string.IsNullOrWhiteSpace(scene) ||
+                string.IsNullOrWhiteSpace(clip))
+            {
+                CommonFunctions.ControlWarning(control, "Warning: Scene on button: " + control.Text + " must be set!");
+                return;
+            }
+
+            if (clipPath.SavedScene == null)
+            {
+                Console.WriteLine("CREATING NEW SCENE");
+            }
+
+            xpScene? SceneGraphic = clipPath.SavedScene ?? (xpEngine.GetSceneByName(scene, out xpScene outScene, true) ? outScene : null);
+            if (SceneGraphic == null)
+            {
+                CommonFunctions.ControlWarning(control, "Warning: " + scene + ">" + track + ">" + clipPath + " on button: " + control.Text + " could not be found!");
+                return;
+            }
+
+            clipPath.SavedScene = SceneGraphic;
+
+            SetAllSceneMaterials(SceneGraphic, objectChanges);
+            PlaySceneState(SceneGraphic, sceneDirector, clip, track, channel, layer);
         }
         #endregion
     }

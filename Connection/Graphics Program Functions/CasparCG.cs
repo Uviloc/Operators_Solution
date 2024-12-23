@@ -10,7 +10,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
 {
     internal class CasparCG : IGraphicProgram
     {
-        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new("CasparCG", "CasparCG", "CasparCG files ()|");
+        public GraphicsSoftwareInfo GraphicsSoftwareInfo => new("OperatorsSolution.Graphics_Program_Functions.CasparCG", "CasparCG", "CasparCG files ()|");
 
         public static void DisplayPreview(object? sender, PictureBox previewBox)
         {
@@ -22,7 +22,7 @@ namespace OperatorsSolution.Graphics_Program_Functions
             throw new NotImplementedException();
         }
 
-        public static void TriggerClip(OperatorButton operatorButton, int clipIndex)
+        public static void ToggleClip(object sender, bool isOn)
         {
             throw new NotImplementedException();
         }

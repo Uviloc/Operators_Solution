@@ -38,7 +38,6 @@ namespace OperatorsSolution
             settingsTab = new TabPage();
             controlPanel = new Panel();
             ToolTip = new ToolTip(components);
-            textBox1 = new TextBox();
             controlPanelTabs.SuspendLayout();
             Operation.SuspendLayout();
             DataBase.SuspendLayout();
@@ -320,14 +319,6 @@ namespace OperatorsSolution
             controlPanel.Size = new Size(617, 1472);
             controlPanel.TabIndex = 17;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(649, -5);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
-            // 
             // OpSol_Form
             // 
             AllowDrop = true;
@@ -336,7 +327,6 @@ namespace OperatorsSolution
             ClientSize = new Size(2258, 1505);
             ContentsPanel = innerPanelTabs;
             ControlPanel = controlPanel;
-            Controls.Add(textBox1);
             Controls.Add(mainLayoutTable);
             DatabaseTreeview = databaseTreeview;
             ForeColor = Color.FromArgb(60, 60, 60);
@@ -358,7 +348,6 @@ namespace OperatorsSolution
             innerPanelDatabaseTab.ResumeLayout(false);
             controlPanel.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -387,6 +376,5 @@ namespace OperatorsSolution
         private Button button3;
         private Button button4;
         private TextBox textBox2;
-        private TextBox textBox1;
     }
 }

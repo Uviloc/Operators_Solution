@@ -3,10 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Console = System.Diagnostics.Debug;
 
 
@@ -16,11 +18,6 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public partial class Toggle_Button : OperatorButton
     {
-        //[Browsable(false)]
-        //[EditorBrowsable(EditorBrowsableState.Never)]
-        //private new ClipPathCollection ClipPaths { get; set; }
-
-
         #region >----------------- Add properties: ---------------------
         private string? _sceneName; // Backing field for SceneName
 
@@ -65,51 +62,50 @@ namespace OperatorsSolution.Controls
         public Toggle_Button()
         {
             Click += ToggleScene;
-            Enter += DisplayPreview;
-            Leave += RemovePreview;
+            //Enter += DisplayPreview;
+            //Leave += RemovePreview;
         }
 
         #region >----------------- Functions: ---------------------
-        private bool buttonIsOn = false;
+        [Browsable(false)]
+        public bool buttonIsOn = true;
         public void ToggleScene(object? sender, EventArgs e)
         {
             if (sender is not Toggle_Button button)
                 return;
 
-            // Warn and exit if there are no assigned scenes:
-            if (button.ClipIn == null || button.ClipOut == null)                                                    // MUST BE IN XPRESSION STUFF
-            {
-                CommonFunctions.ControlWarning(button, "Please add Clips to the button: " + button.Text);
+            if (this.FindForm() is not IFormPlugin parentForm)
                 return;
-            }
 
-            if (!buttonIsOn)
-            {
-                //GraphicsConnector.TriggerClip(SceneName, ClipIn);
-                //Form? parentForm = this.FindForm();
-                //Console.WriteLine(parentForm?.Name);
-                button.Text = "[Hide] " + button.Text;
-                buttonIsOn = true;
-            }
-            else
-            {
-                //GraphicsConnector.TriggerClip(SceneName, ClipOut);
-                button.Text = "[Show] " + button.Text;
-                buttonIsOn = false;
-            }
+            ApplicationSettingsBase settings = parentForm.ApplicationSettings;
+            //if (settings["GraphicsSoftwareInfo"] is not GraphicsSoftwareInfo info || info.GraphicsSoftwareClassName is not string className)
+            //{
+            //    MessageBox.Show("There is no selected Graphics Software set in the forms settings. Please do so at the button next to the form.");
+            //    return;
+            //}
+
+            string className = "OperatorsSolution.Graphics_Program_Functions.XPression";
+            string methodName = "ToggleClip";
+            object[]? parameters = [button, buttonIsOn];
+
+            CommonFunctions.TriggerMethodBasedOnString(className, methodName, parameters);
+
+            button.Text = buttonIsOn ? "[Hide] " + button.Text : "[Show] " + button.Text;
+            buttonIsOn = !buttonIsOn;
         }
 
-        public void DisplayPreview(object? sender, EventArgs e)
-        {
-            if (PreviewBox == null) return;
-            //GraphicsConnector.DisplayPreview(sender, PreviewBox);
-        }
 
-        public void RemovePreview(object? sender, EventArgs e)
-        {
-            if (PreviewBox == null) return;
-            GraphicsConnector.RemovePreview(PreviewBox);
-        }
+        //public void DisplayPreview(object? sender, EventArgs e)
+        //{
+        //    if (PreviewBox == null) return;
+        //    //GraphicsConnector.DisplayPreview(sender, PreviewBox);
+        //}
+
+        //public void RemovePreview(object? sender, EventArgs e)
+        //{
+        //    if (PreviewBox == null) return;
+        //    GraphicsConnector.RemovePreview(PreviewBox);
+        //}
         #endregion
     }
 }

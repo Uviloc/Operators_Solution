@@ -105,10 +105,12 @@
 			<ItemGroup>
 				<Reference Include="xpression.net">
 					<HintPath>$(XPressionPath)</HintPath>
+					<Private>True</Private>
 					<!--<Private Condition="'$(Configuration)' != 'Debug'">False</Private>-->
 				</Reference>
 				<Reference Include="xptoolslib.net">
 					<HintPath>$(XPToolsLibPath)</HintPath>
+					<Private>True</Private>
 					<!--<Private Condition="'$(Configuration)' != 'Debug'">False</Private>-->
 				</Reference>
 			</ItemGroup>
