@@ -2,22 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Console = System.Diagnostics.Debug;
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -25,182 +17,148 @@ using Console = System.Diagnostics.Debug;
 Likely best with indentation in the ToString()
  
  Have the buttons that are assigned to that clip be deactivated when the condition is false
- 
- 
- 
- 
- 
  */
-
-
-
 
 
 namespace OperatorsSolution.Controls
 {
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Button))]
-    public class Logic_Button : Control
+    public partial class Logic_Button : Control
     {
-        private List<OperatorButton> _buttons;
 
-        //Buttons;
-        [Category(".Operation > Layout")]
-        [Description("The number of buttons to display.")]
-        public List<OperatorButton> Buttons {
-            get => _buttons;
-            set
-            {
-                if (value.Count != _buttons.Count && value.Count >= 1)
-                {
-                    _buttons = value;
-                    UpdateButtons();
-                }
-            }
+        #region >----------------- Section class: ---------------------
+        public enum ButtonType
+        {
+            ToggleButton,
+            ScriptButton
         }
 
-        //[Category(".Operation > Layout")]
-        //[Description("The number of buttons to display.")]
-        //[DefaultValue(3)]
-        //public int ButtonAmount
-        //{
-        //    get => buttonAmount;
-        //    set
-        //    {
-        //        if (value != buttonAmount && value >= 1)
-        //        {
-        //            buttonAmount = value;
-        //            UpdateButtons();
-        //        }
-        //    }
-        //}
+        public partial class Section
+        {
+            private ButtonType _buttonType = ButtonType.ToggleButton;
+
+            [Description("The type of button that is used for this section.")]
+            [DefaultValue(ButtonType.ToggleButton)]
+            public ButtonType ButtonType
+            {
+                get => _buttonType;
+                set
+                {
+                    if (_buttonType != value)
+                    {
+                        _buttonType = value;
+
+                        // Notify that properties have changed dynamically
+                        TypeDescriptor.Refresh(this);
+                    }
+                }
+            }
+
+
+            [Description("Add scenes to be played here.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            public List<Script_Button.Scene> Scenes
+            {
+                get => (Button as Script_Button)?.Scenes ?? [];
+                set
+                {
+                    if (Button is Script_Button toggleButton)
+                        toggleButton.Scenes = value;
+                }
+            }
+
+
+            [Description("The text associated with the control.")]
+            public string Text
+            {
+                get => (Button as Toggle_Button)?.Text ?? "[Show] SceneName";
+                set
+                {
+                    if (Button is Toggle_Button toggleButton)
+                        toggleButton.Text = value;
+                }
+            }
+
+
+            [Description("The name of the scene in the chosen graphics program.")]
+            public string? SceneName
+            {
+                get => (Button as Toggle_Button)?.SceneName;
+                set
+                {
+                    if (Button is Toggle_Button toggleButton)
+                        toggleButton.SceneName = value;
+                }
+            }
+
+
+            // Private button property (not shown in Properties Window)
+            [Browsable(false)]
+            public OperatorButton? Button { get; set; }
+        }
+        #endregion
+
+        #region >----------------- Add properties + set events: ---------------------
+        //private BindingList<Section> _buttons;
+
+        [Category(".Operation > Layout")]
+        [Description("The buttons to display.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Section> Buttons { get; set; } = [];
 
         public Logic_Button()
         {
-            _buttons =
-            [
-                new OperatorButton(),
-                new OperatorButton(),
-                new OperatorButton()
-            ];
+            //Buttons =
+            //[
+            //    new Section { ButtonType = ButtonType.ScriptButton },
+            //    new Section { ButtonType = ButtonType.ToggleButton },
+            //    new Section { ButtonType = ButtonType.ToggleButton }
+            //];
+
+            // Add default buttons only if the collection is empty
+            //if (Buttons.Count == 0)
+            //{
+            //    Buttons.Add(new Section { ButtonType = ButtonType.ScriptButton });
+            //    Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
+            //    Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
+            //}
             UpdateButtons();
+
+            Buttons.ListChanged += (sender, e) =>
+            {
+                UpdateButtons();
+            };
         }
+        #endregion
 
-        //private void UpdateButtons()
-        //{
-        //    // Remove existing buttons
-        //    foreach (var button in _buttons)
-        //    {
-        //        Controls.Remove(button);
-        //        button.Dispose();
-        //    }
-
-        //    _buttons.Clear();
-
-        //    // Create new buttons
-        //    for (int i = 0; i < _buttons.Count; i++)
-        //    {
-        //        var button = new OperatorButton
-        //        {
-        //            Text = $"Button {i + 1}",
-        //            Parent = this // Automatically adds to Controls
-        //        };
-        //        _buttons.Add(button);
-        //    }
-
-        //    PerformLayout(); // Trigger layout recalculation
-        //}
-
-        //protected override void OnResize(EventArgs e)
-        //{
-        //    base.OnResize(e);
-        //    PerformLayout(); // Trigger layout recalculation on resize
-        //}
-
-        //protected override void OnLayout(LayoutEventArgs levent)
-        //{
-        //    base.OnLayout(levent);
-
-        //    // Layout logic
-        //    int width = ClientSize.Width;
-        //    int height = ClientSize.Height;
-
-        //    if (Buttons.Count == 0)
-        //    {
-        //        return;
-        //    }
-        //    else if (Buttons.Count == 1)
-        //    {
-        //        // Single button fills the entire control
-        //        Buttons[0].SetBounds(0, 0, width, height);
-        //    }
-        //    else if (Buttons.Count == 2)
-        //    {
-        //        // Two buttons split vertically
-        //        Buttons[0].SetBounds(0, 0, width, height / 2);
-        //        Buttons[1].SetBounds(0, height / 2, width, height / 2);
-        //    }
-        //    else if (Buttons.Count == 3)
-        //    {
-        //        // One large button on top and two buttons side-by-side at the bottom
-        //        int halfHeight = height / 2;
-        //        int bottomHeight = height - halfHeight;
-
-        //        Buttons[0].SetBounds(0, 0, width, halfHeight);
-        //        Buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
-        //        Buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
-        //    }
-        //    else if (Buttons.Count == 4)
-        //    {
-        //        // One large button on top and two buttons side-by-side at the bottom
-        //        int halfHeight = height / 2;
-        //        int bottomHeight = height - halfHeight;
-
-        //        int thirdWidth = width / 3;
-
-        //        Buttons[0].SetBounds(0, 0, width, halfHeight);
-        //        Buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
-        //        Buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
-        //        Buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
-        //    }
-        //    else
-        //    {
-        //        // Default fallback: evenly distribute buttons
-        //        int buttonHeight = height / Buttons.Count;
-        //        for (int i = 0; i < Buttons.Count; i++)
-        //        {
-        //            Buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
-        //        }
-        //    }
-        //}
-
-        private int _buttonCount = 3;
-
-        private void UpdateButtons()
+        #region >----------------- Functions: ---------------------
+        public void UpdateButtons()
         {
-            // Remove existing buttons from the form
-            foreach (var button in _buttons)
-            {
-                Controls.Remove(button);
-                button.Dispose();
-            }
+            Controls.Clear();
 
-            // Clear the buttons list
-            _buttons.Clear();
-
-            // Create new buttons based on the current size of _buttons
-            for (int i = 0; i < _buttonCount; i++) // Use a separate count property for button amount
+            foreach (Section section in Buttons)
             {
-                var button = new OperatorButton
+                TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(section), section);
+
+                Control button = section.ButtonType switch
                 {
-                    Text = $"Button {i + 1}",
-                    Parent = this // Automatically adds to Controls
+                    ButtonType.ToggleButton => new Toggle_Button(),
+                    ButtonType.ScriptButton => new Script_Button(),
+                    _ => throw new NotSupportedException($"Unsupported button type: {section.ButtonType}")
                 };
-                _buttons.Add(button);
+
+                section.Button = button as OperatorButton;
+
+                Controls.Add(button);
+
+                TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), section);
+                TypeDescriptor.Refresh(section);
             }
 
-            PerformLayout(); // Trigger layout recalculation
+            PerformLayout();
         }
+
 
         protected override void OnResize(EventArgs e)
         {
@@ -208,6 +166,7 @@ namespace OperatorsSolution.Controls
             PerformLayout(); // Trigger layout recalculation on resize
         }
 
+        
         protected override void OnLayout(LayoutEventArgs levent)
         {
             base.OnLayout(levent);
@@ -215,53 +174,37 @@ namespace OperatorsSolution.Controls
             int width = ClientSize.Width;
             int height = ClientSize.Height;
 
-            if (_buttons.Count == 0) return;
+            if (Buttons.Count == 0) return;
 
-            if (_buttons.Count == 1)
+            // Layout logic similar to your earlier implementation
+            if (Buttons.Count == 1)
             {
-                // Single button fills the entire control
-                _buttons[0].SetBounds(0, 0, width, height);
+                Buttons[0].Button?.SetBounds(0, 0, width, height);
             }
-            else if (_buttons.Count == 2)
+            else if (Buttons.Count == 2)
             {
-                // Two buttons split vertically
-                _buttons[0].SetBounds(0, 0, width, height / 2);
-                _buttons[1].SetBounds(0, height / 2, width, height / 2);
+                Buttons[0].Button?.SetBounds(0, 0, width, height / 2);
+                Buttons[1].Button?.SetBounds(0, height / 2, width, height / 2);
             }
-            else if (_buttons.Count == 3)
+            else if (Buttons.Count == 3)
             {
-                // One large button on top and two buttons side-by-side at the bottom
                 int halfHeight = height / 2;
                 int bottomHeight = height - halfHeight;
 
-                _buttons[0].SetBounds(0, 0, width, halfHeight);
-                _buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
-                _buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
-            }
-            else if (_buttons.Count == 4)
-            {
-                // One large button on top and three buttons side-by-side at the bottom
-                int halfHeight = height / 2;
-                int bottomHeight = height - halfHeight;
-
-                int thirdWidth = width / 3;
-
-                _buttons[0].SetBounds(0, 0, width, halfHeight);
-                _buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
-                _buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
-                _buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
+                Buttons[0].Button?.SetBounds(0, 0, width, halfHeight);
+                Buttons[1].Button?.SetBounds(0, halfHeight, width / 2, bottomHeight);
+                Buttons[2].Button?.SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
             }
             else
             {
-                // Default fallback: evenly distribute buttons
-                int buttonHeight = height / _buttons.Count;
-                for (int i = 0; i < _buttons.Count; i++)
+                int buttonHeight = height / Buttons.Count;
+                for (int i = 0; i < Buttons.Count; i++)
                 {
-                    _buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
+                    Buttons[i].Button?.SetBounds(0, i * buttonHeight, width, buttonHeight);
                 }
             }
         }
-
+        #endregion
     }
 }
 

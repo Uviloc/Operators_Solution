@@ -68,6 +68,25 @@ namespace OperatorsSolution.Controls
         public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
     }
+
+    partial class Logic_Button
+    {
+        #region >----------------- Add properties: ---------------------
+        public partial class Section
+        {
+            // Conditions
+            [Description("The conditions for this button to be enabled.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            public object? Conditions { get; set; }
+        }
+        
+        // ObjectChanges
+        [Category(".Operation > Scene Changes")]
+        [Description("A list of changes that are made to the scene before displaying.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<ObjectChange> ObjectChanges { get; set; } = [];
+        #endregion
+    }
 }
 
 

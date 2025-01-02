@@ -1,4 +1,461 @@
-﻿//#region >----------------- Open project file: ---------------------
+﻿
+//public void UpdateButtons()
+//{
+//    // Remove existing sections and their TypeDescriptor providers
+//    foreach (var oldSection in _buttons)
+//    {
+//        TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(oldSection), oldSection);
+//    }
+
+//    _buttons.Clear();
+
+//    // Create new Section instances and add the TypeDescriptor provider
+//    for (int i = 0; i < _buttons.Count; i++)
+//    {
+//        Section section = new()
+//        {
+//            ButtonType = (i % 2 == 0) ? ButtonType.ToggleButton : ButtonType.ScriptButton,
+//        };
+
+//        // Create the appropriate button and assign it to the Section
+//        Control button = section.ButtonType switch
+//        {
+//            ButtonType.ToggleButton => new Toggle_Button(),
+//            ButtonType.ScriptButton => new Script_Button(),
+//            _ => throw new NotSupportedException($"Unsupported button type: {section.ButtonType}")
+//        };
+
+//        // Set the button as a property of the section
+//        section.Button = button as OperatorButton;
+
+//        // Add the new section to the list
+//        _buttons.Add(section);
+
+//        // Add the button to the Controls collection of Logic_Button
+//        Controls.Add(button);
+
+//        TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), section);
+//        TypeDescriptor.Refresh(section);
+//    }
+
+//    // Ensure buttons reflect changes in the UI
+//    PerformLayout();
+//}
+
+
+
+
+
+//public class SectionCollection : Collection<Section>
+//{
+//    protected override void InsertItem(int index, Section item)
+//    {
+//        TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), item);
+//        TypeDescriptor.Refresh(item);
+
+//        base.InsertItem(index, item);
+//    }
+//}
+
+//public class SectionCollection(Logic_Button logicButton) : Collection<Section>
+//{
+//    protected override void InsertItem(int index, Section item)
+//    {
+//        base.InsertItem(index, item);
+
+//        // Ensure TypeDescriptor provider is added and refreshed
+//        TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), item);
+//        TypeDescriptor.Refresh(item);
+
+//        // Call UpdateButtons to ensure the UI is updated when a new button is added
+//        logicButton.UpdateButtons();
+//    }
+
+//    protected override void SetItem(int index, Section item)
+//    {
+//        base.SetItem(index, item);
+
+//        // Ensure TypeDescriptor provider is updated
+//        TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), item);
+//        TypeDescriptor.Refresh(item);
+
+//        // Call UpdateButtons when a button is replaced
+//        logicButton.UpdateButtons();
+//    }
+
+//    protected override void RemoveItem(int index)
+//    {
+//        var item = this[index];
+//        base.RemoveItem(index);
+
+//        // Remove the TypeDescriptor provider when the item is removed
+//        TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(item), item);
+
+//        // Call UpdateButtons to ensure the UI is updated when a button is removed
+//        logicButton.UpdateButtons();
+//    }
+
+//    protected override void ClearItems()
+//    {
+//        base.ClearItems();
+
+//        // Remove all TypeDescriptor providers when clearing the collection
+//        foreach (var item in this)
+//        {
+//            TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(item), item);
+//        }
+
+//        // Call UpdateButtons when all items are cleared
+//        logicButton.UpdateButtons();
+//    }
+//}
+
+
+//public class ObservableSectionList(Action action, Control parent) : Collection<Section>
+//{
+//    //public event Action? ItemsChanged;
+
+//    protected override void InsertItem(int index, Section item)
+//    {
+//        //Debug.WriteLine("INSERTING ITEM");
+//        //if (ItemsChanged == null)
+//        //{
+//        //    Debug.WriteLine("NO ACTION SET");
+//        //}
+//        //TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), item);
+//        //TypeDescriptor.Refresh(item);
+//        base.InsertItem(index, item);
+//        //ItemsChanged?.Invoke();
+//        UpdateButtons();
+//    }
+
+//    protected override void SetItem(int index, Section item)
+//    {
+//        //Debug.WriteLine("SETTING ITEM");
+//        //TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), item);
+//        //TypeDescriptor.Refresh(item);
+//        base.SetItem(index, item);
+//        //ItemsChanged?.Invoke();
+//        UpdateButtons();
+//    }
+
+//    protected override void ClearItems()
+//    {
+//        //Debug.WriteLine("CLEARING ITEMS");
+//        base.ClearItems();
+//        //ItemsChanged?.Invoke();
+//        UpdateButtons();
+//    }
+
+
+
+//    public void UpdateButtons()
+//    {
+//        //Debug.WriteLine("Updating Buttons");
+
+//        foreach (Section section in Items)
+//        {
+//            TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(section), section);
+
+//            Control button = section.ButtonType switch
+//            {
+//                ButtonType.ToggleButton => new Toggle_Button(),
+//                ButtonType.ScriptButton => new Script_Button(),
+//                _ => throw new NotSupportedException($"Unsupported button type: {section.ButtonType}")
+//            };
+
+//            section.Button = button as OperatorButton;
+
+//            Debug.WriteLine(button.GetType());
+
+//            //Controls.Add(button);
+//            //parent.Controls.Add(button);
+
+
+//            TypeDescriptor.AddProvider(new Common.SectionTypeDescriptionProvider(), section);
+//            TypeDescriptor.Refresh(section);
+//        }
+
+//        //PerformLayout();
+//        //action.Invoke();
+//    }
+//}
+
+
+
+
+
+//public Section()
+//{
+//    UpdateButton(); // Ensure the Button is initialized
+//}
+
+//private void UpdateButton()
+//{
+//    // Dispose of the previous button, if any
+//    Button?.Dispose();
+
+//    // Create a new button based on the ButtonType
+//    Button = _buttonType switch
+//    {
+//        ButtonType.ToggleButton => new Toggle_Button(),
+//        ButtonType.ScriptButton => new Script_Button(),
+//        _ => throw new NotSupportedException($"Unsupported button type: {_buttonType}")
+//    };
+//}
+
+
+
+
+
+//public OperatorButton? Button
+//{
+//    get => _button;
+//    set
+//    {
+//        _button = value;
+//        // Update ButtonType if necessary
+//        if (_button is Toggle_Button) ButtonType = ButtonType.ToggleButton;
+//        else if (_button is Script_Button) ButtonType = ButtonType.ScriptButton;
+//    }
+//}
+
+
+
+//[Category(".Operation > Layout")]
+//[Description("The buttons to display.")]
+//public SectionCollection Buttons { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//[Category(".Operation > Layout")]
+//[Description("The number of buttons to display.")]
+//[DefaultValue(3)]
+//public int ButtonAmount
+//{
+//    get => buttonAmount;
+//    set
+//    {
+//        if (value != buttonAmount && value >= 1)
+//        {
+//            buttonAmount = value;
+//            UpdateButtons();
+//        }
+//    }
+//}
+
+//private void UpdateButtons()
+//{
+//    // Remove existing buttons
+//    foreach (var button in _buttons)
+//    {
+//        Controls.Remove(button);
+//        button.Dispose();
+//    }
+
+//    _buttons.Clear();
+
+//    // Create new buttons
+//    for (int i = 0; i < _buttons.Count; i++)
+//    {
+//        var button = new OperatorButton
+//        {
+//            Text = $"Button {i + 1}",
+//            Parent = this // Automatically adds to Controls
+//        };
+//        _buttons.Add(button);
+//    }
+
+//    PerformLayout(); // Trigger layout recalculation
+//}
+
+//protected override void OnResize(EventArgs e)
+//{
+//    base.OnResize(e);
+//    PerformLayout(); // Trigger layout recalculation on resize
+//}
+
+//protected override void OnLayout(LayoutEventArgs levent)
+//{
+//    base.OnLayout(levent);
+
+//    // Layout logic
+//    int width = ClientSize.Width;
+//    int height = ClientSize.Height;
+
+//    if (Buttons.Count == 0)
+//    {
+//        return;
+//    }
+//    else if (Buttons.Count == 1)
+//    {
+//        // Single button fills the entire control
+//        Buttons[0].SetBounds(0, 0, width, height);
+//    }
+//    else if (Buttons.Count == 2)
+//    {
+//        // Two buttons split vertically
+//        Buttons[0].SetBounds(0, 0, width, height / 2);
+//        Buttons[1].SetBounds(0, height / 2, width, height / 2);
+//    }
+//    else if (Buttons.Count == 3)
+//    {
+//        // One large button on top and two buttons side-by-side at the bottom
+//        int halfHeight = height / 2;
+//        int bottomHeight = height - halfHeight;
+
+//        Buttons[0].SetBounds(0, 0, width, halfHeight);
+//        Buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
+//        Buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
+//    }
+//    else if (Buttons.Count == 4)
+//    {
+//        // One large button on top and two buttons side-by-side at the bottom
+//        int halfHeight = height / 2;
+//        int bottomHeight = height - halfHeight;
+
+//        int thirdWidth = width / 3;
+
+//        Buttons[0].SetBounds(0, 0, width, halfHeight);
+//        Buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
+//        Buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
+//        Buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
+//    }
+//    else
+//    {
+//        // Default fallback: evenly distribute buttons
+//        int buttonHeight = height / Buttons.Count;
+//        for (int i = 0; i < Buttons.Count; i++)
+//        {
+//            Buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
+//        }
+//    }
+//}
+
+//private int _buttonCount = 3;
+
+//private void UpdateButtons()
+//{
+//    // Remove existing buttons from the form
+//    foreach (var button in _buttons)
+//    {
+//        Controls.Remove(button);
+//        button.Dispose();
+//    }
+
+//    // Clear the buttons list
+//    _buttons.Clear();
+
+//    // Create new buttons based on the current size of _buttons
+//    for (int i = 0; i < _buttonCount; i++) // Use a separate count property for button amount
+//    {
+//        var button = new OperatorButton
+//        {
+//            Text = $"Button {i + 1}",
+//            Parent = this // Automatically adds to Controls
+//        };
+//        _buttons.Add(button);
+//    }
+
+//    PerformLayout(); // Trigger layout recalculation
+//}
+
+//protected override void OnLayout(LayoutEventArgs levent)
+//{
+//    base.OnLayout(levent);
+
+//    int width = ClientSize.Width;
+//    int height = ClientSize.Height;
+
+//    if (_buttons.Count == 0) return;
+
+//    if (_buttons.Count == 1)
+//    {
+//        // Single button fills the entire control
+//        _buttons[0].SetBounds(0, 0, width, height);
+//    }
+//    else if (_buttons.Count == 2)
+//    {
+//        // Two buttons split vertically
+//        _buttons[0].SetBounds(0, 0, width, height / 2);
+//        _buttons[1].SetBounds(0, height / 2, width, height / 2);
+//    }
+//    else if (_buttons.Count == 3)
+//    {
+//        // One large button on top and two buttons side-by-side at the bottom
+//        int halfHeight = height / 2;
+//        int bottomHeight = height - halfHeight;
+
+//        _buttons[0].SetBounds(0, 0, width, halfHeight);
+//        _buttons[1].SetBounds(0, halfHeight, width / 2, bottomHeight);
+//        _buttons[2].SetBounds(width / 2, halfHeight, width / 2, bottomHeight);
+//    }
+//    else if (_buttons.Count == 4)
+//    {
+//        // One large button on top and three buttons side-by-side at the bottom
+//        int halfHeight = height / 2;
+//        int bottomHeight = height - halfHeight;
+
+//        int thirdWidth = width / 3;
+
+//        _buttons[0].SetBounds(0, 0, width, halfHeight);
+//        _buttons[1].SetBounds(0, halfHeight, thirdWidth, bottomHeight);
+//        _buttons[2].SetBounds(thirdWidth, halfHeight, thirdWidth, bottomHeight);
+//        _buttons[3].SetBounds(2 * thirdWidth, halfHeight, thirdWidth, bottomHeight);
+//    }
+//    else
+//    {
+//        // Default fallback: evenly distribute buttons
+//        int buttonHeight = height / _buttons.Count;
+//        for (int i = 0; i < _buttons.Count; i++)
+//        {
+//            _buttons[i].SetBounds(0, i * buttonHeight, width, buttonHeight);
+//        }
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#region >----------------- Open project file: ---------------------
 //private void OpenProject(object? sender, EventArgs e)                                                               // CASPAR NEEDS SERVER TO OPEN FIRST
 //{
 //    string projectFilePath = Properties.Settings.Default.ProjectFile;

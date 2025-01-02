@@ -1,5 +1,6 @@
 ﻿using OperatorsSolution;
 using OperatorsSolution.Controls;
+using static OperatorsSolution.Controls.Logic_Button;
 
 namespace TestModule2
 {
@@ -31,9 +32,10 @@ namespace TestModule2
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Test_Module2));
+            Section section1 = new Section();
+            Section section2 = new Section();
+            Section section3 = new Section();
             previewBox = new PictureBox();
-            logic_Button4 = new Logic_Button();
             operatorButton9 = new OperatorButton();
             operatorButton10 = new OperatorButton();
             operatorButton11 = new OperatorButton();
@@ -47,6 +49,7 @@ namespace TestModule2
             operatorButton16 = new OperatorButton();
             operatorButton17 = new OperatorButton();
             operatorButton18 = new OperatorButton();
+            logic_Button1 = new Logic_Button();
             ((System.ComponentModel.ISupportInitialize)previewBox).BeginInit();
             SuspendLayout();
             // 
@@ -57,14 +60,6 @@ namespace TestModule2
             previewBox.Size = new Size(653, 389);
             previewBox.TabIndex = 9;
             previewBox.TabStop = false;
-            // 
-            // logic_Button4
-            // 
-            logic_Button4.Location = new Point(1246, 859);
-            logic_Button4.Name = "logic_Button4";
-            logic_Button4.Size = new Size(221, 223);
-            logic_Button4.TabIndex = 10;
-            logic_Button4.Text = "logic_Button3";
             // 
             // operatorButton9
             // 
@@ -196,18 +191,34 @@ namespace TestModule2
             operatorButton18.TabIndex = 0;
             operatorButton18.UseVisualStyleBackColor = false;
             // 
+            // logic_Button1
+            // 
+            section1.ButtonType = ButtonType.ScriptButton;
+            section2.SceneName = null;
+            section2.Text = "cene]";
+            section3.SceneName = null;
+            section3.Text = "cene]";
+            logic_Button1.Buttons.Add(section1);
+            logic_Button1.Buttons.Add(section2);
+            logic_Button1.Buttons.Add(section3);
+            logic_Button1.Location = new Point(958, 430);
+            logic_Button1.Name = "logic_Button1";
+            logic_Button1.Size = new Size(236, 162);
+            logic_Button1.TabIndex = 16;
+            logic_Button1.Text = "logic_Button1";
+            // 
             // Test_Module2
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
+            Controls.Add(logic_Button1);
             Controls.Add(toggle_Button1);
             Controls.Add(script_Button1);
             Controls.Add(textBox1);
             Controls.Add(operatorButton11);
             Controls.Add(operatorButton10);
             Controls.Add(operatorButton9);
-            Controls.Add(logic_Button4);
             Controls.Add(previewBox);
             Name = "Test_Module2";
             Text = "Test_Module2";
@@ -220,15 +231,12 @@ namespace TestModule2
         private PictureBox previewBox;
         private OperatorButton operatorButton1;
         private OperatorButton operatorButton2;
-        private Logic_Button logic_Button1;
         private OperatorButton operatorButton3;
         private OperatorButton operatorButton4;
         private OperatorButton operatorButton5;
         private OperatorButton operatorButton6;
         private OperatorButton operatorButton7;
         private OperatorButton operatorButton8;
-        private Logic_Button logic_Button2;
-        private Logic_Button logic_Button4;
         private OperatorButton operatorButton9;
         private OperatorButton operatorButton10;
         private OperatorButton operatorButton11;
@@ -242,5 +250,6 @@ namespace TestModule2
         private OperatorButton operatorButton16;
         private OperatorButton operatorButton17;
         private OperatorButton operatorButton18;
+        private Logic_Button logic_Button1;
     }
 }

@@ -85,17 +85,17 @@ Fri: Huge amount of problems with settings putting into the program folder
 
 Week 13:
 Mon: Extra day. Worked on seperating settings, Progress on custom controls
-Tue: 
-Wed: 
-Thu: 
-Fri: 
+Tue: Office closed
+Wed: Office closed
+Thu: Office closed
+Fri: Office closed
 
 Week 14:
-Mon: 
-Tue: 
-Wed: 
-Thu: 
-Fri: 
+Mon: Sick
+Tue: Office closed
+Wed: Office closed
+Thu: Worked on Logic_Button and almost finished it
+Fri: (CHECK CHATGPT IN CUSTOM CONTROLS LAST MESSAGE)
 
 Week 15:
 Mon: 
