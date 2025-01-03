@@ -1,7 +1,0 @@
-Get rid of having the program stop while scene is playing
-Make program crashproof (when xpression crashes, an error appears)
-
-
-
-All XPression features are now skipped when the program is build without XPression.dll.
-This does not happen when application is turned into .exe

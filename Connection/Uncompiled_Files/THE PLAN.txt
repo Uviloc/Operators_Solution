@@ -2,65 +2,89 @@
 
 ___________________________________________________________________Questions:________________________________________________________________________________________________
 Hylke:
-Are there any planned games where I can test the program in January
-How can I get the live game up with preview
-Send Ross mail about xpTools having high memory and breaking the live view
-What is the distrubution of which graphics program is used for all current projects
-How do I get the CasparCG project to run
+I will not be able to finish the project. Plan of action.
+Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months
+Options:
+- Abandon project for now (Very sad about it, but most likely scenario)
+- Spend time on it as side project at home (slow and no resources)
+- Suggest as side job to Maikel (likely 8-16 hour workweeks)
 
-Schedule on when office is open??
+What should I work on now?
+> Report + presentation
+> Some sort of test/viewing with operators (those who want to)
+> Explain code to Hylke (Plan this)
+- Documentation (Tutorial document)
+- Continue coding
 
+Final evaluation sheet
 
-DONE	>	What is usually the go to program used for new projects: xPression
-DONE	>	!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll: 2nd option
+Do you want the code on your GitHub
 
-
-Elsa:
-Pictures for presentation
-Setup for test/remaining questions
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
+------------ Week 15: -----------
+Overall Feedback:
+
+Questions & Answers:
+		>	Plan of action for after unfinished product: 
+		>	What should I work on now?: 
+WIP		>	Final evaluation sheet: 
+		>	Do you want the code on your GitHub: 
+
+
 ------------ Week 12: -----------
-Overall feedback:
+Overall Feedback:
 In regards to databases. Dont make it complicated, just make it so that the user can add a database with predetermined tables and columns.
 Adding rows to the database would be a concern if the table is very long as this would take time to get to the bottom.
 A search function would be best, idealy with some input redundancy to also check names with some character difference.
 Would be cool to have a procedural form to edit the databases. Rejected by me.
 Have the fields in the database be correct for the type of data, So int would be like a domainupdown menu, or countries a list with options from another database (Use suggestAppend for the combobox)
-
 Overall very happy and commented on how I am making the best use of the internship out of anybody.
+Now focus on what is really needed.
 
-Login information will be send for contacting Ross. if not through community, they can maybe go through with calling
-
-Deadline is set for program to be done for testing on January 12, Hylke will plan testers to be there
-
-
-
-
-		>	Are there any planned games where I can test the program in January:
-		>	How can I get the live game up with preview:
-		>	Send Ross mail about xpTools having high memory and breaking the live view:
-		>	What is the distrubution of which graphics program is used for all current projects:
+Questions & Answers:
+WIP		>	How do I get the CasparCG project to run: will sit down for that at some point
+DONE	>	Are there any planned games where I can test the program in January: no but we will stress test it with some people in week 3 of January
+DONE	>	How can I get the live game up with preview: Not needed
+WIP		>	Send Ross mail about xpTools having high memory and breaking the live view: Login information will be send for contacting Ross. if not through community, they can maybe go through with calling
+DONE	>	What is the distrubution of which graphics program is used for all current projects: New ones all use xPression, some still use CasparCG and none use vMix atm, many are however from existing things with existing interfaces
 DONE	>	What is usually the go to program used for new projects: xPression
 DONE	>	!!!!!! Either the same naming and pathing conventions need to be used between Caspar files and xPression scenes, or they need to be set seperately in the form dll: 2nd option
+DONE	>	Pictures for presentation/report: in server
+
 
 ------------ Week 7: -----------
+Overall Feedback:
+Very nicely orginised documents and planning.
+All in all good progress and ideas, very interesting to make the program modular and have each graphics program be possible
+Try to keep on track for what is required.
+
+Questions & Answers:
 DONE	>	Is displaying the thumbnail of the scene good enough as a preview: already fixed before discussion
-WIP		>	How can I get the live game up with preview:
+DONE	>	How can I get the live game up with preview: -
 DONE	>	Should the program still be in visual studio so editing is possible???? Like have a library dll file that enables these functions:
 				depends on what is easiest. doesnt matter if robust
 DONE	>	Am I allowed to just copy the dll of xpression into my project so they dont need to be loaded in with code: yes they are public
 DONE	>	Can I get the CasparCG project for Enfusion: on server under graphics folder
 DONE	>	Scott wanted icon for twitter to be for x in Enfusion: made in flash so no
 
+
 ------------ Week 4: -----------
+Overall Feedback:
+Huge plans but with lots of promise.
+Very orginised workflow and well documented code.
+Player pictures should be loaded dynamicly by the program. With a folder path to outside the program (check with Hylke if also good if picture is just in the database?)
+Firday Thomas will be here using XPression to make handball graphics packet
+Next week (Week 5) 2 days will be spend setting up the graphics packet into the software from Hylke
+
+Questions & Answers:
 DONE	>	GitHub eventually put it in the main repository but fine for now
 DONE	>	Dynamic reference loading: Great stuff
 DONE	>	Preview maybe not possible with XPression?: Check if preview marker can be accessed, otherwise check if preview channel can be setup as a temporary
-WIP		>	Settings: Setup what preview channel is used, setup what output channel is used
-WIP		>	When meeting with operator?: somewhere next week or maybe after
+DONE	>	Settings: Setup what preview channel is used, setup what output channel is used
+DONE	>	When meeting with operator?: somewhere next week or maybe after
 DONE	>	Mid-term evaluation form: send it.
-WIP		>	Do you ever want a button that can play clips in different scenes: Possibly in the future
+DONE	>	Do you ever want a button that can play clips in different scenes: Possibly in the future
 DONE	>	xml editor: libreoffice & db browser
 
 DONE	>	Does each sport get one database or does it need to be split up further?: each sport one, then further into national etc
@@ -68,18 +92,13 @@ WIP		>	Can the player pictures also be in the database instead of a folder refer
 DONE	>	Can I get a vMix project code, to see its functions and how they differ: not a recent working one
 
 
-Player pictures should be loaded dynamicly by the program. With a folder path to outside the program (check with Hylke if also good if picture is just in the database?)
-
-
-Firday Thomas will be here using XPression to make handball graphics packet
-Next week (Week 5) 2 days will be spend setting up the graphics packet into the software from Hylke
-
-
-
 ------------ Week 2/3: -----------
+Overall Feedback:
+Focus on learning the existing code and the libraries for now
 > Go to Enfusion on Sat 2 Nov
-> Go to Handball on Thu 7 Nov
+> Go to Handball on Thu 7 Nov (plan 2 days to work on the code for this)
 
+Questions & Answers:
 DONE	>	GitHub will be checked
 DONE	>	Will setup a meeting with one of the operators to check what they want
 DONE	>	Make functions so that the graphics program can be interchanged

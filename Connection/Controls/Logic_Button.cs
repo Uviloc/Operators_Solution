@@ -26,7 +26,6 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public partial class Logic_Button : Control
     {
-
         #region >----------------- Section class: ---------------------
         public enum ButtonType
         {
@@ -34,10 +33,19 @@ namespace OperatorsSolution.Controls
             ScriptButton
         }
 
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+        public class ButtonTypeVisibilityAttribute(ButtonType buttonType) : Attribute
+        {
+            public ButtonType ButtonType { get; } = buttonType;
+        }
+
+
         public partial class Section
         {
             private ButtonType _buttonType = ButtonType.ToggleButton;
 
+            // Button Type
+            [Category(".Logic")]
             [Description("The type of button that is used for this section.")]
             [DefaultValue(ButtonType.ToggleButton)]
             public ButtonType ButtonType
@@ -55,21 +63,25 @@ namespace OperatorsSolution.Controls
                 }
             }
 
-
+            // Scenes
+            [Category("Search")]
             [Description("Add scenes to be played here.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [ButtonTypeVisibility(ButtonType.ScriptButton)]
             public List<Script_Button.Scene> Scenes
             {
                 get => (Button as Script_Button)?.Scenes ?? [];
                 set
                 {
-                    if (Button is Script_Button toggleButton)
-                        toggleButton.Scenes = value;
+                    if (Button is Script_Button scriptButton)
+                        scriptButton.Scenes = value;
                 }
             }
 
-
+            // Text
+            [Category("Visuals")]
             [Description("The text associated with the control.")]
+            [ButtonTypeVisibility(ButtonType.ToggleButton)]
             public string Text
             {
                 get => (Button as Toggle_Button)?.Text ?? "[Show] SceneName";
@@ -80,8 +92,10 @@ namespace OperatorsSolution.Controls
                 }
             }
 
-
+            // Scene Name
+            [Category("Search")]
             [Description("The name of the scene in the chosen graphics program.")]
+            [ButtonTypeVisibility(ButtonType.ToggleButton)]
             public string? SceneName
             {
                 get => (Button as Toggle_Button)?.SceneName;
@@ -99,9 +113,7 @@ namespace OperatorsSolution.Controls
         }
         #endregion
 
-        #region >----------------- Add properties + set events: ---------------------
-        //private BindingList<Section> _buttons;
-
+        #region >----------------- Add properties + Set events: ---------------------
         [Category(".Operation > Layout")]
         [Description("The buttons to display.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -109,26 +121,22 @@ namespace OperatorsSolution.Controls
 
         public Logic_Button()
         {
-            //Buttons =
-            //[
-            //    new Section { ButtonType = ButtonType.ScriptButton },
-            //    new Section { ButtonType = ButtonType.ToggleButton },
-            //    new Section { ButtonType = ButtonType.ToggleButton }
-            //];
-
-            // Add default buttons only if the collection is empty
-            //if (Buttons.Count == 0)
-            //{
-            //    Buttons.Add(new Section { ButtonType = ButtonType.ScriptButton });
-            //    Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
-            //    Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
-            //}
-            UpdateButtons();
-
             Buttons.ListChanged += (sender, e) =>
             {
                 UpdateButtons();
             };
+        }
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+            if (Buttons.Count == 0)
+            {
+                Buttons.Add(new Section { ButtonType = ButtonType.ScriptButton });
+                Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
+                Buttons.Add(new Section { ButtonType = ButtonType.ToggleButton });
+            }
+            UpdateButtons();
         }
         #endregion
 

@@ -16,15 +16,15 @@ using OperatorsSolution.Graphics_Program_Functions;
 
 namespace OperatorsSolution.Controls
 {
+    #region >----------------- Base Button: ---------------------
     partial class OperatorButton
     {
-        #region >----------------- Add properties: ---------------------
-        #endregion
     }
+    #endregion
 
+    #region >----------------- Script Button: ---------------------
     partial class Script_Button
     {
-        #region >----------------- Add properties: ---------------------
         public partial class Scene
         {
             // ScenePreview
@@ -41,12 +41,12 @@ namespace OperatorsSolution.Controls
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
             public List<ObjectChange> ObjectChanges { get; set; } = [];
         }
-        #endregion
     }
+    #endregion
 
+    #region >----------------- Toggle Button: ---------------------
     partial class Toggle_Button
     {
-        #region >----------------- Add properties: ---------------------
         // ClipPath in
         [Category(".Operation > Search")]
         [Description("The clipPath for showing the scene.")]
@@ -66,27 +66,71 @@ namespace OperatorsSolution.Controls
         [Description("A list of changes that are made to the scene before displaying.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<ObjectChange> ObjectChanges { get; set; } = [];
-        #endregion
     }
+    #endregion
 
+    #region >----------------- Logic Button: ---------------------
     partial class Logic_Button
     {
-        #region >----------------- Add properties: ---------------------
         public partial class Section
         {
             // Conditions
+            [Category(".Logic")]
             [Description("The conditions for this button to be enabled.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
             public object? Conditions { get; set; }
+
+            
+
+            // ObjectChanges
+            [Category("Scene Changes")]
+            [Description("A list of changes that are made to the scene before displaying.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            public List<ObjectChange> ObjectChanges
+            {
+                get => (Button as Toggle_Button)?.ObjectChanges ?? [];
+                set
+                {
+                    if (Button is Toggle_Button toggleButton)
+                        toggleButton.ObjectChanges = value;
+                }
+            }
+
+            // ClipPath in
+            [Category("Search")]
+            [Description("The clipPath for showing the scene.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [TypeConverter(typeof(ExpandableObjectConverter))]
+            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            public ClipPath ClipIn
+            {
+                get => (Button as Toggle_Button)?.ClipIn ?? new();
+                set
+                {
+                    if (Button is Toggle_Button toggleButton)
+                        toggleButton.ClipIn = value;
+                }
+            }
+
+            // ClipPath out
+            [Category("Search")]
+            [Description("The clipPath for hiding the scene.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [TypeConverter(typeof(ExpandableObjectConverter))]
+            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            public ClipPath ClipOut
+            {
+                get => (Button as Toggle_Button)?.ClipOut ?? new();
+                set
+                {
+                    if (Button is Toggle_Button toggleButton)
+                        toggleButton.ClipOut = value;
+                }
+            }
         }
-        
-        // ObjectChanges
-        [Category(".Operation > Scene Changes")]
-        [Description("A list of changes that are made to the scene before displaying.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<ObjectChange> ObjectChanges { get; set; } = [];
-        #endregion
     }
+    #endregion
 }
 
 

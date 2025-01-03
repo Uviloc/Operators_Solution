@@ -13,18 +13,19 @@ namespace OperatorsSolution.Controls
     [ToolboxBitmap(typeof(Button))]
     public partial class Script_Button : OperatorButton
     {
-        [Category(".Operation > Search")]
-        [Description("Add scenes to be played here.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<Scene> Scenes { get; set; } = [];
-
+        #region >----------------- Scene class: ---------------------
         public partial class Scene
         {
             public bool PlayAllChildrenAtButtonPress { get; set; } = false;
             public string? ButtonText { get; set; }
         }
-        #region >----------------- Add properties: ---------------------
+        #endregion
 
+        #region >----------------- Add properties: ---------------------
+        [Category(".Operation > Search")]
+        [Description("Add scenes to be played here.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<Scene> Scenes { get; set; } = [];
         #endregion
 
         public Script_Button()
@@ -72,7 +73,7 @@ namespace OperatorsSolution.Controls
         public void RemovePreview(object? sender, EventArgs e)
         {
             if (PreviewBox == null) return;
-            GraphicsConnector.RemovePreview(PreviewBox);
+            //GraphicsConnector.RemovePreview(PreviewBox);
         }
         #endregion
     }

@@ -4,7 +4,7 @@ using static OperatorsSolution.Controls.Logic_Button;
 
 namespace TestModule2
 {
-    partial class Test_Module2 : CustomForm
+    partial class Test_Module2 : PluginBaseForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,9 +32,9 @@ namespace TestModule2
         /// </summary>
         private void InitializeComponent()
         {
-            Section section1 = new Section();
-            Section section2 = new Section();
-            Section section3 = new Section();
+            Section section10 = new Section();
+            Section section11 = new Section();
+            Section section12 = new Section();
             previewBox = new PictureBox();
             operatorButton9 = new OperatorButton();
             operatorButton10 = new OperatorButton();
@@ -193,17 +193,25 @@ namespace TestModule2
             // 
             // logic_Button1
             // 
-            section1.ButtonType = ButtonType.ScriptButton;
-            section2.SceneName = null;
-            section2.Text = "cene]";
-            section3.SceneName = null;
-            section3.Text = "cene]";
-            logic_Button1.Buttons.Add(section1);
-            logic_Button1.Buttons.Add(section2);
-            logic_Button1.Buttons.Add(section3);
-            logic_Button1.Location = new Point(958, 430);
+            section10.ButtonType = ButtonType.ScriptButton;
+            section11.ClipIn.Clip = null;
+            section11.ClipIn.Scene = null;
+            section11.ClipOut.Clip = null;
+            section11.ClipOut.Scene = null;
+            section11.SceneName = null;
+            section11.Text = "cene]";
+            section12.ClipIn.Clip = null;
+            section12.ClipIn.Scene = null;
+            section12.ClipOut.Clip = null;
+            section12.ClipOut.Scene = null;
+            section12.SceneName = null;
+            section12.Text = "cene]";
+            logic_Button1.Buttons.Add(section10);
+            logic_Button1.Buttons.Add(section11);
+            logic_Button1.Buttons.Add(section12);
+            logic_Button1.Location = new Point(1130, 39);
             logic_Button1.Name = "logic_Button1";
-            logic_Button1.Size = new Size(236, 162);
+            logic_Button1.Size = new Size(318, 238);
             logic_Button1.TabIndex = 16;
             logic_Button1.Text = "logic_Button1";
             // 

@@ -58,7 +58,6 @@ namespace OperatorsSolution.Controls
         }
         #endregion
 
-
         public Toggle_Button()
         {
             Click += ToggleScene;

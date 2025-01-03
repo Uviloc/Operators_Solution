@@ -17,7 +17,7 @@ namespace OperatorsSolution.Common
 {
     public class PluginLoader
     {
-        private static readonly HashSet<string> LoadedNamespaces = new();
+        private static readonly HashSet<string> LoadedNamespaces = [];
 
         #region >----------------- Main Process: ---------------------
         public static void LoadPlugins(TreeView operationTreeview, TreeView databaseTreeview)

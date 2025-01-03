@@ -1,4 +1,4 @@
-﻿namespace OperatorsSolution
+﻿namespace OperatorsSolution.Controls
 {
     partial class Timer_Module
     {

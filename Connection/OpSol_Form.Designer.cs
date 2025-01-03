@@ -2,7 +2,7 @@
 
 namespace OperatorsSolution
 {
-    partial class OpSol_Form : BaseForm
+    partial class OpSol_Form : MainBaseForm
     {
         #region Windows Form Designer generated code
 

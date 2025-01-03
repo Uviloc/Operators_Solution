@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OperatorsSolution
 {
-    public class BaseForm : Form
+    public class MainBaseForm : Form
     {
         #region >----------------- Add properties: ---------------------
         // Panel
@@ -41,12 +41,6 @@ namespace OperatorsSolution
         [Description("The tab control that has the main program tabs in.")]
         [Browsable(true)]
         public TabControl? TabControl { get; set; }
-
-        //// Data Viewer
-        //[Category(".Operation")]
-        //[Description("The TabControl that the databases can be loaded into.")]
-        //[Browsable(true)]
-        //public TabControl? DataViewer { get; set; }
         #endregion
     }
 }

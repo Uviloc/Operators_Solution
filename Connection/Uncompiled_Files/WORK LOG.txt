@@ -95,7 +95,7 @@ Mon: Sick
 Tue: Office closed
 Wed: Office closed
 Thu: Worked on Logic_Button and almost finished it
-Fri: (CHECK CHATGPT IN CUSTOM CONTROLS LAST MESSAGE)
+Fri: Setup questions for Hylke. Accepted that program will not be finished during internship. SectionTypeConverter, added attribute for displaying properties with conditions
 
 Week 15:
 Mon: 

@@ -7,15 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Console = System.Diagnostics.Debug;
 using static OperatorsSolution.Controls.Logic_Button;
+using System.Diagnostics;
 
 namespace OperatorsSolution.Common
 {
     // MAKE MORE GENERAL AND NOT HARDCODED TO BE USEFULL FOR ANY CONTROLS
     public class SectionTypeDescriptionProvider : TypeDescriptionProvider
     {
-        public SectionTypeDescriptionProvider() : base(TypeDescriptor.GetProvider(typeof(Section)))
-        {
-        }
+        public SectionTypeDescriptionProvider() : base(TypeDescriptor.GetProvider(typeof(Section))){}
 
         public override ICustomTypeDescriptor? GetTypeDescriptor(Type objectType, object? instance)
         {
@@ -27,15 +26,8 @@ namespace OperatorsSolution.Common
     }
 
 
-    public class SectionTypeConverter : CustomTypeDescriptor
+    public class SectionTypeConverter(ICustomTypeDescriptor? parent, Section section) : CustomTypeDescriptor(parent)
     {
-        private readonly Section _section;
-
-        public SectionTypeConverter(ICustomTypeDescriptor? parent, Section section) : base(parent)
-        {
-            _section = section;
-        }
-
         public override PropertyDescriptorCollection GetProperties(Attribute[]? attributes)
         {
             var allProperties = base.GetProperties(attributes);
@@ -50,27 +42,19 @@ namespace OperatorsSolution.Common
 
         private bool ShouldDisplayProperty(PropertyDescriptor property)
         {
-            // Always show shared properties
-            if (property.Name == nameof(Section.ButtonType))
+            // Check if property has the ButtonTypeVisibilityAttribute
+            var attribute = property.Attributes
+                .OfType<ButtonTypeVisibilityAttribute>()
+                .FirstOrDefault();
+
+            if (attribute == null)
             {
+                // Always show properties without the attribute
                 return true;
             }
 
-            // Show properties specific to ScriptButton
-            if (_section.ButtonType == ButtonType.ScriptButton &&
-                property.Name == nameof(Section.Scenes))
-            {
-                return true;
-            }
-
-            // Show properties specific to ToggleButton
-            if (_section.ButtonType == ButtonType.ToggleButton &&
-                (property.Name == nameof(Section.Text) || property.Name == nameof(Section.SceneName)))
-            {
-                return true;
-            }
-
-            return false;
+            // Show property if its ButtonType matches the section's ButtonType
+            return attribute.ButtonType == section.ButtonType;
         }
     }
 }

@@ -10,7 +10,7 @@ using Console = System.Diagnostics.Debug;
 
 namespace OperatorsSolution
 {
-    public class CustomForm : Form
+    public class PluginBaseForm : Form
     {
         // Panel
         [Category(".Operation")]

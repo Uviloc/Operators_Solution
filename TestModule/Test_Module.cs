@@ -14,7 +14,7 @@ using System.Configuration;
 
 namespace TestModule2
 {
-    public partial class Test_Module2 : CustomForm, IFormPlugin
+    public partial class Test_Module2 : PluginBaseForm, IFormPlugin
     {
         public string FormName => "Some other name just to see";
         public ApplicationSettingsBase ApplicationSettings => Settings.Default;

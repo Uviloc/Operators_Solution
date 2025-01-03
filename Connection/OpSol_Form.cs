@@ -17,16 +17,23 @@ using OperatorsSolution.Controls;
 
 namespace OperatorsSolution
 {
-    public partial class OpSol_Form : BaseForm
+    public partial class OpSol_Form : MainBaseForm
     {
         #region >----------------- Main Process: ---------------------
         public OpSol_Form()
         {
             InitializeComponent();
+
+            // Find all the registered Graphics Programs in the program
             GraphicsSoftwareRegistry.InitializeGraphicsPrograms();
+
+            // Create and assign a timer for collapsing the side panel
             InitializeCollapseControlPanelTimer();
+            
+            // Hide tab bar from inner pannel as these are controlled by side tabs
             HideTabBar();
 
+            // Load in the nodes for both the database and form treeviews
             if (OperationTreeview != null && DatabaseTreeview != null)
                 PluginLoader.LoadPlugins(OperationTreeview, DatabaseTreeview);
             else
@@ -127,7 +134,6 @@ namespace OperatorsSolution
         #region >----------------- Plugin Form Settings: ---------------------
         private void DisplayNodeButton(object? sender, MouseEventArgs e)
         {
-            //if (sender is not TreeView treeView || treeView.Parent?.Controls is not Control.ControlCollection controls) return;
             if (sender is not TreeView treeView) return;
 
             // Get the newly entered node:
@@ -152,18 +158,22 @@ namespace OperatorsSolution
                 Bounds = newlyEnteredNode.Bounds,
                 Width = newlyEnteredNode.Bounds.Height,
                 Left = treeView.Width - 100,
-                Text = "...",
+                Text = "...",                                                                   // REPLACE WITH GEAR ICON SPINNING
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(255, 0, 0, 0),
                 FlatStyle = FlatStyle.Flat,
                 Tag = newlyEnteredNode,
             };
+
             dotMenu.FlatAppearance.BorderSize = 0;
+
             dotMenu.MouseEnter += CommonFunctions.ButtonHighlight;
             dotMenu.Click += OpenFormSettings;
+
             treeView.Parent?.Controls.Add(dotMenu);
             treeView.Tag = dotMenu;
+
             dotMenu.BringToFront();
         }
 
@@ -251,27 +261,28 @@ namespace OperatorsSolution
         }
         #endregion
 
-
         #region >----------------- Control Tab stuff: ---------------------
         private void TabChange(object? sender, EventArgs e)
         {
             if (sender is not TabControl tabControl) return;
             if (ContentsPanel == null) return;
 
-            if (tabControl.SelectedIndex == 2) return; // If its the settings tab, do not execute auto switch
+            // If its the settings tab, do not execute auto switch
+            if (tabControl.SelectedIndex == 2) return;
 
             ContentsPanel.SelectedIndex = tabControl.SelectedIndex;
         }
 
         private void HideTabBar()
         {
-            if (ContentsPanel == null) return;
+            if (ContentsPanel == null)
+                return;
+
             ContentsPanel.Appearance = TabAppearance.FlatButtons;
             ContentsPanel.ItemSize = new Size(0, 1);
             ContentsPanel.SizeMode = TabSizeMode.Fixed;
         }
         #endregion
-
 
         #region >----------------- Database stuff: ---------------------
         private void OpenDatabase(object sender, TreeNodeMouseClickEventArgs e)
@@ -298,12 +309,5 @@ namespace OperatorsSolution
             }
         }
         #endregion
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (sender is TextBox textBox)
-                Program.Settings.Default.Test = textBox.Text;
-            Program.Settings.Default.Save();
-        }
     }
 }

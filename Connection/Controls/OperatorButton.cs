@@ -8,7 +8,6 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Reflection;
 using OperatorsSolution.Common;
-//using OperatorsSolution.Graphics_Program_Functions;
 using Console = System.Diagnostics.Debug;
 
 
@@ -19,26 +18,9 @@ namespace OperatorsSolution.Controls
     public partial class OperatorButton : Button
     {
         #region >----------------- Add properties: ---------------------
-        //// ClipPath
-        //[Category(".Operation > Search")]
-        //[Description("Add clips to be played here.")]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        //public ClipPathCollection ClipPaths { get; set; } = [];
-
-        //// ScenePreview
-        //[Category(".Operation > Search")]
-        //[Description("The scene from which the preview is taken.")]
-        //public string? Scene { get; set; }
-
         // PreviewBox
         [Browsable(false)]
         public PictureBox? PreviewBox { get; set; }
-
-        //// ObjectChanges
-        //[Category(".Operation > Scene Changes")]
-        //[Description("A list of changes that are made to the scene before displaying.")]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        //public List<ObjectChange> ObjectChanges { get; set; } = [];
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------
@@ -204,7 +186,7 @@ namespace OperatorsSolution.Controls
             //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Size = new Size(200, 150);
 
-            if (FindForm() is CustomForm form)
+            if (FindForm() is PluginBaseForm form)
             {
                 PreviewBox = form.PreviewBox;
             }
