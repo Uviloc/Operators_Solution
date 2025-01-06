@@ -74,19 +74,11 @@ namespace OperatorsSolution.Controls
     {
         public partial class Section
         {
-            // Conditions
-            [Category(".Logic")]
-            [Description("The conditions for this button to be enabled.")]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-            public object? Conditions { get; set; }
-
-            
-
             // ObjectChanges
             [Category("Scene Changes")]
             [Description("A list of changes that are made to the scene before displaying.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            [TypeVisibility(ButtonType.ToggleButton)]
             public List<ObjectChange> ObjectChanges
             {
                 get => (Button as Toggle_Button)?.ObjectChanges ?? [];
@@ -98,32 +90,38 @@ namespace OperatorsSolution.Controls
             }
 
             // ClipPath in
+            private ClipPath? _clipIn;
             [Category("Search")]
             [Description("The clipPath for showing the scene.")]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeConverter(typeof(ExpandableObjectConverter))]
-            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            [TypeVisibility(ButtonType.ToggleButton)]
             public ClipPath ClipIn
             {
-                get => (Button as Toggle_Button)?.ClipIn ?? new();
+                get => _clipIn ?? new();
                 set
                 {
+                    if (_clipIn != value)
+                        _clipIn = value;
                     if (Button is Toggle_Button toggleButton)
                         toggleButton.ClipIn = value;
                 }
             }
 
             // ClipPath out
+            private ClipPath? _clipOut;
             [Category("Search")]
             [Description("The clipPath for hiding the scene.")]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeConverter(typeof(ExpandableObjectConverter))]
-            [ButtonTypeVisibility(ButtonType.ToggleButton)]
+            [TypeVisibility(ButtonType.ToggleButton)]
             public ClipPath ClipOut
             {
-                get => (Button as Toggle_Button)?.ClipOut ?? new();
+                get => _clipOut ?? new();
                 set
                 {
+                    if (_clipOut != value)
+                        _clipOut = value;
                     if (Button is Toggle_Button toggleButton)
                         toggleButton.ClipOut = value;
                 }
@@ -199,23 +197,27 @@ namespace OperatorsSolution.Graphics_Program_Functions
         // Scene
         [Category("Search"),
         Description("Which scene this button will trigger.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string? Scene { get; set; }
 
         // Scene Director
         [Category("Search"),
         Description("(OPTIONAL) What scene director the clipPath is located in. Default: Same as [Scene]"),
         DefaultValue("Same as [Scene]")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string? SceneDirector { get; set; } = "Same as [Scene]";
 
         // Clip
         [Category("Search"),
         Description("Which clipPath in this scene will trigger.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string? Clip { get; set; }
 
         // Track
         [Category("Search"),
         Description("(OPTIONAL) Which clipPath track the clipPath is in. Default: 'StateTrack'."),
         DefaultValue("StateTrack")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string? Track { get; set; } = "StateTrack";
 
 
@@ -224,12 +226,14 @@ namespace OperatorsSolution.Graphics_Program_Functions
         [Category("Output"),
         Description("On what channel the clipPath will be displayed."),
         DefaultValue(0)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int Channel { get; set; } = 0;
 
         // Layer
         [Category("Output"),
         Description("On what layer the clipPath will be displayed."),
         DefaultValue(0)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int Layer { get; set; } = 0;
 
 

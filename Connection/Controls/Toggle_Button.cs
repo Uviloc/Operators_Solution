@@ -24,6 +24,7 @@ namespace OperatorsSolution.Controls
         // Scene Name
         [Category(".Operation > Search")]
         [Description("The name of the scene in the chosen graphics program.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string? SceneName
         {
             get => _sceneName;
@@ -42,10 +43,12 @@ namespace OperatorsSolution.Controls
         // Text
         [Category(".Operation > Visuals")]
         [Description("The text associated with the control.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [DefaultValue(typeof(string), "[Show] SceneName")]
         public new string Text
         {
-            get => base.Text[7..];
+            //get => base.Text[7..];
+            get => base.Text.StartsWith("[Show] ") ? base.Text.Substring(7) : base.Text;
             set
             {
                 bool getNameFromScene = value.Contains("toggle_Button") || value.Contains("SceneName") || string.IsNullOrWhiteSpace(value);

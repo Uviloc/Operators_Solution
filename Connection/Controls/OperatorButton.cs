@@ -149,13 +149,13 @@ namespace OperatorsSolution.Controls
         // Text
         [Category(".Operation > Visuals")]
         [Description("The text associated with the control.")]
-        [DefaultValue(typeof(string), "Show [Scene]")]
+        [DefaultValue(typeof(string), "[Show] Scene")]
         public new string Text
         {
             get => base.Text;
             set
             {
-                if (value.Contains("operatorButton") || value == "Show [Scene]")
+                if (value.Contains("operatorButton") || value == "[Show] Scene")
                 {
                     base.Text = textDefault;
                 }
@@ -173,7 +173,7 @@ namespace OperatorsSolution.Controls
         private readonly Font fontDefault = new("Arial", 11f);
         private readonly FlatStyle flatStyleDefault = FlatStyle.Popup;
         private readonly Cursor cursorDefault = Cursors.Hand;
-        private readonly string textDefault = "Show [Scene]";
+        private readonly string textDefault = "[Show] Scene";
 
         public OperatorButton()
         {
@@ -182,7 +182,7 @@ namespace OperatorsSolution.Controls
             ForeColor = foreColorDefault;
             Cursor = cursorDefault;
             Font = fontDefault;
-            Text = "Show [Scene]";
+            Text = "[Show] Scene";
             //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Size = new Size(200, 150);
 
@@ -190,6 +190,11 @@ namespace OperatorsSolution.Controls
             {
                 PreviewBox = form.PreviewBox;
             }
+        }
+
+        public override string ToString()
+        {
+            return Text;
         }
         #endregion
     }

@@ -98,7 +98,7 @@ Thu: Worked on Logic_Button and almost finished it
 Fri: Setup questions for Hylke. Accepted that program will not be finished during internship. SectionTypeConverter, added attribute for displaying properties with conditions
 
 Week 15:
-Mon: 
+Mon: Worked a huge amount of properties and the logic button, made custom optionstypeconverter
 Tue: 
 Wed: 
 Thu: 

@@ -6,7 +6,7 @@ I will not be able to finish the project. Plan of action.
 Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months
 Options:
 - Abandon project for now (Very sad about it, but most likely scenario)
-- Spend time on it as side project at home (slow and no resources)
+- Somebody else continues with the code
 - Suggest as side job to Maikel (likely 8-16 hour workweeks)
 
 What should I work on now?

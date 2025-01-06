@@ -32,16 +32,27 @@ namespace TestModule2
         /// </summary>
         private void InitializeComponent()
         {
-            Section section10 = new Section();
-            Section section11 = new Section();
-            Section section12 = new Section();
+            Section section1 = new Section();
+            OperatorsSolution.Graphics_Program_Functions.ClipPath clipPath1 = new OperatorsSolution.Graphics_Program_Functions.ClipPath();
+            OperatorsSolution.Graphics_Program_Functions.ClipPath clipPath2 = new OperatorsSolution.Graphics_Program_Functions.ClipPath();
+            Section section2 = new Section();
+            Script_Button.Scene scene1 = new Script_Button.Scene();
+            OperatorsSolution.Graphics_Program_Functions.ClipPath clipPath3 = new OperatorsSolution.Graphics_Program_Functions.ClipPath();
+            OperatorsSolution.Graphics_Program_Functions.ObjectChange objectChange1 = new OperatorsSolution.Graphics_Program_Functions.ObjectChange();
+            Section section3 = new Section();
+            OperatorsSolution.Graphics_Program_Functions.ClipPath clipPath4 = new OperatorsSolution.Graphics_Program_Functions.ClipPath();
+            OperatorsSolution.Graphics_Program_Functions.ClipPath clipPath5 = new OperatorsSolution.Graphics_Program_Functions.ClipPath();
+            OperatorsSolution.Graphics_Program_Functions.ObjectChange objectChange2 = new OperatorsSolution.Graphics_Program_Functions.ObjectChange();
+            Script_Button.Scene scene2 = new Script_Button.Scene();
+            OperatorsSolution.Graphics_Program_Functions.ObjectChange objectChange3 = new OperatorsSolution.Graphics_Program_Functions.ObjectChange();
+            logic_Button1 = new Logic_Button();
+            toggle_Button1 = new Toggle_Button();
             previewBox = new PictureBox();
             operatorButton9 = new OperatorButton();
             operatorButton10 = new OperatorButton();
             operatorButton11 = new OperatorButton();
             textBox1 = new TextBox();
             script_Button1 = new Script_Button();
-            toggle_Button1 = new Toggle_Button();
             operatorButton12 = new OperatorButton();
             operatorButton13 = new OperatorButton();
             operatorButton14 = new OperatorButton();
@@ -49,9 +60,85 @@ namespace TestModule2
             operatorButton16 = new OperatorButton();
             operatorButton17 = new OperatorButton();
             operatorButton18 = new OperatorButton();
-            logic_Button1 = new Logic_Button();
             ((System.ComponentModel.ISupportInitialize)previewBox).BeginInit();
             SuspendLayout();
+            // 
+            // logic_Button1
+            // 
+            clipPath1.Channel = 1;
+            clipPath1.Clip = "clipIn";
+            clipPath1.Layer = 1;
+            clipPath1.Scene = "Scene1";
+            clipPath1.SceneDirector = "1";
+            clipPath1.Track = "1";
+            section1.ClipIn = clipPath1;
+            clipPath2.Channel = 1;
+            clipPath2.Clip = "clipOut";
+            clipPath2.Layer = 1;
+            clipPath2.Scene = "HI";
+            clipPath2.SceneDirector = "1";
+            clipPath2.Track = "1";
+            section1.ClipOut = clipPath2;
+            section1.Condition.ConditionType = ConditionType.ToggleButtonState;
+            section1.Condition.parent = logic_Button1;
+            section1.Condition.ToggleState = true;
+            section1.SceneName = "UMM";
+            section1.Text = "UUMMM";
+            section2.ButtonType = ButtonType.ScriptButton;
+            section2.Condition.ConditionType = ConditionType.ToggleButtonState;
+            section2.Condition.parent = logic_Button1;
+            section2.Condition.ToggleState = false;
+            scene1.ButtonText = "ButtonText";
+            clipPath3.Channel = 1;
+            clipPath3.Clip = "clip1";
+            clipPath3.Layer = 1;
+            clipPath3.Scene = "scene1";
+            clipPath3.SceneDirector = "1";
+            clipPath3.Track = "1";
+            scene1.ClipPaths.Add(clipPath3);
+            objectChange1.SceneObject = "1";
+            objectChange1.SetTo = "i";
+            scene1.ObjectChanges.Add(objectChange1);
+            scene1.PlayAllChildrenAtButtonPress = false;
+            scene1.SceneName = "HI";
+            section2.Scenes.Add(scene1);
+            clipPath4.Clip = null;
+            clipPath4.Scene = null;
+            section3.ClipIn = clipPath4;
+            clipPath5.Clip = null;
+            clipPath5.Scene = null;
+            section3.ClipOut = clipPath5;
+            section3.Condition.ConditionType = ConditionType.DataExists;
+            section3.Condition.Data = null;
+            section3.Condition.parent = logic_Button1;
+            section3.SceneName = null;
+            section3.Text = "[Show] SceneName";
+            logic_Button1.Buttons.Add(section1);
+            logic_Button1.Buttons.Add(section2);
+            logic_Button1.Buttons.Add(section3);
+            logic_Button1.Location = new Point(1082, 524);
+            logic_Button1.Name = "logic_Button1";
+            logic_Button1.Size = new Size(254, 206);
+            logic_Button1.TabIndex = 18;
+            logic_Button1.Text = "logic_Button1";
+            // 
+            // toggle_Button1
+            // 
+            toggle_Button1.ClipIn.Clip = "ieee";
+            toggle_Button1.ClipIn.Scene = "SomeScene";
+            toggle_Button1.ClipOut.Clip = "ie";
+            toggle_Button1.ClipOut.Scene = "SomeScene";
+            toggle_Button1.Location = new Point(43, 189);
+            toggle_Button1.Name = "toggle_Button1";
+            objectChange2.SceneObject = "1";
+            objectChange2.SetTo = "o";
+            toggle_Button1.ObjectChanges.Add(objectChange2);
+            toggle_Button1.PreviewBox = null;
+            toggle_Button1.SceneName = "SomeScene";
+            toggle_Button1.Size = new Size(200, 150);
+            toggle_Button1.TabIndex = 17;
+            toggle_Button1.Text = "SomeScene";
+            toggle_Button1.UseVisualStyleBackColor = false;
             // 
             // previewBox
             // 
@@ -100,33 +187,17 @@ namespace TestModule2
             script_Button1.Location = new Point(348, 104);
             script_Button1.Name = "script_Button1";
             script_Button1.PreviewBox = null;
+            scene2.ButtonText = "LOL";
+            objectChange3.SceneObject = "1";
+            objectChange3.SetTo = "i";
+            scene2.ObjectChanges.Add(objectChange3);
+            scene2.PlayAllChildrenAtButtonPress = false;
+            scene2.SceneName = "Scene1WOO";
+            script_Button1.Scenes.Add(scene2);
             script_Button1.Size = new Size(300, 225);
             script_Button1.TabIndex = 14;
-            script_Button1.Text = "script_Button1";
+            script_Button1.Text = "Nope";
             script_Button1.UseVisualStyleBackColor = false;
-            // 
-            // toggle_Button1
-            // 
-            toggle_Button1.ClipIn.Channel = 1;
-            toggle_Button1.ClipIn.Clip = "in";
-            toggle_Button1.ClipIn.Layer = 1;
-            toggle_Button1.ClipIn.Scene = "UpcomingEvents";
-            toggle_Button1.ClipIn.SceneDirector = "SceneDirector1";
-            toggle_Button1.ClipIn.Track = "Track1";
-            toggle_Button1.ClipOut.Channel = 1;
-            toggle_Button1.ClipOut.Clip = "out";
-            toggle_Button1.ClipOut.Layer = 1;
-            toggle_Button1.ClipOut.Scene = "UpcomingEvents";
-            toggle_Button1.ClipOut.SceneDirector = "SceneDirector1";
-            toggle_Button1.ClipOut.Track = "Track1";
-            toggle_Button1.Location = new Point(12, 316);
-            toggle_Button1.Name = "toggle_Button1";
-            toggle_Button1.PreviewBox = null;
-            toggle_Button1.SceneName = "UpcomingEvents";
-            toggle_Button1.Size = new Size(300, 225);
-            toggle_Button1.TabIndex = 15;
-            toggle_Button1.Text = "UpcomingEvents";
-            toggle_Button1.UseVisualStyleBackColor = false;
             // 
             // operatorButton12
             // 
@@ -190,30 +261,6 @@ namespace TestModule2
             operatorButton18.Size = new Size(200, 150);
             operatorButton18.TabIndex = 0;
             operatorButton18.UseVisualStyleBackColor = false;
-            // 
-            // logic_Button1
-            // 
-            section10.ButtonType = ButtonType.ScriptButton;
-            section11.ClipIn.Clip = null;
-            section11.ClipIn.Scene = null;
-            section11.ClipOut.Clip = null;
-            section11.ClipOut.Scene = null;
-            section11.SceneName = null;
-            section11.Text = "cene]";
-            section12.ClipIn.Clip = null;
-            section12.ClipIn.Scene = null;
-            section12.ClipOut.Clip = null;
-            section12.ClipOut.Scene = null;
-            section12.SceneName = null;
-            section12.Text = "cene]";
-            logic_Button1.Buttons.Add(section10);
-            logic_Button1.Buttons.Add(section11);
-            logic_Button1.Buttons.Add(section12);
-            logic_Button1.Location = new Point(1130, 39);
-            logic_Button1.Name = "logic_Button1";
-            logic_Button1.Size = new Size(318, 238);
-            logic_Button1.TabIndex = 16;
-            logic_Button1.Text = "logic_Button1";
             // 
             // Test_Module2
             // 
