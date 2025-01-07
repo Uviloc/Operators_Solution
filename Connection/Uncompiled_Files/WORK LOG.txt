@@ -99,7 +99,7 @@ Fri: Setup questions for Hylke. Accepted that program will not be finished durin
 
 Week 15:
 Mon: Worked a huge amount of properties and the logic button, made custom optionstypeconverter
-Tue: 
+Tue: Just overall very confused and annoyed to the point of just wanting nothing to do with the program anymore. Fixed and broke a bunch of things regarding the properties and things
 Wed: 
 Thu: 
 Fri: 

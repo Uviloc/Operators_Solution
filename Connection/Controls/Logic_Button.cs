@@ -35,6 +35,7 @@ namespace OperatorsSolution.Controls
             DataExists
         }
 
+        //[TypeConverter(typeof(ExpandableObjectConverter))]
         public partial class Condition
         {
             [Browsable(false)]
@@ -60,40 +61,78 @@ namespace OperatorsSolution.Controls
                         TypeDescriptor.Refresh(this);
                     }
                 }
+                //set
+                //{
+                //    if (_conditionType != value)
+                //    {
+                //        _conditionType = value;
+
+                //        // Ensure the correct property is initialized based on the ConditionType
+                //        if (_conditionType == ConditionType.ToggleButtonState && ToggleButton == null)
+                //            ToggleButton = new Toggle_Button();
+                //        else if (_conditionType == ConditionType.ScriptButtonState && ScriptButton == null)
+                //            ScriptButton = new Script_Button();
+
+                //        // Notify property grid to refresh
+                //        TypeDescriptor.Refresh(this);
+                //    }
+                //}
             }
 
-            private Toggle_Button? _toggleButton;
+            //private Toggle_Button _toggleButton;
             [TypeVisibility(ConditionType.ToggleButtonState)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeConverter(typeof(OptionsTypeConverter<Toggle_Button>))]
-            public Toggle_Button ToggleButton
-            {
-                get => _toggleButton ?? new();
-                set
-                {
-                    if (_toggleButton != value)
-                        _toggleButton = value;
-                }
-            }
+            //[DefaultValue(null)]
+            public Toggle_Button ToggleButton { get; set; }
+            //{
+            //    get => _toggleButton;
+            //    //set => _toggleButton = value ?? new Toggle_Button();
+            //    set
+            //    {
+            //        _toggleButton = value;
+            //        // Notify parent of change
+            //        TypeDescriptor.Refresh(this);
+            //    }
+            //}
+            //{
+            //    get => _toggleButton ?? new();
+            //    set
+            //    {
+            //        if (_toggleButton != value)
+            //            _toggleButton = value;
+            //    }
+            //}
 
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeVisibility(ConditionType.ToggleButtonState)]
             public bool ToggleState { get; set; } = true;
 
 
-            private Script_Button? _scriptButton;
+            //private Script_Button _scriptButton;
             [TypeVisibility(ConditionType.ScriptButtonState)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeConverter(typeof(OptionsTypeConverter<Script_Button>))]
-            public Script_Button ScriptButton
-            {
-                get => _scriptButton ?? new();
-                set
-                {
-                    if (_scriptButton != value)
-                        _scriptButton = value;
-                }
-            }
+            //[DefaultValue(null)]
+            public Script_Button ScriptButton {  get; set; }
+            //{
+            //    get => _scriptButton;
+            //    //set => _scriptButton = value ?? new Script_Button();
+            //    set
+            //    {
+            //        _scriptButton = value;
+            //        // Notify parent of change
+            //        TypeDescriptor.Refresh(this);
+            //    }
+            //}
+            //{
+            //    get => _scriptButton ?? new();
+            //    set
+            //    {
+            //        if (_scriptButton != value)
+            //            _scriptButton = value;
+            //    }
+            //}
 
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeVisibility(ConditionType.ScriptButtonState)]
@@ -125,19 +164,24 @@ namespace OperatorsSolution.Controls
 
         public partial class Section
         {
-            // Synchronize all properties
-            public void ApplyPropertiesToButton()
-            {
-                if (Button is Script_Button scriptButton)
-                {
-                    scriptButton.Scenes = Scenes;
-                }
-                else if (Button is Toggle_Button toggleButton)
-                {
-                    toggleButton.SceneName = SceneName;
-                    toggleButton.Text = _text;
-                }
-            }
+            // Backing button instance
+            private OperatorButton? _button;
+
+
+
+            //// Synchronize all properties
+            //public void ApplyPropertiesToButton()
+            //{
+            //    if (Button is Script_Button scriptButton)
+            //    {
+            //        scriptButton.Scenes = Scenes;
+            //    }
+            //    else if (Button is Toggle_Button toggleButton)
+            //    {
+            //        toggleButton.SceneName = SceneName;
+            //        toggleButton.Text = _text;
+            //    }
+            //}
 
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             private ButtonType _buttonType = ButtonType.ToggleButton;
@@ -162,6 +206,21 @@ namespace OperatorsSolution.Controls
                 }
             }
 
+            // Condition
+            //private readonly Condition _condition = new();
+            [Category(".Logic")]
+            [Description("The conditions for this button to be enabled.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            [TypeConverter(typeof(ExpandableObjectConverter))]
+            public Condition Condition { get; set; } = new();
+
+            // Button
+            [Browsable(false)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+            public OperatorButton? Button { get; set; }
+
+
+
             // Scenes
             //private List<Script_Button.Scene> _scenes = [];
             [Category("Search")]
@@ -179,58 +238,73 @@ namespace OperatorsSolution.Controls
             //}
 
             // Text
-            private string _text = "[Show] SceneName";
+            //private string _text = "[Show] SceneName";
             [Category("Visuals")]
             [Description("The text associated with the control.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeVisibility(ButtonType.ToggleButton)]
             [DefaultValue("[Show] SceneName")]
-            public string Text
+            public string? Text
             {
-                get => _text;
-                set
-                {
-                    if (_text != value)
-                        _text = value;
-                }
+                get => (_button as Toggle_Button)?.Text;
+                set { if (_button is Toggle_Button toggleButton) toggleButton.Text = value; }
             }
 
             // Scene Name
-            private string? _sceneName;
+            //private string? _sceneName;
             [Category("Search")]
             [Description("The name of the scene in the chosen graphics program.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
             [TypeVisibility(ButtonType.ToggleButton)]
             public string? SceneName
             {
-                get => _sceneName;
-                set
-                {
-                    if (_sceneName != value)
-                    {
-                        if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
-                            Text = "[Show] " + (value ?? "");
-
-                        _sceneName = value;
-                    }
-                }
+                get => (_button as Toggle_Button)?.SceneName;
+                set { if (_button is Toggle_Button toggleButton) toggleButton.SceneName = value; }
             }
+            //public string? SceneName
+            //{
+            //    get => _sceneName;
+            //    set
+            //    {
+            //        if (_sceneName != value)
+            //        {
+            //            if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
+            //                Text = "[Show] " + (value ?? "");
 
-            // Condition
-            [Category(".Logic")]
-            [Description("The conditions for this button to be enabled.")]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-            [TypeConverter(typeof(ExpandableObjectConverter))]
-            public Condition Condition { get; set; } = new();
+            //            _sceneName = value;
+            //        }
+            //    }
+            //}
 
-            // Button
-            [Browsable(false)]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-            public OperatorButton? Button { get; set; }
+            
 
             public override string ToString()
             {
-                return Text;
+                return Text ?? "[Show] Scene";
+            }
+
+            // Get or create the button
+            public OperatorButton GetOrCreateButton()
+            {
+                if (_button == null)
+                {
+                    _button = ButtonType switch
+                    {
+                        ButtonType.ToggleButton => new Toggle_Button(),
+                        ButtonType.ScriptButton => new Script_Button(),
+                        _ => throw new NotSupportedException($"Unsupported button type: {ButtonType}")
+                    };
+
+                    if (_button is Script_Button scriptButton)
+                        scriptButton.Scenes = Scenes;
+                    if (_button is Toggle_Button toggleButton)
+                    {
+                        toggleButton.Text = Text;
+                        toggleButton.SceneName = SceneName;
+                    }
+                }
+
+                return _button;
             }
         }
         #endregion
@@ -275,7 +349,7 @@ namespace OperatorsSolution.Controls
         {
             Controls.Clear();
 
-            foreach (Section section in Buttons)
+            foreach (var section in Buttons)
             {
                 Condition condition = section.Condition;
                 condition.Parent = this;
@@ -283,20 +357,12 @@ namespace OperatorsSolution.Controls
                 TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(section), section);
                 TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(condition), condition);
 
-                Control button = section.Button?? section.ButtonType switch
-                {
-                    ButtonType.ToggleButton => new Toggle_Button(),
-                    ButtonType.ScriptButton => new Script_Button(),
-                    _ => throw new NotSupportedException($"Unsupported button type: {section.ButtonType}")
-                };
-
-                section.Button = button as OperatorButton;
-                section.ApplyPropertiesToButton();
-                Controls.Add(button);
-
-                TypeDescriptor.AddProvider(new Common.TypeDescriptionProvider<Section>(), section);
-                TypeDescriptor.AddProvider(new Common.TypeDescriptionProvider<Condition>(), condition);
+                TypeDescriptor.AddProvider(new TypeDescriptionProvider<Section>(), section);
+                TypeDescriptor.AddProvider(new TypeDescriptionProvider<Condition>(), condition);
                 TypeDescriptor.Refresh(section);
+
+                var button = section.GetOrCreateButton();
+                Controls.Add(button);
             }
 
             PerformLayout();
@@ -370,28 +436,28 @@ namespace OperatorsSolution.Controls
             switch (Buttons.Count)
             {
                 case 1:
-                    Buttons[0].Button?.SetBounds(0, 0, width, height);
+                    Buttons[0].GetOrCreateButton()?.SetBounds(0, 0, width, height);
                     break;
                 case 2:
-                    Buttons[0].Button?.SetBounds(0, 0, width, halfHeight);
-                    Buttons[1].Button?.SetBounds(0, halfHeight, width, halfHeight);
+                    Buttons[0].GetOrCreateButton()?.SetBounds(0, 0, width, halfHeight);
+                    Buttons[1].GetOrCreateButton()?.SetBounds(0, halfHeight, width, halfHeight);
                     break;
                 case 3:
-                    Buttons[0].Button?.SetBounds(0, 0, width, halfHeight);
-                    Buttons[1].Button?.SetBounds(0, halfHeight, halfWidth, halfHeight);
-                    Buttons[2].Button?.SetBounds(halfWidth, halfHeight, halfWidth, halfHeight);
+                    Buttons[0].GetOrCreateButton()?.SetBounds(0, 0, width, halfHeight);
+                    Buttons[1].GetOrCreateButton()?.SetBounds(0, halfHeight, halfWidth, halfHeight);
+                    Buttons[2].GetOrCreateButton()?.SetBounds(halfWidth, halfHeight, halfWidth, halfHeight);
                     break;
                 case 4:
-                    Buttons[0].Button?.SetBounds(0, 0, halfWidth, halfHeight);
-                    Buttons[1].Button?.SetBounds(halfWidth, 0, halfWidth, halfHeight);
-                    Buttons[2].Button?.SetBounds(0, halfHeight, halfWidth, halfHeight);
-                    Buttons[3].Button?.SetBounds(halfWidth, halfHeight, halfWidth, halfHeight);
+                    Buttons[0].GetOrCreateButton()?.SetBounds(0, 0, halfWidth, halfHeight);
+                    Buttons[1].GetOrCreateButton()?.SetBounds(halfWidth, 0, halfWidth, halfHeight);
+                    Buttons[2].GetOrCreateButton()?.SetBounds(0, halfHeight, halfWidth, halfHeight);
+                    Buttons[3].GetOrCreateButton()?.SetBounds(halfWidth, halfHeight, halfWidth, halfHeight);
                     break;
                 default:
                     int buttonHeight = height / Buttons.Count;
                     for (int i = 0; i < Buttons.Count; i++)
                     {
-                        Buttons[i].Button?.SetBounds(0, i * buttonHeight, width, buttonHeight);
+                        Buttons[i].GetOrCreateButton()?.SetBounds(0, i * buttonHeight, width, buttonHeight);
                     }
                     break;
             }

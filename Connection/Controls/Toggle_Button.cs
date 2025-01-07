@@ -32,9 +32,12 @@ namespace OperatorsSolution.Controls
             {
                 if (_sceneName != value) // Avoid unnecessary updates
                 {
-                    if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
-                        base.Text = "[Show] " + (value ?? "");
-                    
+                    if (!string.IsNullOrWhiteSpace(Text))
+                    {
+                        if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
+                            base.Text = "[Show] " + (value ?? "");
+                    }
+
                     _sceneName = value;
                 }
             }
@@ -45,12 +48,15 @@ namespace OperatorsSolution.Controls
         [Description("The text associated with the control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [DefaultValue(typeof(string), "[Show] SceneName")]
-        public new string Text
+        public new string? Text
         {
             get => base.Text.Replace("[Show] ", "");
             //get => base.Text.StartsWith("[Show] ") ? base.Text.Substring(7) : base.Text;
             set
             {
+                if(string.IsNullOrWhiteSpace(value))
+                    return;
+
                 bool getNameFromScene = value.Contains("toggle_Button") || value.Contains("SceneName") || string.IsNullOrWhiteSpace(value);
 
                 if (value.StartsWith("[Show] ") || value.StartsWith("[Hide] "))
