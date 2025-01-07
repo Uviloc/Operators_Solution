@@ -47,8 +47,8 @@ namespace OperatorsSolution.Controls
         [DefaultValue(typeof(string), "[Show] SceneName")]
         public new string Text
         {
-            //get => base.Text[7..];
-            get => base.Text.StartsWith("[Show] ") ? base.Text.Substring(7) : base.Text;
+            get => base.Text.Replace("[Show] ", "");
+            //get => base.Text.StartsWith("[Show] ") ? base.Text.Substring(7) : base.Text;
             set
             {
                 bool getNameFromScene = value.Contains("toggle_Button") || value.Contains("SceneName") || string.IsNullOrWhiteSpace(value);

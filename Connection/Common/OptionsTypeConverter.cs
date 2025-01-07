@@ -3,14 +3,11 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using static System.ComponentModel.TypeConverter;
-using static OperatorsSolution.Controls.Logic_Button;
 using Console = System.Diagnostics.Debug;
-using static System.Windows.Forms.Design.AxImporter;
 
 namespace OperatorsSolution.Common
 {
-    public class DynamicControlTypeConverter<T> : System.ComponentModel.TypeConverter where T : Control
+    public class OptionsTypeConverter<T> : System.ComponentModel.TypeConverter where T : Control
     {
         public override bool GetStandardValuesSupported(ITypeDescriptorContext? context) => true;
 
@@ -56,21 +53,49 @@ namespace OperatorsSolution.Common
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
-        
         private static StandardValuesCollection GetOptions(ITypeDescriptorContext? context)
         {
-            if (context?.Instance is Condition condition)
+            // Get the parent control, if it is not found return an empty array
+            if (context?.Instance is null || FindParentControl(context.Instance) is not Control parentControl)
+                return new StandardValuesCollection(Array.Empty<T>());
+
+            // Collect all children of type T within the parent control
+            var availableControls = parentControl.Controls.OfType<T>().ToList();
+            return new StandardValuesCollection(availableControls);
+        }
+
+        private static Control? FindParentControl(object instance)
+        {
+            // Check if the instance is a control itself
+            if (instance is Control control)
+                return control;
+
+            // If it's a nested object, check for properties that might link to a parent
+            var parentProperty = instance.GetType().GetProperty("Parent")?.GetValue(instance)
+                                 ?? instance.GetType().GetProperty("parent")?.GetValue(instance);
+
+            if (parentProperty != null)
+                return FindParentControl(parentProperty);
+
+            // If no parent property is found, try to traverse up using fields (for nested classes)
+            foreach (var field in instance.GetType().GetFields(System.Reflection.BindingFlags.NonPublic |
+                                                               System.Reflection.BindingFlags.Instance))
             {
-                var parent = condition.parent; // Assuming this is a reference to the parent control/container
-                if (parent != null)
+                if (field.FieldType == typeof(Control) || field.FieldType.IsSubclassOf(typeof(Control)))
                 {
-                    // Collect all children of type T within the parent
-                    var availableControls = parent.Controls.OfType<T>().ToList();
-                    return new StandardValuesCollection(availableControls);
+                    if (field.GetValue(instance) is Control parentControl)
+                        return parentControl;
+                }
+                else
+                {
+                    var parent = field.GetValue(instance);
+                    if (parent != null)
+                        return FindParentControl(parent);
                 }
             }
 
-            return new StandardValuesCollection(Array.Empty<T>());
+            // No parent control found
+            return null;
         }
     }
 }

@@ -11,9 +11,6 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Console = System.Diagnostics.Debug;
-using static OperatorsSolution.Controls.Logic_Button;
-using static System.Collections.Specialized.BitVector32;
-using static OperatorsSolution.Controls.Script_Button;
 
 
 /*
@@ -40,7 +37,14 @@ namespace OperatorsSolution.Controls
 
         public partial class Condition
         {
+            [Browsable(false)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+            public Control? Parent { get; set; }
+
+
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             private ConditionType _conditionType = ConditionType.ToggleButtonState;
+
 
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public ConditionType ConditionType
@@ -61,7 +65,7 @@ namespace OperatorsSolution.Controls
             private Toggle_Button? _toggleButton;
             [TypeVisibility(ConditionType.ToggleButtonState)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-            [TypeConverter(typeof(DynamicControlTypeConverter<Toggle_Button>))]
+            [TypeConverter(typeof(OptionsTypeConverter<Toggle_Button>))]
             public Toggle_Button ToggleButton
             {
                 get => _toggleButton ?? new();
@@ -80,7 +84,7 @@ namespace OperatorsSolution.Controls
             private Script_Button? _scriptButton;
             [TypeVisibility(ConditionType.ScriptButtonState)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-            [TypeConverter(typeof(DynamicControlTypeConverter<Script_Button>))]
+            [TypeConverter(typeof(OptionsTypeConverter<Script_Button>))]
             public Script_Button ScriptButton
             {
                 get => _scriptButton ?? new();
@@ -99,10 +103,6 @@ namespace OperatorsSolution.Controls
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeVisibility(ConditionType.DataExists)]
             public object? Data { get; set; }
-
-
-            [Browsable(false)]
-            public Logic_Button? parent { get; set; }
 
             public override string ToString()
             {
@@ -125,6 +125,21 @@ namespace OperatorsSolution.Controls
 
         public partial class Section
         {
+            // Synchronize all properties
+            public void ApplyPropertiesToButton()
+            {
+                if (Button is Script_Button scriptButton)
+                {
+                    scriptButton.Scenes = Scenes;
+                }
+                else if (Button is Toggle_Button toggleButton)
+                {
+                    toggleButton.SceneName = SceneName;
+                    toggleButton.Text = _text;
+                }
+            }
+
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             private ButtonType _buttonType = ButtonType.ToggleButton;
 
             // Button Type
@@ -148,38 +163,35 @@ namespace OperatorsSolution.Controls
             }
 
             // Scenes
-            private List<Script_Button.Scene> _scenes = [];
+            //private List<Script_Button.Scene> _scenes = [];
             [Category("Search")]
             [Description("Add scenes to be played here.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
             [TypeVisibility(ButtonType.ScriptButton)]
-            public List<Script_Button.Scene> Scenes
-            {
-                get => _scenes ?? [];
-                set
-                {
-                    if (_scenes != value)
-                        _scenes = value;
-                    if (Button is Script_Button scriptButton)
-                        scriptButton.Scenes = value;
-                }
-            }
+            public List<Script_Button.Scene> Scenes { get; set; } = [];
+            //{
+            //    get => _scenes ?? [];
+            //    set
+            //    {
+            //        if (_scenes != value)
+            //            _scenes = value;
+            //    }
+            //}
 
             // Text
-            private string? _text;
+            private string _text = "[Show] SceneName";
             [Category("Visuals")]
             [Description("The text associated with the control.")]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             [TypeVisibility(ButtonType.ToggleButton)]
+            [DefaultValue("[Show] SceneName")]
             public string Text
             {
-                get => _text ?? "[Show] SceneName";
+                get => _text;
                 set
                 {
                     if (_text != value)
                         _text = value;
-                    if (Button is Toggle_Button toggleButton)
-                        toggleButton.Text = value;
                 }
             }
 
@@ -187,7 +199,7 @@ namespace OperatorsSolution.Controls
             private string? _sceneName;
             [Category("Search")]
             [Description("The name of the scene in the chosen graphics program.")]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
             [TypeVisibility(ButtonType.ToggleButton)]
             public string? SceneName
             {
@@ -195,9 +207,12 @@ namespace OperatorsSolution.Controls
                 set
                 {
                     if (_sceneName != value)
+                    {
+                        if (Text.Contains(_sceneName ?? "") || Text.Contains("toggle_Button") || Text.Contains("SceneName") || string.IsNullOrWhiteSpace(Text))
+                            Text = "[Show] " + (value ?? "");
+
                         _sceneName = value;
-                    if (Button is Toggle_Button toggleButton)
-                        toggleButton.SceneName = value;
+                    }
                 }
             }
 
@@ -210,6 +225,7 @@ namespace OperatorsSolution.Controls
 
             // Button
             [Browsable(false)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public OperatorButton? Button { get; set; }
 
             public override string ToString()
@@ -261,9 +277,8 @@ namespace OperatorsSolution.Controls
 
             foreach (Section section in Buttons)
             {
-                section.Condition.parent = this;
-
                 Condition condition = section.Condition;
+                condition.Parent = this;
 
                 TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(section), section);
                 TypeDescriptor.RemoveProvider(TypeDescriptor.GetProvider(condition), condition);
@@ -276,7 +291,7 @@ namespace OperatorsSolution.Controls
                 };
 
                 section.Button = button as OperatorButton;
-
+                section.ApplyPropertiesToButton();
                 Controls.Add(button);
 
                 TypeDescriptor.AddProvider(new Common.TypeDescriptionProvider<Section>(), section);
