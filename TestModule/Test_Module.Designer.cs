@@ -47,7 +47,6 @@ namespace TestModule2
             section1.ButtonType = ButtonType.ScriptButton;
             section1.Condition.ConditionType = ConditionType.ToggleButtonState;
             section1.Condition.Parent = logic_Button1;
-            section1.Condition.ToggleButton = null;
             section1.Condition.ToggleState = true;
             clipPath1.Clip = null;
             clipPath1.Scene = null;
@@ -59,7 +58,7 @@ namespace TestModule2
             section2.Condition.Parent = logic_Button1;
             section2.Condition.ToggleButton = null;
             section2.Condition.ToggleState = true;
-            section2.Text = "1";
+            section2.Text = "Scene";
             clipPath3.Clip = null;
             clipPath3.Scene = null;
             section3.ClipIn = clipPath3;
@@ -70,13 +69,13 @@ namespace TestModule2
             section3.Condition.Parent = logic_Button1;
             section3.Condition.ToggleButton = null;
             section3.Condition.ToggleState = true;
-            section3.Text = "2";
+            section3.Text = "Scene";
             logic_Button1.Buttons.Add(section1);
             logic_Button1.Buttons.Add(section2);
             logic_Button1.Buttons.Add(section3);
-            logic_Button1.Location = new Point(309, 232);
+            logic_Button1.Location = new Point(433, 368);
             logic_Button1.Name = "logic_Button1";
-            logic_Button1.Size = new Size(248, 248);
+            logic_Button1.Size = new Size(453, 427);
             logic_Button1.TabIndex = 0;
             logic_Button1.Text = "logic_Button1";
             // 

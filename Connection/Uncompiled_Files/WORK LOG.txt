@@ -1,32 +1,32 @@
-Week 1:
+Week 5:
 Mon: Researched basics of production and production terms
 Tue: Researched CasparCG, SDI signal
 Wed: Researched CasparCG
 Thu: Researched vMix and XPression
 Fri: Researched XPression
 
-Week 2:
-Mon: researched expression and started looking into code needed to play from a windows form
-Tue: researched windows forms in visual studio, and connected up some basic code to play a scene in XPression
+Week 6:
+Mon: Researched expression and started looking into code needed to play from a windows form
+Tue: Researched windows forms in visual studio, and connected up some basic code to play a scene in XPression
 Wed: Worked on internship plan, work log, and internship coach
-Thu: recieved feedback on progress, created and improved basics of core code and features (custom button, )
-Fri: made custom buttons better, a lot of research into what was possible and make things less hardcoded
+Thu: Recieved feedback on progress, created and improved basics of core code and features (custom button, )
+Fri: Made custom buttons better, a lot of research into what was possible and make things less hardcoded
 
-Week 3:
+Week 7:
 Mon: Broke the entire project, fixed the entire project, lots more generalization
 Tue: Worked on mid-term report
 Wed: Sadly a lot of failed attempts at creating dynamic properties, added ability to add multiple scene paths, improved functions to be easier to read and more robust
 Thu: Went to FC Twente stadium and looked around/helped with cleanup
 Fri: Lots of problems trying to fix case of having the assembly reference not existing
 
-Week 4:
+Week 8:
 Mon: Finally fixed the assembly reference check, added default value within the list of scenes, checked out custom editors for collection, started checking out preview on hover
 Tue: Added material/value changes functions, Added working settings, refactored code
 Wed: Worked on mid-term report draft and presentation
-Thu: debugging and testing, feedback on progress, meeting with Herman at office, looked into making app modular, organised/expanded design document
+Thu: Debugging and testing, feedback on progress, meeting with Herman at office, looked into making app modular, organised/expanded design document
 Fri: Figuring out the entire program structure
 
-Week 5:
+Week 9:
 Mon: Bunch of research on editors. got simple thumbnail preview to work, created trello, thought more about button controls and variables
 Tue:
 Wed:
@@ -34,91 +34,91 @@ Thu: Got EHF package working and understand the code
 Fri: Worked on EHF and made a lot of improvements. Did work on correcting xPression materials
 Sat: Went to Enfusion Dordrecht to help out from 12:00 till 3:30
 
-Week 6:
+Week 10:
 Mon: Setup everything for EHF, made auto open file function and setting
 Tue: 
 Wed: Got a lot of the modular system working now, dynamic dll loading, export as dll or exe
 Thu: Went to Amersfoort to help out at EHF from 12:00 till 1:00
 Fri: 
 
-Week 7:
+Week 11:
 Mon: 
 Tue: Improved dll loading, orginized all code, fixed stuff to be better in general
 Wed: Worked on making project nice, company outing/excursion
 Thu: Late, missed meds, went home
-Fri: Got preview to work, feedback from hylke, made plan for controls
+Fri: Got preview to work, feedback from Hylke, made plan for controls
 
-Week 8:
+Week 12:
 Mon: Mid-term Presentation
 Tue: Really tried to get preview to not kill XPression, but its almost looking like its a feature to stop previews in my program
 Wed: Setup community post (not posted) to fix preview, organised Trello board
 Thu: Lots of layout and general program stuff, revamped module loader to be inside a custom form base
 Fri: Got a bunch of stuff working nicely. Implemented panel collapsing, resizing and dll loading refinements
 
-Week 9:
+Week 13:
 Mon: Added tab control in main view, added initial database stuff
 Tue: 
 Wed: Developed plugin loading further, and got database working quite far
 Thu: Added scalable control, developed plugin loader to read .db files, got databases to be fully plugin compatible
 Fri: Added a huge amount of control to databases, got overwhelmed by all the code and databases stuff
 
-Week 10:
+Week 14:
 Mon: Added a bunch of functionality to the database view such as adding, removing, name changes etc
 Tue: Got overwhelmed by all the code and functions. Tried adding more functions to database and viewer
 Wed: 
 Thu: 
 Fri: Added buttons next to form nodes for future settings, did some cleaning up of code
 
-Week 11:
+Week 15:
 Mon: Separated settings per plugin (not fully working yet), progress on custom controls
 Tue: 
 Wed: 
 Thu: Got humbled a lot by my lack of skill, overwhelmed yet again, tried wrapping my head around the structure, attemped to get Caspar to work. Layed out control properties, reshuffled some stuff, started on custom controls
 Fri: Got back on track in terms of making progress. Added properties for new controls, made operatorbutton into the bass control class, made it so that TestModule.dll gets copied after a build
 
-Week 12:
+Week 16:
 Mon: Got overwhelmed again by the controls, so I made a plan of action with what is needed and with what class structure. Continued work on custom controls
 Tue: 
 Wed: Office was unexpectedly closed so spend quite some time for nothing
 Thu: Huge amount of work. Worked on settings, worked on getting graphics software functions working, got feedback from Hylke
 Fri: Huge amount of problems with settings putting into the program folder
 
-Week 13:
+Week 17:
 Mon: Extra day. Worked on seperating settings, Progress on custom controls
 Tue: Office closed
 Wed: Office closed
 Thu: Office closed
 Fri: Office closed
 
-Week 14:
+Week 18:
 Mon: Sick
 Tue: Office closed
 Wed: Office closed
 Thu: Worked on Logic_Button and almost finished it
 Fri: Setup questions for Hylke. Accepted that program will not be finished during internship. SectionTypeConverter, added attribute for displaying properties with conditions
 
-Week 15:
+Week 19:
 Mon: Worked a huge amount of properties and the logic button, made custom optionstypeconverter
 Tue: Just overall very confused and annoyed to the point of just wanting nothing to do with the program anymore. Fixed and broke a bunch of things regarding the properties and things
-Wed: 
+Wed: Final report, orginised hours and work log, feedback from Hylke about not finishing program, orginised files and planning
 Thu: 
 Fri: 
 
-Week 16:
+Week 20:
 Mon: 
 Tue: 
 Wed: 
 Thu: 
 Fri: 
 
-Week 17:
+Week 21:
 Mon: 
 Tue: 
 Wed: 
 Thu: 
 Fri: 
 
-Week 18:
+Week 22:
 Mon: 
 Tue: 
 Wed: 

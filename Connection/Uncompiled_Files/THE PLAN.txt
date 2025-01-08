@@ -3,33 +3,47 @@
 ___________________________________________________________________Questions:________________________________________________________________________________________________
 Hylke:
 I will not be able to finish the project. Plan of action.
-Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months
+Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months with current speed
+
 Options:
-- Abandon project for now (Very sad about it, but most likely scenario)
+- Abandon project for now (Very sad about it, but likely scenario)
 - Somebody else continues with the code
-- Suggest as side job to Maikel (likely 8-16 hour workweeks)
+- Suggest as side job to Michael (likely 8-16 hour workweeks so 8/9 months)
 
 What should I work on now?
 > Report + presentation
-> Some sort of test/viewing with operators (those who want to)
+> Clean up code
 > Explain code to Hylke (Plan this)
+> Some sort of test/viewing with operators (those who want to)
 - Documentation (Tutorial document)
 - Continue coding
 
-Final evaluation sheet
 
-Do you want the code on your GitHub
+When do you want the code on Allus GitHub
 
+
+Final evaluation sheet (same as last (I can send))
+When final report is done review it
+
+Deadline Report: 19-Jan
+Deadline Presentation: 24-Jan
+
+
+Elsa:
+Where is the xPression dongel case
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
 ------------ Week 15: -----------
 Overall Feedback:
+Wasn't surprised that the application is unfinished.
+I went really deep into coding and creating this application.
+There would be potential for a new employee but not as a full-time programmer. There likely needs to be more then just programming for it to be viable to hire me.
 
 Questions & Answers:
-		>	Plan of action for after unfinished product: 
-		>	What should I work on now?: 
-WIP		>	Final evaluation sheet: 
-		>	Do you want the code on your GitHub: 
+WIP		>	Plan of action for after unfinished product: Discussion with Michael will take place to see if there is any potential for a future job.
+WIP		>	What should I work on now?: Report, cleaning of code and making it ready to show to Hylke
+WIP		>	Final evaluation sheet: Will be filled in next week
+WIP		>	Do you want the code on your GitHub: Yes will be done next week
 
 
 ------------ Week 12: -----------
