@@ -40,7 +40,7 @@ public string ProjectFile {
 ```
 
 Some usefull things for debugging:
-Set the bost-build event in the properties to copy the created file into the main program for easier testing
+Set the bost-build event in the properties to copy the created file into the main program for easier testing:
 xcopy "$(TargetDir)[your classname here].dll" "$[your program folder here]\Modules\Interfaces\" /Y
 
 
