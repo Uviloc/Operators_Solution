@@ -1,4 +1,188 @@
-﻿
+﻿//public enum GraphicsSoftware
+//{
+//    XPression,
+//    CasparCG,
+//    vMix
+//}
+
+//[Serializable]
+//public class GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+//{
+//    public string GraphicsSoftwareClassName { get; set; } = graphicsSoftwareClass;
+//    public string GraphicsProgramName { get; set; } = graphicsSoftwareName;
+//    public string FileExtension { get; set; } = fileExtension;
+
+//    public override string ToString() => GraphicsProgramName;
+//}
+
+//[Serializable]
+//public class GraphicsSoftwareInfo
+//{
+//    // Parameterless constructor for XML serialization
+//    public GraphicsSoftwareInfo() { }
+
+//    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+//    {
+//        GraphicsSoftwareClassName = graphicsSoftwareClass;
+//        GraphicsProgramName = graphicsSoftwareName;
+//        FileExtension = fileExtension;
+//    }
+
+//    [XmlElement]
+//    public string? GraphicsSoftwareClassName { get; set; }
+
+//    [XmlElement]
+//    public string? GraphicsProgramName { get; set; }
+
+//    [XmlElement]
+//    public string? FileExtension { get; set; }
+
+//    public override string ToString() => GraphicsProgramName ?? string.Empty;
+
+//    public override bool Equals(object? obj)
+//    {
+//        if (obj is not GraphicsSoftwareInfo other)
+//            return false;
+
+//        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
+//               GraphicsProgramName == other.GraphicsProgramName &&
+//               FileExtension == other.FileExtension;
+//    }
+
+//    public override int GetHashCode()
+//    {
+//        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
+//    }
+//}
+
+//[Serializable]
+//[XmlRoot("GraphicsSoftwareInfo")]
+//public class GraphicsSoftwareInfo
+//{
+//    // Parameterless constructor for XML serialization
+//    public GraphicsSoftwareInfo() { }
+
+//    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
+//    {
+//        GraphicsSoftwareClassName = graphicsSoftwareClass;
+//        GraphicsProgramName = graphicsSoftwareName;
+//        FileExtension = fileExtension;
+//    }
+
+//    [XmlElement]
+//    public string? GraphicsSoftwareClassName { get; set; }
+
+//    [XmlElement]
+//    public string? GraphicsProgramName { get; set; }
+
+//    [XmlElement]
+//    public string? FileExtension { get; set; }
+
+//    public override string ToString() => GraphicsProgramName ?? string.Empty;
+
+//    public override bool Equals(object? obj)
+//    {
+//        if (obj is not GraphicsSoftwareInfo other)
+//            return false;
+
+//        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
+//               GraphicsProgramName == other.GraphicsProgramName &&
+//               FileExtension == other.FileExtension;
+//    }
+
+//    public override int GetHashCode()
+//    {
+//        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
+//    }
+//}
+
+
+#region >----------------- Custom Animation Function: ---------------------
+//public class Limits
+//{
+//    public int Min { get; set; }
+//    public int Max { get; set; }
+//}
+
+///// <summary>
+///// Changes the material or value given in the objectChange in a scene from XPression.
+///// </summary>
+///// <param name="control">The control to be changed.</param>
+///// <param name="animationStep">The step that the animation should change the control.</param>
+///// /// <param name="limits">The limits of where the animation should stop.</param>
+//private void AnimateControl(Control control, int animationStep, Limits limits, Func<>? intermediateFunction = null)
+//{
+//    control.Width += animationStep;
+
+//    // Slow down redraws for form panel to reduce flickering
+//    if (control.Width % 5 == 0 && reduceScaleChangesOn != null)
+//    {
+//        if (reduceScaleChangesOn is Panel panel && panel.Tag is Interfaces form)
+//        {
+//            ScaleFormToFitPanel(form, panel);
+//        }
+//    }
+
+//    if (ControlPanel.Width >= originalControlPanelWidth)
+//    {
+//        controlPanelOpen = true;
+//        controlPanelChanging = false;
+//        controlPanelAnimationTimer.Stop();
+//    }
+//}
+#endregion
+
+
+//public static List<T> GetControlsByType<T>(Interfaces form)
+//{
+//    List<T> controls = [];
+//    foreach (Control control in form.Controls)
+//    {
+//        if (control is T matchingControl) controls.Add(matchingControl);
+//    }
+//    return controls;
+//}
+
+//public class Assemblies
+//{
+//    public Dictionary<string, Assembly> GraphicsAssemblies { get; set; }
+//}
+
+//public class PluginTypeInfo(PluginType pluginType, string folderName)
+//{
+//    public PluginType PluginType { get; set; } = pluginType;
+//    public string FolderName { get; set; } = folderName;
+//}
+
+//public static class PluginTypeRegistry
+//{
+//    public static readonly Dictionary<PluginType, PluginTypeInfo> PluginMappings = new()
+//    {
+//        { PluginType.Interfaces, new PluginTypeInfo(PluginType.Interfaces, "Forms") },
+//        { PluginType.Visual_Styles, new PluginTypeInfo(PluginType.Visual_Styles, "Visual Styles") },
+//        { PluginType.Graphics_Program_Functions, new PluginTypeInfo(PluginType.Graphics_Program_Functions, "Graphics Program Functions") },
+//        { PluginType.Databases, new PluginTypeInfo(PluginType.Databases, "Databases") }
+//    };
+//}
+
+
+
+
+
+//static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
+//static void Register(GraphicsSoftwareInfo graphicsSoftwareInfo)
+//{
+//    Console.WriteLine("Registered");
+//    if (!ExistingGraphicsSoftware.Contains(graphicsSoftwareInfo))
+//        ExistingGraphicsSoftware.Add(graphicsSoftwareInfo);
+//}
+
+
+
+
+
+
+
 //public void UpdateButtons()
 //{
 //    // Remove existing sections and their TypeDescriptor providers

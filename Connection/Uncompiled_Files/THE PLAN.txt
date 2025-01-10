@@ -2,6 +2,22 @@
 
 ___________________________________________________________________Questions:________________________________________________________________________________________________
 Hylke:
+Save files on server
+Should I send a message in the discord server for interns. (Ofcourse more game related) if so what should I say
+Show code
+
+Send feedback form at same time as report
+
+
+Elsa:
+Where is the xPression dongel case
+
+____________________________________________________________________Feedback:________________________________________________________________________________________________
+------------ Week 20: -----------
+
+
+------------ Week 19: -----------
+Questions:
 I will not be able to finish the project. Plan of action.
 Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months with current speed
 
@@ -28,12 +44,6 @@ When final report is done review it
 Deadline Report: 19-Jan
 Deadline Presentation: 24-Jan
 
-
-Elsa:
-Where is the xPression dongel case
-
-____________________________________________________________________Feedback:________________________________________________________________________________________________
------------- Week 15: -----------
 Overall Feedback:
 Wasn't surprised that the application is unfinished.
 I went really deep into coding and creating this application.
@@ -46,7 +56,7 @@ WIP		>	Final evaluation sheet: Will be filled in next week
 WIP		>	Do you want the code on your GitHub: Yes will be done next week
 
 
------------- Week 12: -----------
+------------ Week 16: -----------
 Overall Feedback:
 In regards to databases. Dont make it complicated, just make it so that the user can add a database with predetermined tables and columns.
 Adding rows to the database would be a concern if the table is very long as this would take time to get to the bottom.
@@ -67,7 +77,7 @@ DONE	>	!!!!!! Either the same naming and pathing conventions need to be used bet
 DONE	>	Pictures for presentation/report: in server
 
 
------------- Week 7: -----------
+------------ Week 11: -----------
 Overall Feedback:
 Very nicely orginised documents and planning.
 All in all good progress and ideas, very interesting to make the program modular and have each graphics program be possible
@@ -83,7 +93,7 @@ DONE	>	Can I get the CasparCG project for Enfusion: on server under graphics fol
 DONE	>	Scott wanted icon for twitter to be for x in Enfusion: made in flash so no
 
 
------------- Week 4: -----------
+------------ Week 8: -----------
 Overall Feedback:
 Huge plans but with lots of promise.
 Very orginised workflow and well documented code.
@@ -106,7 +116,7 @@ WIP		>	Can the player pictures also be in the database instead of a folder refer
 DONE	>	Can I get a vMix project code, to see its functions and how they differ: not a recent working one
 
 
------------- Week 2/3: -----------
+------------ Week 6/7: -----------
 Overall Feedback:
 Focus on learning the existing code and the libraries for now
 > Go to Enfusion on Sat 2 Nov

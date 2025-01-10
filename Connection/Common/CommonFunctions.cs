@@ -1,157 +1,92 @@
-﻿using OperatorsSolution.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Reflection;
-using Console = System.Diagnostics.Debug;
 using System.Configuration;
 using System.Xml.Serialization;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using Console = System.Diagnostics.Debug;
 
+/// <summary>
+/// This namespace contains common classes, interfaces, and functions used across the application, 
+/// including graphics software management, plugin definitions, and utility functions.
+/// </summary>
 namespace OperatorsSolution.Common
 {
     #region >----------------- Interfaces: ---------------------
     public interface IFormPlugin
     {
+        /// <summary>
+        /// Gets the form associated with the plugin.
+        /// </summary>
+        /// <returns>The form object.</returns>
         Form GetForm();
-        //void SaveSettings();
-        string FormName { get; }
-        //GraphicsSoftwareInfo GraphicsSoftware { get; set; }
-        //string? ProjectFile { get; set; }
+
+        // Additional methods and properties related to form settings and graphics software.
+
+        /// <summary>
+        /// Gets the application settings used by the plugin.
+        /// </summary>
         ApplicationSettingsBase ApplicationSettings { get; }
+
+        /// <summary>
+        /// Gets the name of the form.
+        /// </summary>
+        string FormName { get; }
     }
 
     public interface IStylePlugin
     {
-        // All style parts needed like: backcolor, forecolor, etc
+        /// <summary>
+        /// Represents all style properties required for the plugin (e.g., colors, fonts).
+        /// </summary>
         string StyleName { get; }
     }
 
     public interface IGraphicProgram
     {
+        /// <summary>
+        /// Gets information about the graphics software.
+        /// </summary>
         GraphicsSoftwareInfo GraphicsSoftwareInfo { get; }
-        
+
+        /// <summary>
+        /// Displays a preview in the specified picture box.
+        /// </summary>
+        /// <param name="sender">The object triggering the display.</param>
+        /// <param name="previewBox">The PictureBox for displaying the preview.</param>
         static abstract void DisplayPreview(object? sender, PictureBox previewBox);
+
+        /// <summary>
+        /// Removes the preview from the specified picture box.
+        /// </summary>
+        /// <param name="previewBox">The PictureBox to clear.</param>
         static abstract void RemovePreview(PictureBox previewBox);
+
+        /// <summary>
+        /// Toggles a clip on or off.
+        /// </summary>
+        /// <param name="sender">The object triggering the toggle.</param>
+        /// <param name="isOn">True to turn the clip on; false to turn it off.</param>
         static abstract void ToggleClip(object sender, bool isOn);
-
-
-        //static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
-        //static void Register(GraphicsSoftwareInfo graphicsSoftwareInfo)
-        //{
-        //    Console.WriteLine("Registered");
-        //    if (!ExistingGraphicsSoftware.Contains(graphicsSoftwareInfo))
-        //        ExistingGraphicsSoftware.Add(graphicsSoftwareInfo);
-        //}
     }
     #endregion
 
     #region >----------------- Types and Graphics Software: ---------------------
-    //public enum GraphicsSoftware
-    //{
-    //    XPression,
-    //    CasparCG,
-    //    vMix
-    //}
-
-    //[Serializable]
-    //public class GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
-    //{
-    //    public string GraphicsSoftwareClassName { get; set; } = graphicsSoftwareClass;
-    //    public string GraphicsProgramName { get; set; } = graphicsSoftwareName;
-    //    public string FileExtension { get; set; } = fileExtension;
-
-    //    public override string ToString() => GraphicsProgramName;
-    //}
-
-    //[Serializable]
-    //public class GraphicsSoftwareInfo
-    //{
-    //    // Parameterless constructor for XML serialization
-    //    public GraphicsSoftwareInfo() { }
-
-    //    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
-    //    {
-    //        GraphicsSoftwareClassName = graphicsSoftwareClass;
-    //        GraphicsProgramName = graphicsSoftwareName;
-    //        FileExtension = fileExtension;
-    //    }
-
-    //    [XmlElement]
-    //    public string? GraphicsSoftwareClassName { get; set; }
-
-    //    [XmlElement]
-    //    public string? GraphicsProgramName { get; set; }
-
-    //    [XmlElement]
-    //    public string? FileExtension { get; set; }
-
-    //    public override string ToString() => GraphicsProgramName ?? string.Empty;
-
-    //    public override bool Equals(object? obj)
-    //    {
-    //        if (obj is not GraphicsSoftwareInfo other)
-    //            return false;
-
-    //        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
-    //               GraphicsProgramName == other.GraphicsProgramName &&
-    //               FileExtension == other.FileExtension;
-    //    }
-
-    //    public override int GetHashCode()
-    //    {
-    //        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
-    //    }
-    //}
-
-    //[Serializable]
-    //[XmlRoot("GraphicsSoftwareInfo")]
-    //public class GraphicsSoftwareInfo
-    //{
-    //    // Parameterless constructor for XML serialization
-    //    public GraphicsSoftwareInfo() { }
-
-    //    public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
-    //    {
-    //        GraphicsSoftwareClassName = graphicsSoftwareClass;
-    //        GraphicsProgramName = graphicsSoftwareName;
-    //        FileExtension = fileExtension;
-    //    }
-
-    //    [XmlElement]
-    //    public string? GraphicsSoftwareClassName { get; set; }
-
-    //    [XmlElement]
-    //    public string? GraphicsProgramName { get; set; }
-
-    //    [XmlElement]
-    //    public string? FileExtension { get; set; }
-
-    //    public override string ToString() => GraphicsProgramName ?? string.Empty;
-
-    //    public override bool Equals(object? obj)
-    //    {
-    //        if (obj is not GraphicsSoftwareInfo other)
-    //            return false;
-
-    //        return GraphicsSoftwareClassName == other.GraphicsSoftwareClassName &&
-    //               GraphicsProgramName == other.GraphicsProgramName &&
-    //               FileExtension == other.FileExtension;
-    //    }
-
-    //    public override int GetHashCode()
-    //    {
-    //        return HashCode.Combine(GraphicsSoftwareClassName, GraphicsProgramName, FileExtension);
-    //    }
-    //}
     [Serializable]
     [XmlRoot("GraphicsSoftwareInfo")]
     public class GraphicsSoftwareInfo
     {
-        // Parameterless constructor for XML serialization
+        /// <summary>
+        /// Parameterless constructor for XML serialization.
+        /// </summary>
         public GraphicsSoftwareInfo() { }
 
+        /// <summary>
+        /// Initializes a new instance of the GraphicsSoftwareInfo class.
+        /// </summary>
+        /// <param name="graphicsSoftwareClass">The class name of the graphics software.</param>
+        /// <param name="graphicsSoftwareName">The display name of the graphics software.</param>
+        /// <param name="fileExtension">The associated file extension.</param>
         public GraphicsSoftwareInfo(string graphicsSoftwareClass, string graphicsSoftwareName, string fileExtension)
         {
             GraphicsSoftwareClassName = graphicsSoftwareClass;
@@ -171,40 +106,29 @@ namespace OperatorsSolution.Common
         public override string ToString() => GraphicsProgramName ?? string.Empty;
     }
 
-
-
     public static class GraphicsSoftwareRegistry
     {
-        // This list will store all GraphicsSoftwareInfo objects from classes implementing IGraphicProgram
-        public static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = [];
-        public static readonly Dictionary<string, object> ClassInstances = [];
+        /// <summary>
+        /// A list of registered graphics software information.
+        /// </summary>
+        public static List<GraphicsSoftwareInfo> ExistingGraphicsSoftware { get; } = new();
 
+        /// <summary>
+        /// Stores instances of classes implementing IGraphicProgram.
+        /// </summary>
+        public static readonly Dictionary<string, object> ClassInstances = new();
+
+        /// <summary>
+        /// Initializes and registers graphics software programs.
+        /// </summary>
         public static void InitializeGraphicsPrograms()
         {
-            // Get all types that implement IGraphicProgram
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => typeof(IGraphicProgram).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
 
             foreach (var type in types)
             {
-                //// Ensure the type is instantiated (if necessary)
-                //var instance = Activator.CreateInstance(type);
-
-                //// Get the GraphicsSoftwareInfo property from the class
-                ////GraphicsSoftwareInfo graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo");
-                //GraphicsSoftwareInfo? graphicsSoftwareInfoProperty = type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) as GraphicsSoftwareInfo;
-                ////if (type is not IGraphicProgram graphicsProgram)
-                ////    return;
-
-                ////GraphicsSoftwareInfo softwareInfo = graphicsProgram.GraphicsSoftwareInfo;
-
-                //if (graphicsSoftwareInfoProperty != null && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
-                //{
-                //    ExistingGraphicsSoftware.Add(graphicsSoftwareInfoProperty);
-                //}
-
-                // Create and cache an instance if it doesn't exist
                 if (type.FullName is not string fullTypeName || ClassInstances.ContainsKey(fullTypeName))
                     continue;
 
@@ -212,13 +136,21 @@ namespace OperatorsSolution.Common
                 if (instance == null)
                     continue;
 
-                // Get the GraphicsSoftwareInfo property from the class
                 ClassInstances[fullTypeName] = instance;
-                if (type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) is GraphicsSoftwareInfo graphicsSoftwareInfoProperty && !ExistingGraphicsSoftware.Contains(graphicsSoftwareInfoProperty))
-                    ExistingGraphicsSoftware.Add(graphicsSoftwareInfoProperty);
+
+                if (type.GetProperty("GraphicsSoftwareInfo")?.GetValue(instance) is GraphicsSoftwareInfo softwareInfo &&
+                    !ExistingGraphicsSoftware.Contains(softwareInfo))
+                {
+                    ExistingGraphicsSoftware.Add(softwareInfo);
+                }
             }
         }
 
+        /// <summary>
+        /// Gets an existing instance of a class by name.
+        /// </summary>
+        /// <param name="className">The name of the class.</param>
+        /// <returns>The instance if found, or null otherwise.</returns>
         public static object? GetInstance(string className)
         {
             ClassInstances.TryGetValue(className, out var instance);
@@ -226,49 +158,24 @@ namespace OperatorsSolution.Common
         }
     }
 
-    
-
-
     public enum PluginType
     {
         Interfaces,
         //Graphics_Program_Functions,
-        //API
+        //API,
         Databases,
         Visual_Styles
     }
-
-    //public class PluginTypeInfo(PluginType pluginType, string folderName)
-    //{
-    //    public PluginType PluginType { get; set; } = pluginType;
-    //    public string FolderName { get; set; } = folderName;
-    //}
-
-    //public static class PluginTypeRegistry
-    //{
-    //    public static readonly Dictionary<PluginType, PluginTypeInfo> PluginMappings = new()
-    //    {
-    //        { PluginType.Interfaces, new PluginTypeInfo(PluginType.Interfaces, "Forms") },
-    //        { PluginType.Visual_Styles, new PluginTypeInfo(PluginType.Visual_Styles, "Visual Styles") },
-    //        { PluginType.Graphics_Program_Functions, new PluginTypeInfo(PluginType.Graphics_Program_Functions, "Graphics Program Functions") },
-    //        { PluginType.Databases, new PluginTypeInfo(PluginType.Databases, "Databases") }
-    //    };
-    //}
     #endregion
-
-    //public class Assemblies
-    //{
-    //    public Dictionary<string, Assembly> GraphicsAssemblies { get; set; }
-    //}
 
     #region >----------------- Common Functions: ---------------------
     public static class CommonFunctions
     {
         /// <summary>
-        /// Common function to trigger a message box and highlight the control at fault.
+        /// Displays a warning message box and highlights the specified control.
         /// </summary>
-        /// <param name = "control">The control to highlight.</param>
-        /// <param name = "message">The message to display in the message box.</param>
+        /// <param name="control">The control to highlight.</param>
+        /// <param name="message">The warning message to display.</param>
         public static void ControlWarning(Control control, string message)
         {
             Color originalColor = control.BackColor;
@@ -277,16 +184,9 @@ namespace OperatorsSolution.Common
             control.BackColor = originalColor;
         }
 
-        //public static List<T> GetControlsByType<T>(Interfaces form)
-        //{
-        //    List<T> controls = [];
-        //    foreach (Control control in form.Controls)
-        //    {
-        //        if (control is T matchingControl) controls.Add(matchingControl);
-        //    }
-        //    return controls;
-        //}
-
+        /// <summary>
+        /// Highlights a button on hover.
+        /// </summary>
         #region >----------------- Highlight button hover: ---------------------
         public static void ButtonHighlight(object? sender, EventArgs e)
         {
@@ -316,6 +216,13 @@ namespace OperatorsSolution.Common
         #endregion
 
         #region >----------------- Trigger Method from String: ---------------------
+        /// <summary>
+        /// Invokes a method by its name on a class, passing the specified parameters.
+        /// </summary>
+        /// <param name="className">The fully qualified name of the class.</param>
+        /// <param name="methodName">The name of the method to invoke.</param>
+        /// <param name="parameters">The parameters to pass to the method.</param>
+        /// <returns>The result of the method invocation, or null if not successful.</returns>
         public static object? TriggerMethodBasedOnString(this string className, string methodName, object[] parameters)
         {
             Type? classType = Type.GetType(className);
@@ -326,16 +233,17 @@ namespace OperatorsSolution.Common
             }
 
             // Check for an existing instance in the registry
-            object? classInstance = GraphicsSoftwareRegistry.GetInstance(className);
-            if (classInstance == null)
-            {
-                Console.WriteLine($"No existing instance for '{className}'. Creating a new one.");
-                classInstance = Activator.CreateInstance(classType);
-                if (classInstance != null)
-                {
-                    GraphicsSoftwareRegistry.ClassInstances[className] = classInstance; // Cache the new instance
-                }
-            }
+            object? classInstance = GraphicsSoftwareRegistry.GetInstance(className) ?? Activator.CreateInstance(classType);
+            //object? classInstance = GraphicsSoftwareRegistry.GetInstance(className);
+            //if (classInstance == null)
+            //{
+            //    Console.WriteLine($"No existing instance for '{className}'. Creating a new one.");
+            //    classInstance = Activator.CreateInstance(classType);
+            //    if (classInstance != null)
+            //    {
+            //        GraphicsSoftwareRegistry.ClassInstances[className] = classInstance; // Cache the new instance
+            //    }
+            //}
 
             if (classInstance == null)
             {
@@ -343,9 +251,6 @@ namespace OperatorsSolution.Common
                 return null;
             }
 
-            Type[] parameterTypes = parameters.Select(p => p.GetType()).ToArray();
-
-            // Find the best-matching method
             MethodInfo? methodInfo = classType.GetMethods()
                 .Where(m => m.Name == methodName)
                 .FirstOrDefault(m =>
@@ -356,13 +261,8 @@ namespace OperatorsSolution.Common
                     // Ensure all parameter types are compatible
                     for (int i = 0; i < methodParams.Length; i++)
                     {
-                        var paramType = methodParams[i].ParameterType;
-
-                        // Check if the provided argument type can be assigned to the method parameter type
-                        if (parameters[i] != null && !paramType.IsAssignableFrom(parameters[i].GetType()))
-                        {
+                        if (parameters[i] != null && !methodParams[i].ParameterType.IsAssignableFrom(parameters[i].GetType()))
                             return false;
-                        }
                     }
                     return true;
                 });
@@ -376,8 +276,7 @@ namespace OperatorsSolution.Common
             // Invoke the method
             try
             {
-                object? result = methodInfo.Invoke(classInstance, parameters);
-                return result;
+                return methodInfo.Invoke(classInstance, parameters);
             }
             catch (TargetInvocationException ex)
             {
@@ -391,7 +290,7 @@ namespace OperatorsSolution.Common
 
 
 
-    #region >----------------- Custom Animation Function: ---------------------
+    #region >----------------- Custom Animation Function: ---------------------  // NOT IMPLEMENTED
     //public class Limits
     //{
     //    public int Min { get; set; }

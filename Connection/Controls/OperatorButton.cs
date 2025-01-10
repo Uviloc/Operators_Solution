@@ -10,62 +10,80 @@ using System.Reflection;
 using OperatorsSolution.Common;
 using Console = System.Diagnostics.Debug;
 
-
 namespace OperatorsSolution.Controls
 {
+    /// <summary>
+    /// Represents a custom button control with enhanced functionality and customizable appearance.
+    /// The button includes additional properties, categorized events, and default styling to streamline
+    /// operations in the application.
+    /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(Button))]
     public partial class OperatorButton : Button
     {
         #region >----------------- Add properties: ---------------------
-        // PreviewBox
+        /// <summary>
+        /// Gets or sets the associated preview box for the operator button.
+        /// </summary>
         [Browsable(false)]
         public PictureBox? PreviewBox { get; set; }
         #endregion
 
         #region >----------------- Recategorize some events: ---------------------
-
+        /// <summary>
+        /// Occurs when the component is clicked.
+        /// </summary>
         [Category(".Operation > Events")]
         [Description("Occurs when the component is clicked.")]
         public new event EventHandler? Click;
+
         protected override void OnClick(EventArgs e)
         {
-            // Call the base class method
             base.OnClick(e);
 
-            // Check if there are any subscribers to the Click event
             if (Click == null || Click.GetInvocationList().Length == 0)
             {
                 CommonFunctions.ControlWarning(this, "Please attach a function for the button: " + Text + "\n" + "See: Properties > Events (Lighting bolt) > Click");
             }
             else
             {
-                // If there are subscribers, invoke the Click event
                 Click?.Invoke(this, e);
             }
         }
 
+        /// <summary>
+        /// Occurs when the mouse remains stationary inside the control for a specified duration.
+        /// </summary>
         [Category(".Operation > Events")]
         [Description("Occurs when the mouse remains stationary inside of the control for an amount of time.")]
         public event EventHandler? Hover;
+
         protected override void OnMouseHover(EventArgs e)
         {
             base.OnMouseHover(e);
             Hover?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Occurs when the mouse enters the visible part of the control.
+        /// </summary>
         [Category(".Operation > Events")]
         [Description("Occurs when the mouse enters the visible part of the control.")]
         public new event EventHandler? Enter;
+
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
             Enter?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Occurs when the mouse leaves the visible part of the control.
+        /// </summary>
         [Category(".Operation > Events")]
         [Description("Occurs when the mouse leaves the visible part of the control.")]
         public new event EventHandler? Leave;
+
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
@@ -74,8 +92,9 @@ namespace OperatorsSolution.Controls
         #endregion
 
         #region >----------------- Recategorize some properties: ---------------------
-
-        // BackColor
+        /// <summary>
+        /// Gets or sets the background color of the control.
+        /// </summary>
         [Category(".Operation > Visuals")]
         [Description("The background color of the control.")]
         [DisplayName("Background Color")]
@@ -86,8 +105,9 @@ namespace OperatorsSolution.Controls
             set => base.BackColor = value;
         }
 
-
-        // ForeColor
+        /// <summary>
+        /// Gets or sets the foreground color of the control's text.
+        /// </summary>
         [Category(".Operation > Visuals")]
         [Description("The foreground color of this component, which is used to display text.")]
         [DisplayName("Font Color")]
@@ -99,8 +119,9 @@ namespace OperatorsSolution.Controls
             set => base.ForeColor = value;
         }
 
-
-        // Font
+        /// <summary>
+        /// Gets or sets the font used to display text on the control.
+        /// </summary>
         [Category(".Operation > Visuals")]
         [Description("The font used to display text with the control.")]
         [DisplayName("Font")]
@@ -111,10 +132,11 @@ namespace OperatorsSolution.Controls
             set => base.Font = value;
         }
 
-
-        // FlatStyle
+        /// <summary>
+        /// Gets or sets the flat style appearance of the control.
+        /// </summary>
         [Category(".Operation > Visuals")]
-        [Description("Determins the appearence of the control when a user moves the mouse over the control and clicks.")]
+        [Description("Determines the appearance of the control when a user moves the mouse over the control and clicks.")]
         [DisplayName("FlatStyle")]
         [DefaultValue(typeof(FlatStyle), "Popup")]
         public new FlatStyle FlatStyle
@@ -123,8 +145,9 @@ namespace OperatorsSolution.Controls
             set => base.FlatStyle = value;
         }
 
-
-        // Cursor
+        /// <summary>
+        /// Gets or sets the cursor displayed when the pointer is over the control.
+        /// </summary>
         [Category(".Operation > Visuals")]
         [Description("The cursor that appears when the pointer moves over the control.")]
         [DisplayName("Cursor")]
@@ -132,38 +155,19 @@ namespace OperatorsSolution.Controls
         public new Cursor Cursor
         {
             get => base.Cursor;
-            set
-            {
-                if (value == Cursors.Default)
-                {
-                    base.Cursor = cursorDefault;
-                }
-                else
-                {
-                    base.Cursor = value;
-                }
-            }
+            set => base.Cursor = value == Cursors.Default ? cursorDefault : value;
         }
 
-
-        // Text
+        /// <summary>
+        /// Gets or sets the text associated with the control.
+        /// </summary>
         [Category(".Operation > Visuals")]
         [Description("The text associated with the control.")]
         [DefaultValue(typeof(string), "[Show] Scene")]
         public new string Text
         {
             get => base.Text;
-            set
-            {
-                if (value.Contains("operatorButton") || value == "[Show] Scene")
-                {
-                    base.Text = textDefault;
-                }
-                else
-                {
-                    base.Text = value;
-                }
-            }
+            set => base.Text = value.Contains("operatorButton") || value == "[Show] Scene" ? textDefault : value;
         }
         #endregion
 
@@ -175,6 +179,9 @@ namespace OperatorsSolution.Controls
         private readonly Cursor cursorDefault = Cursors.Hand;
         private readonly string textDefault = "[Show] Scene";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OperatorButton"/> class with default settings.
+        /// </summary>
         public OperatorButton()
         {
             FlatStyle = flatStyleDefault;
@@ -182,14 +189,11 @@ namespace OperatorsSolution.Controls
             ForeColor = foreColorDefault;
             Cursor = cursorDefault;
             Font = fontDefault;
-            Text = "[Show] Scene";
-            //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Text = textDefault;
             Size = new Size(200, 150);
 
             if (FindForm() is PluginBaseForm form)
-            {
                 PreviewBox = form.PreviewBox;
-            }
         }
 
         public override string ToString()
