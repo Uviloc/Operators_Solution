@@ -21,6 +21,8 @@
 
 	<!-- Dont include certain files into loading: -->
 	<ItemGroup>
+		<Compile Remove="Forms\**" />
+		<Compile Remove="Program\DataSources\**" />
 		<Compile Remove="Uncompiled_Files\**\*.cs" />
 	</ItemGroup>
 	<ItemGroup>
@@ -70,6 +72,12 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Remove="Forms\**" />
+	  <EmbeddedResource Remove="Program\DataSources\**" />
+	  <None Remove="Forms\**" />
+	  <None Remove="Program\DataSources\**" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<None Update="Modules\**\*.dll">
@@ -78,9 +86,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Forms\" />
 		<Folder Include="Modules\Interfaces\" />
-		<Folder Include="Program\DataSources\" />
 	</ItemGroup>
 
 

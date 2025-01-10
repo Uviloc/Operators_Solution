@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Connection\OperatorsSolution.csproj" />
+    <ProjectReference Include="..\OpSol\OperatorsSolution.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)TestModule.dll&quot; &quot;$(SolutionDir)Connection\Modules\Interfaces\&quot; /Y&#xD;&#xA;" />
+    <Exec Command="xcopy &quot;$(TargetDir)TestModule.dll&quot; &quot;$(SolutionDir)OpSol\Modules\Interfaces\&quot; /Y&#xD;&#xA;" />
   </Target>
 
 </Project>
