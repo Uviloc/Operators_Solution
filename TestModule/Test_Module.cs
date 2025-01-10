@@ -14,9 +14,9 @@ using System.Configuration;
 
 namespace TestModule2
 {
-    public partial class Test_Module2 : PluginBaseForm, IFormPlugin
+    public partial class Test_Module : PluginBaseForm, IFormPlugin
     {
-        public string FormName => "Some other name just to see";
+        public string FormName => "This is just a test module";
         public ApplicationSettingsBase ApplicationSettings => Settings.Default;
 
         //public GraphicsSoftwareInfo? GraphicsSoftwareInfo { get; set; }                 //REMOVE
@@ -28,7 +28,7 @@ namespace TestModule2
         }
 
 
-        public Test_Module2()
+        public Test_Module()
         {
             InitializeComponent();
             //InitializeSettings();

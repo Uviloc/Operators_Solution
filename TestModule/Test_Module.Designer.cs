@@ -4,7 +4,7 @@ using static OperatorsSolution.Controls.Logic_Button;
 
 namespace TestModule2
 {
-    partial class Test_Module2 : PluginBaseForm
+    partial class Test_Module : PluginBaseForm
     {
         /// <summary>
         /// Required designer variable.
@@ -79,14 +79,14 @@ namespace TestModule2
             logic_Button1.TabIndex = 0;
             logic_Button1.Text = "logic_Button1";
             // 
-            // Test_Module2
+            // Test_Module
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1479, 1109);
             Controls.Add(logic_Button1);
-            Name = "Test_Module2";
-            Text = "Test_Module2";
+            Name = "Test_Module";
+            Text = "Test_Module";
             ResumeLayout(false);
         }
 
