@@ -1,4 +1,4 @@
-This project is unfinished and not ready for use!
+THIS PROJECT IS UNFINISHED AND NOT READY FOR USE!
 
 Operators Solution (Working name) is a framework for creating forms and databases.
 The framework is meant to be fully self-contained so that sharing is made easier.
