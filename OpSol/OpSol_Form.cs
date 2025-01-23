@@ -21,6 +21,7 @@ namespace OperatorsSolution
         public OpSol_Form()
         {
             InitializeComponent();
+            //CollapseControlPanel1.Enter += CommonFunctions.ButtonHighlight;
 
             // Find all the registered Graphics Programs in the program
             GraphicsSoftwareRegistry.InitializeGraphicsPrograms();
@@ -162,14 +163,19 @@ namespace OperatorsSolution
                 newlyEnteredNode.Nodes.Count > 0)
                 return;
 
-            // If we did not change node > exit:
-            if (treeView.Tag is not Button lastEnteredButton ||
-                lastEnteredButton.Tag == newlyEnteredNode)
-                return;
+            // Get the button of the previous node:
+            var tag = treeView.Tag;
 
-            // Remove the button as a new one will be made:
-            treeView.Parent?.Controls.Remove(lastEnteredButton);
-            lastEnteredButton.Dispose();
+            if (tag is Button lastEnteredButton)
+            {
+                // if we did not change node > exit:
+                if (lastEnteredButton.Tag == newlyEnteredNode)
+                    return;
+
+                // Remove the button as a new one will be made:
+                treeView.Parent?.Controls.Remove(lastEnteredButton);
+                lastEnteredButton.Dispose();
+            }
 
             // Create new button:
             Button dotMenu = new()

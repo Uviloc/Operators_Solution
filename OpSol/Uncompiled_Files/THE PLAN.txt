@@ -1,27 +1,27 @@
 														Working name: Operators Solution
 
 ___________________________________________________________________Questions:________________________________________________________________________________________________
-Hylke:
-Save files on server
-Should I send a message in the discord server for interns. (Ofcourse more game related) if so what should I say
-Show code
-
-Send feedback form at same time as report
-
-
-Elsa:
-Where is the xPression dongel case
 
 ____________________________________________________________________Feedback:________________________________________________________________________________________________
 ------------ Week 20: -----------
+Overall feedback:
+Exactly how I was seeing it. You really take care to keep the end user in mind when programming. You were able to find your own motivation and learn on your own.
+For any future adventure it will be important to think about the end user and what their perspective is.
+You were able to create everything on your own and learn a huge amount about coding and the process of the company to make this program.
+From what I can see I would be able to easily work with the resources you give us, while the main program is complex the user made parts are very easy and require very little knowledge.
 
+
+WIP		>	Save files on server
+WIP		>	T-Shirt and sweater back to Allus
+WIP		>	Should I send a message in the discord server for interns. (Ofcourse more game related) if so what should I say
+WIP		>	Send feedback form at same time as report
 
 ------------ Week 19: -----------
 Questions:
 I will not be able to finish the project. Plan of action.
 Estemated time of completion: 2 weeks until feature-complete + 2 weeks until full release + 2 weeks until complete = 2 months with current speed
 
-Options:
+Options
 - Abandon project for now (Very sad about it, but likely scenario)
 - Somebody else continues with the code
 - Suggest as side job to Michael (likely 8-16 hour workweeks so 8/9 months)
@@ -34,15 +34,14 @@ What should I work on now?
 - Documentation (Tutorial document)
 - Continue coding
 
-
 When do you want the code on Allus GitHub
-
 
 Final evaluation sheet (same as last (I can send))
 When final report is done review it
 
 Deadline Report: 19-Jan
 Deadline Presentation: 24-Jan
+
 
 Overall Feedback:
 Wasn't surprised that the application is unfinished.

@@ -1,4 +1,5 @@
-﻿using OperatorsSolution.Controls;
+﻿using OperatorsSolution.Common;
+using OperatorsSolution.Controls;
 
 namespace OperatorsSolution
 {

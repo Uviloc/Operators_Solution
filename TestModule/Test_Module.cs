@@ -17,34 +17,34 @@ namespace TestModule2
     public partial class Test_Module : PluginBaseForm, IFormPlugin
     {
         public string FormName => "This is just a test module";
-        public ApplicationSettingsBase ApplicationSettings => Settings.Default;
 
-        //public GraphicsSoftwareInfo? GraphicsSoftwareInfo { get; set; }                 //REMOVE
-        //public string? ProjectFile { get; set; }                 //REMOVE
+        public ApplicationSettingsBase ApplicationSettings => Settings.Default;
 
         public Form GetForm()
         {
             return this;
         }
 
-
         public Test_Module()
         {
             InitializeComponent();
-            //InitializeSettings();
         }
-
-        //public void InitializeSettings()
-        //{
-        //    //GraphicsSoftwareInfo = Settings.Default.GraphicsSoftwareInfo;
-        //    //ProjectFile = Settings.Default.ProjectFile;
-        //}
-
-        //public void SaveSettings()
-        //{
-        //    //Settings.Default.GraphicsSoftwareInfo = GraphicsSoftwareInfo;
-        //    //Settings.Default.ProjectFile = ProjectFile;
-        //    Settings.Default.Save();
-        //}
     }
 }
+
+
+//public void InitializeSettings()
+//{
+//    //GraphicsSoftwareInfo = Settings.Default.GraphicsSoftwareInfo;
+//    //ProjectFile = Settings.Default.ProjectFile;
+//}
+
+//public void SaveSettings()
+//{
+//    //Settings.Default.GraphicsSoftwareInfo = GraphicsSoftwareInfo;
+//    //Settings.Default.ProjectFile = ProjectFile;
+//    Settings.Default.Save();
+//}
+
+//public GraphicsSoftwareInfo? GraphicsSoftwareInfo { get; set; }                 //REMOVE
+//public string? ProjectFile { get; set; }                 //REMOVE
